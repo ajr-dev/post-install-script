@@ -1,291 +1,115 @@
-# Configuración del entorno de programación Unix
+# Dotfiles
 
-Bienvenido a mi mundo. Esta es una colección de configuraciones para vim, tmux y zsh.
+Welcome to my world. This is a collection of vim, tmux, and zsh configurations. Interested in a video walkthrough of the dotfiles? Check out my talk, [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ).
 
-Obviamente esta configuración es adecuada para mi, pero puede que no se adecue a ti.
-Si no te gusta esta configuración, eres libre de coger las ideas que te gusten y
-si quieres puedes contribuir ideas para que esta configuración se pueda adaptar a más personas.
+Obviously this setup work for me, a JavaScript developer on macOS, but this particular setup may not work for you. If this particular setup doesn't work for you, please steal ideas from this and if you like, contribute back tips, tricks, PRs, and other tidbits if you like!
 
-[Ver la wiki para más información](https://github.com/arturojosejr/dotfiles/wiki)
+## Contents
 
-## Contenidos
++ [Initial Setup and Installation](#initial-setup-and-installation)
++ [ZSH Setup](#zsh-setup)
++ [Vim and Neovim Setup](#vim-and-neovim-setup)
++ [Fonts](#fonts)
++ [Tmux](#tmux-configuration)
 
-* [Configuración del entorno de programación Unix](#configuración-del-entorno-de-programación-unix)
-* [Contenidos](#contenidos)
-* [Configuración Inicial e Instalación](#configuración-inicial-e-instalación)
-  * [Copia de seguridad](#copia-de-seguridad)
-  * [Instalación](#instalación)
-* [Configuración de ZSH](#configuración-de-zsh)
-  * [Indicador de entrada (Prompt)](#indicador-de-entrada-prompt)
-  * [Información de Git en el indicador](#información-de-git-en-el-indicador)
-  * [Procesos Suspendidos](#procesos-suspendidos)
-* [Configuración de Vim y Neovim](#configuración-de-vim-y-neovim)
-  * [Instalación](#instalación-1)
-* [Fuentes](#fuentes)
-* [Tmux](#tmux)
-  * [Chuleta para Tmux](#chuleta-para-tmux)
-    * [Sesiones](#sesiones)
-    * [Varios](#varios)
-    * [Ventanas (pestañas)](#ventanas-pestañas)
-    * [Paneles (divisiones)](#paneles-divisiones)
-  * [Atajos propios para Tmux](#atajos-propios-para-tmux)
-* [Conky](#conky)
+## Initial Setup and Installation
 
-## Configuración Inicial e Instalación
+### Backup
 
-### Copia de seguridad
+First, you may want to backup any existing files that exist so this doesn't overwrite your work.
 
-En primer lugar, es posible que quieras hacer una copia de seguridad de los archivos
-existentes para que esto no sobrescriba tu configuración.
+Run `install/backup.sh` to backup all symlinked files to a `~/dotfiles-backup` directory.
 
-Ejecuta `install/backup.sh` para hacer una copia de seguridad (de todos los archivos
-a los que se realizarán enlaces simbólicos) en un directorio `~/dotfiles-backup`.
+This will not delete any of these files, and the install scripts will not overwrite any existing. After the backup is complete, you can delete the files from your home directory to continue installation.
 
-Esto no eliminará ninguno de estos archivos, y los scripts de instalación no
-sobrescribirán los existentes. Una vez finalizada la copia de seguridad, puedes
-eliminar los archivos del directorio principal para continuar con la instalación.
+### Installation
 
-### Instalación
-
-Abre un terminal y pega
+If on OSX, you will need to install the XCode CLI tools before continuing. To do so, open a terminal and type
 
 ```bash
-git clone https://github.com/arturojosejr/dotfiles ~/.dotfiles
-cd ~/.dotfiles
-./instalar
+➜ xcode-select --install
 ```
 
-Si estas en OSX, primero tendrás que instalar las herramientas de CLI (línea de comandos)
-de XCode antes de continuar. Para ello, abre un terminal y escribe
+Then, clone the dotfiles repository to your computer. This can be placed anywhere, and symbolic links will be created to reference it from your home directory.
 
 ```bash
-xcode-select --install
+➜ git clone https://github.com/nicknisi/dotfiles.git ~/.dotfiles
+➜ cd ~/.dotfiles
+➜ ./install.sh
 ```
 
-**Lee el archivo `instalar` y comenta cualquier cosa que no quieras instalar.**
-Se instalarán todos los enlaces simbólicos en el directorio de inicio. Cada archivo
-con una extensión `.symlink` estará vinculado simbólicamente al directorio de inicio
-con un `.` delante suya. Como ejemplo, `vimrc.symlink` estará vinculado simbólicamente
-en el directorio de inicio como `~/.vimrc`. Entonces, este script creará un directorio
-`~/.vim-tmp` en tu directorio de inicio, ya que aquí es donde vim está configurado para
-colocar sus archivos temporales. Además, todos los archivos en el directorio
-`$DOTFILES/config` se vincularán simbólicamente al directorio `~/.config/` para
-las aplicaciones que siguen la
-[especificación de directorio base XDG](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html),
-como neovim.
+`install.sh` will start by initializing the submodules used by this repository (if any). **Read through this file and comment out anything you don't want installed.** Then, it will install all symbolic links into your home directory. Every file with a `.symlink` extension will be symlinked to the home directory with a `.` in front of it. As an example, `vimrc.symlink` will be symlinked in the home directory as `~/.vimrc`. Then, this script will create a `~/.vim-tmp` directory in your home directory, as this is where vim is configured to place its temporary files. Additionally, all files in the `$DOTFILES/config` directory will be symlinked to the `~/.config/` directory for applications that follow the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), such as neovim.
 
-A continuación, el script de instalación realizará una comprobación para ver si
-se está ejecutando en una máquina OSX. Si es así, instalará Homebrew si no está
-instalado actualmente e instalará los paquetes homebrew listados en [`brew.sh`](install/brew.sh).
-A continuación, ejecutará [`osx.sh`](install/osx.sh) y cambiará algunas configuraciones
-de OSX. Este archivo está bastante bien documentado y por lo tanto se aconseja que
-__leas y comentes los cambios que no deseas__. A continuación, nginx (instalado
-desde Homebrew) se configurará con el archivo de configuración proporcionado. Si
-ya existe un archivo `nginx.conf` en `/usr/local/etc`, se hará una copia de
-seguridad en `/usr/local/etc/nginx/nginx.conf.original`.
+Next, the install script will perform a check to see if it is running on an OSX machine. If so, it will install Homebrew if it is not currently installed and will install the homebrew packages listed in [`brew.sh`](install/brew.sh). Then, it will run [`osx.sh`](install/osx.sh) and change some OSX configurations. This file is pretty well documented and so it is advised that you __read through and comment out any changes you do not want__. Next, nginx (installed from Homebrew) will be configured with the provided configuration file. If a `nginx.conf` file already exists in `/usr/local/etc`, a backup will be made at `/usr/local/etc/nginx/nginx.conf.original`.
 
-## Configuración de ZSH
+## ZSH Setup
 
-[Comandos integrados en zsh](http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html)
+ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the home directory. The following occurs in this file:
 
-ZSH está configurado en el archivo `zshrc.symlink`, que se enlazará simbólicamente
-con el directorio de inicio. En este archivo se produce lo siguiente:
+* set the `EDITOR` to nvim
+* Load any `~/.terminfo` setup
+* Set the `CODE_DIR` variable, pointing to the location where the code projects exist for exclusive autocompletion with the `c` command
+* Recursively search the `$DOTFILES/zsh` directory for files ending in .zsh and source them
+* Setup zplug plugin manager for zsh plugins and installed them.
+* source a `~/.localrc` if it exists so that additional configurations can be made that won't be kept track of in this dotfiles repo. This is good for things like API keys, etc.
+* Add the `~/bin` and `$DOTFILES/bin` directories to the path
+* And more...
 
-* Establecer el `EDITOR` a nvim
-* Cargar cualquier configuración `~/.terminfo`
-* Establecer la variable `CODE_DIR`, apuntando a la ubicación donde existen los
-proyectos de código para el autocompletado exclusivo con el comando `c`
-* Buscar recursivamente en el directorio `$DOTFILES/zsh` los archivos que terminen
-en .zsh y añadirlos
-* Instalar zplug plugin manager para complementos zsh e instalarlos.
-* Añadir `/.localrc` si existe para que se puedan hacer configuraciones adicionales
-que no se cambiarán al actualizar este repositorio. Esto es bueno para cosas como
-las claves API, etc.
-* Agregar los directorios `~/bin` y `$DOTFILES/bin` a la ruta
-* Y más...
+### Prompt
 
-### Indicador de entrada (Prompt)
-
-El indicador se pretende que sea simple, y aun así siga proporcionando una gran
-cantidad de información al usuario, en particular sobre el estado del proyecto git,
-si el directorio actual es un proyecto git. Este indicador establece `precmd`,` PROMPT` y `RPROMPT`.
+The prompt is meant to be simple while still providing a lot of information to the user, particularly about the status of the git project, if the PWD is a git project. This prompt sets `precmd`, `PROMPT` and `RPROMPT`.
 
 ![](http://nicknisi.com/share/prompt.png)
 
 The `precmd` shows the current working directory in it and the `RPROMPT` shows the git and suspended jobs info.
-El `precmd` muestra el directorio de trabajo actual en él y el `RPROMPT` muestra
-la información de git y de los precesos suspendidos.
 
-#### Información de Git en el indicador
+#### Prompt Git Info
 
-La información de git que se muestra en el `RPROMPT` muestra el nombre de la rama
-actual y si está limpia o sucia.
+The git info shown on the `RPROMPT` displays the current branch name, and whether it is clean or dirty.
 
 ![](http://nicknisi.com/share/git-branch-state.png)
 
-Además, hay flechas ⇣ y ⇡ que indican si un commit ha ocurrido y hay que hacer
-un pull (empuje) (⇡), y si ha habido commits (contribuciones) en la rama remota y
-hay que hacer un push (tirar) (⇣).
+Additionally, there are ⇣ and ⇡ arrows that indicate whether a commit has happened and needs to be pushed (⇡), and whether commits have happened on the remote branch that need to be pulled (⇣).
 
 ![](http://nicknisi.com/share/git-arrows.png)
 
-#### Procesos Suspendidos
+#### Suspended Jobs
 
-El indicador también mostrará un carácter ✱ en el `RPROMPT` indicando que hay un
-trabajo suspendido que existe en segundo plano. Esto es útil para seguir la pista
-de vim al ponerlo en segundo plano pulsando CTRL-Z.
+The prompt will also display a ✱ character in the `RPROMPT` indicating that there is a suspended job that exists in the background. This is helpful in keeping track of putting vim in the background by pressing CTRL-Z.
 
 ![](http://nicknisi.com/share/suspended-jobs.png)
 
-## Configuración de Vim y Neovim
+## Vim and Neovim Setup
 
-[Neovim](https://neovim.io/) es una bifurcación y reemplazo para vim. En la mayoría
-de los casos, no notarías ningunadiferencia entre los dos, aparte de que Neovim
-permite que los complementos se ejecuten asincrónicamente para que no congelen el
-editor, que es la razón principal por la que he cambiado a este. Vim y Neovim
-utilizan Vimscript y la mayoría de los complementos funcionarán en ambos (todos
-los complementos que yo utilizo funcionan tanto en Vim como en Neovim). Por esta
-razón, comparten los mismos archivos de configuración en esta configuración. Neovim
-utiliza la
-[especificación del directorio base XDG](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html),
-lo que significa que no buscará `.vimrc` en el directorio de inicio. En su lugar, su
-configuración se parece a lo siguiente:
+[Neovim](https://neovim.io/) is a fork and drop-in replacement for vim. in most cases, you would not notice a difference between the two, other than Neovim allows plugins to run asynchronously so that they do not freeze the editor, which is the main reason I have switched over to it. Vim and Neovim both use Vimscript and most plugins will work in both (all of the plugins I use do work in both Vim and Neovim). For this reason, they share the same configuration files in this setup. Neovim uses the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html) which means it won't look for a `.vimrc` in your home directory. Instead, its configuration looks like the following:
 
-|                                    | Vim        | Neovim                    |
-|------------------------------------|------------|---------------------------|
-| Archivo de Configuración Principal | `~/.vimrc` | `~/.config/nvim/init.vim` |
-| Directorio de Configuración        | `~/.vim`   | `~/.config/nvim`          |
+|                         | Vim        | Neovim                    |
+|-------------------------|------------|---------------------------|
+| Main Configuratin File  | `~/.vimrc` | `~/.config/nvim/init.vim` |
+| Configuration directory | `~/.vim`   | `~/.config/nvim`          |
 
-### Instalación
+### Installation
 
-Es probable que Vim ya esté instalado en tu sistema. Si utilizas una Mac, MacVim
-se instalará desde Homebrew. Para otros sistemas, puede que tengas que instalar
-Neovim manualmente. Consulta su [sitio web](https://neovim.io) para obtener más
-información.
+Vim is likely already installed on your system. If using a Mac, MacVim will be installed from Homebrew. Neovim will also be installed from Homebrew by default on a Mac. For other systems, you may need to install Neovim manually. See their [web site](https://neovim.io) for more information.
 
-[`link.sh`](install/link.sh) conectará el directorio de configuración de XDG a
-tu directorio de inicio y creará enlaces simbólicos para `.vimrc` y `.vim` a la
-configuración de Neovim para que Vim y Neovim se configuren ambos de la misma
-manera desde los mismos archivos. El beneficio de esta configuración es que sólo
-tienes que mantener una configuración vim única para ambos, de modo que si Neovim
-(que aún es software alfa) tiene problemas, puedes cambiar de forma cambiar sin
-problemas a vim sin ningún impacto importante en su productividad.
+[`link.sh`](install/link.sh) will symlink the XDG configuration directory into your home directory and will then create symlinks for `.vimrc` and `.vim` over to the Neovim configuration so that Vim and Neovim will both be configured in the same way from the same files. The benefit of this configuration is that you only have to maintain a single vim configuration for both, so that if Neovim (which is still alpha software) has issues, you can very seamlessly transition back to vim with no big impact to your productivity.
 
-Dentro de [`.zshrc`](zsh/zshrc.symlink), la variable del intérprete `EDITOR` se
-establece en `nvim`, haciendo que Neovim sea el programa por defecto para realizar
-tareas de edición, como escribir mensajes de commit para git. Además, he hecho un
-alias de `vim` a` nvim` en [`aliases.zsh`](zsh/aliases.zsh) Puedes quitar esto
-si prefieres no realizar un alias del comando `vim` a `nvim`.
+Inside of [`.zshrc`](zsh/zshrc.symlink), the `EDITOR` shell variable is set to `nvim`, defaulting to Neovim for editor tasks, such as git commit messages. Additionally, I have aliased `vim` to `nvim` in [`aliases.zsh`](zsh/aliases.zsh) You can remove this if you would rather not alias the `vim` command to `nvim`.
 
-Vim y Neovim deberían funcionar una vez que los complementos correctos estén
-instalados. Para instalar los complementos, deberás abrir Neovim de la siguiente manera:
+vim and neovim should just work once the correct plugins are installed. To install the plugins, you will need to open Neovim in the following way:
 
 ```bash
-nvim +PlugInstall
+➜ nvim +PlugInstall
 ```
 
-### Plugins
-NERDTree escribir :h NERDTreeMappings en vim para ver los comandos.
+## Fonts
 
-## Fuentes
+I am currently using [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) as my default font which is a paid font ($199 US) and does not include Powerline support. In addition to this, I do have [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) installed and configured to be used for non-ascii characters. If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim. Then, I configure the fonts in this way in iTerm2:
 
-Actualmente uso, [Hack](https://github.com/chrissimpkins/Hack). Además de esto,
-tengo [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) instalado y
-configurado para ser utilizado para los caracteres que no sean ascii. Si prefiere
-no hacerlo, simplemente quita el complemento `Plug 'ryanoasis/vim-devicons'` de
-vim/nvim.
+![](http://nicknisi.com/share/iterm-fonts-config.png)
 
-## Tmux
+## Tmux Configuration
 
-Tmux es un multiplexor de terminales que te permite crear ventanas y divisiones
-en el terminal a las que puedes conectarte y desconectarte. Lo uso para mantener
-múltiples proyectos abiertos en ventanas separadas y para crear un ambiente
-similar a un IDE para trabajar donde puedo tener mi código abierto en vim/neovim
-y un intérprete abierto para compilar o ejecutar el código. Tmux está configurado
-en [~/.tmux.conf](tmux/tmux.conf.symlink), y en [tmux/theme.sh](tmux/theme.sh),
-que define los colores utilizados, el diseño de la barra de tmux, y lo que se
-mostrará, incluyendo la hora y la fecha, las ventanas abiertas, el nombre de la
-sesión del tmux, el nombre del ordenador, y la canción actual que suena en iTunes.
-Si no se ejecuta en macOS, esta configuración debe eliminarse.
+Tmux is a terminal multiplexor which lets you create windows and splits in the terminal that you can attach and detach from. I use it to keep multiple projects open in separate windows and to create an IDE-like environment to work in where I can have my code open in vim/neovim and a shell open to run tests/scripts. Tmux is configured in [~/.tmux.conf](tmux/tmux.conf.symlink), and in [tmux/theme.sh](tmux/theme.sh), which defines the colors used, the layout of the tmux bar, and what what will be displayed, including the time and date, open windows, tmux session name, computer name, and current iTunes song playing. If not running on macOS, this configuration should be removed.
 
-Cuando tmux se inicia, se ejecutará [login-shell](bin/login-shell) y si determina
-que lo estás ejecutando en macOS, llamará reattach-to-user-namespace, para arreglar
-el portapapeles del sistema para su uso dentro de tmux.
-
-## Chuleta para Tmux
-
-```bash
-tmux                            # Comenzar nueva sesión
-tmux new -s myname              # Comenzar nueva sesión con nombre
-tmux a                          # Conectarse a una sesión. También se puede esbribir tmux at o tmux attach
-tmux a -t myname                # Conectarse a la sesión nombrada
-tmux kill-session -t myname     # Borrar sesión
-# Borrar todas las sesiones de tmux
-tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs kill
-```
-Para los siguientes comandos hay que presionar el prefijo primero. El prefijo por
-defecto es `ctrl+b`.
-
-### Sesiones
-
-```bash
-:new<CR>                        # Nueva sesión
-s                               # Listar sesiones
-$                               # Nombrar sesión actual
-```
-### Varios
-```bash
-d                               # Desconectarse de la sesión actual
-?                               # Muestra una lista de atajos
-t                               # Muestra un gran reloj
-```
-### Ventanas (pestañas)
-
-```bash
-c                               # Crear ventana
-w                               # Listar ventanas
-n                               # Ventana siguiente
-p                               # Ventana anterior
-f                               # Encontrar ventana
-,                               # Nombrar ventana
-&                               # Borrar ventana
-```
-### Paneles (divisiones)
-
-```bash
-%                               # Crear ventana
-"                               # Listar ventanas
-o                               # Rota a través de los paneles
-q                               # Mostrar los números de los paneles, presionar el número para ir al panel
-x                               # Cerrar panel
-+                               # Romper panel a ventana
--                               # Restaurar panel de ventana
-(space)                         # Alternar entre diseños
-{                               # Mover el panel actual a la izquierda
-}                               # Mover el panel actual a la derecha
-z                               # Alternar zoom del panel
-```
-## Atajos propios para Tmux
-
-```bash
-<Prefix> y    # Sincronizar todos los paneles de una ventana
-<Prefix> r    # Recargar el archivo de configuración
-<Prefix> N    # Abrir una nueva ventana rápidamente
-<Prefix> |    # Partir ventana verticalmente
-<Prefix> -    # Partir ventana horizontalmente
-<Prefix> h    # Moverse al panel izquierdo
-<Prefix> j    # Moverse al panel inferior
-<Prefix> k    # Moverse al panel superior
-<Prefix> l    # Moverse al panel derecho
-
-bind -r C-h select-window -t :-
-bind -r C-l select-window -t :+
-
-<Prefix> H    # Redimensionar panel actual hacia la izquierda
-<Prefix> J    # Redimensionar panel actual hacia abajo
-<Prefix> K    # Redimensionar panel actual hacia arriba
-<Prefix> L    # Redimensionar panel actual hacia la derecha
-```
-
-## Conky
-![Alt text](conky/screenshot.png)
+When tmux starts up, [login-shell](bin/login-shell) will be run and if it determines you are running this on macOS, it will call reattach-to-user-namespace, to fix the system clipboard for use inside of tmux.

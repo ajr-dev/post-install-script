@@ -2,16 +2,24 @@
 
 source "$HOME/.dotfiles/install/declarations"
 
+
 if assertConfirmation "Update the system?" "${autoConfirm:?}"; then
+    echo "Updating the system"
     echo "========================================================================"
     sudo apt-get -y --force-yes update
     sudo apt-get -y --force-yes upgrade
+    echo "========================================================================"
+    echo "System updated"
+    echo "========================================================================"
 fi
+
 
 if assertConfirmation "Remove all preinstalled packages?" "${autoConfirm:?}"; then
     if [[ "$OS" == "elementaryOS" ]]; then
+        echo "Removing unwanted packages from elementary OS"
         sudo apt-get autoremove -y empathy totem noise scratch-text-editor geary midori-granite
     elif [[ "$OS" == "LinuxMint" ]]; then
+        echo "Removing unwanted packages from Linux Mint"
         sudo apt-get -y autoremove pidgin hexchat thunderbird banshee brasero simple-scan\
             xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest*
     elif [[ "$OS" == "Arch Linux" ]]; then
@@ -20,6 +28,9 @@ if assertConfirmation "Remove all preinstalled packages?" "${autoConfirm:?}"; th
         echo "Removing unwanted packages from Ubuntu"
         sudo apt-get -y autoremove rhythmbox empathy totem transmission-gtk
     fi
+    echo "========================================================================"
+    echo "Packages removed"
+    echo "========================================================================"
 else
     if assertConfirmation "Remove packages one by one?" "${autoConfirm:?}"; then
         if [[ "$OS" == "elementaryOS" ]]; then
@@ -41,34 +52,20 @@ else
                 sudo apt-get -y autoremove "$app"
             fi
         done
+        echo "========================================================================"
+        echo "Done"
+        echo "========================================================================"
     fi
 fi
 
+
 if assertConfirmation "Install programs?" "${autoConfirm:?}"; then
     if assertConfirmation "Install tmux?" "${autoConfirm:?}"; then
-        sudo apt-get -y autoremove tmux
-        sudo apt-get install -y exuberant-ctags cmake libevent-dev libncurses5-dev
-        wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz ~/Downloads
-        cd ~/Downloads
-        tar -xzvf tmux*.tar.gz
-        rm tmux*.tar.gz
-        cd tmux-*
-        ./configure    ||  { echo "Error executing ./config" ; exit ; }
-        make           ||  { echo "Error executing make" ; exit ; }
-        sudo make install
+        source "$DOTFILES/install/tmux-install"
     fi
 
-    if assertConfirmation "Install jDownloader?" "${autoConfirm:?}"; then
-        if [[ ! -d ~/Downloads/jd2 ]]; then
-            clear
-            echo "Installing jDownloader"
-            sudo add-apt-repository ppa:jd-team/jdownloader
-            sudo apt-get update
-            sudo apt-get install jdownloader-installer
-            cd ~/bin
-            bash JD2Setup_x64.sh
-            echo "========================================================================"
-        fi
+    if [[ ! -d ~/Downloads/jd2 ]]  &&  assertConfirmation "Install jDownloader?" "${autoConfirm:?}"; then
+        source "$DOTFILES/install/jdownloader-install"
     fi
 
     install_xflux() {

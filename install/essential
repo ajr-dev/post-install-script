@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source declarations
+source "$HOME/.dotfiles/install/declarations"
 
 [ ! -d ~/bin ]  &&  mkdir -p ~/bin
 
@@ -32,7 +32,9 @@ EOF
     sudo apt-get install -y ttf-mscorefonts-installer
 
     # Disable hibernation
-    [ ! -f /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkl.bak ]  &&  sudo mv -v /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla.bak
+    [ ! -f /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkl.bak ] \
+        &&  sudo mv -v /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla \
+        /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla.bak
 
     # Prevent other users from accessing the files in your account
     chmod -v 700 "$HOME"

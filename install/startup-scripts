@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source "$HOME/.dotfiles/install/declarations"
+
 # http://askubuntu.com/questions/814/how-to-run-scripts-on-start-up
 # http://askubuntu.com/questions/228304/how-do-i-run-a-script-at-start-up
 # http://superuser.com/questions/685471/how-can-i-run-a-command-after-boot
@@ -17,10 +19,29 @@ if assertConfirmation "Execute xflux at startup?" "${autoConfirm:?}"; then
       Type=Application
 EOF
     fi
-    #echo "#!/bin/bash" | sudo tee -a /etc/init.d/mystartup.sh
-    #echo "xflux -l 36.7 -g -4.5 -k 2000" | sudo tee -a /etc/init.d/mystartup.sh
-    #sudo chmod +x /etc/init.d/mystartup.sh
-    #sudo update-rc.d mystartup.sh defaults 100
+    echo "========================================================================"
+    echo "Created xflux startup application"
     echo "========================================================================"
   fi
 fi
+
+
+if assertConfirmation "Configure workspaces?" "${autoConfirm:?}"; then
+    echo "Configure workspaces to be created at startup"
+    echo "========================================================================"
+    sudo apt-get install -y wmctrl
+    [ -f "$DOTFILES/bin/workspaces" ]  &&  workspaces
+        if [[ ! -f $HOME/.config/autostart/workspaces.desktop ]]; then
+            cat << EOF > $HOME/.config/autostart/workspaces.desktop
+            [Desktop Entry]
+            Name=workspaces
+            Exec=$DOTFILES/bin/workspaces
+            Type=Application
+            X-GNOME-Autostart-Delay=60
+EOF
+    fi
+    echo "========================================================================"
+    echo "Created workspaces startup application"
+    echo "========================================================================"
+fi
+

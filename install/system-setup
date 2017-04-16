@@ -3,7 +3,7 @@
 source "$HOME/.dotfiles/install/declarations"
 
 if assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
-    source ~/.dotfiles/install/git-setup
+    source "$DOTFILES/install/git-setup"
 fi
 
 if assertConfirmation "Import local config?" "${autoConfirm:?}"; then
@@ -33,21 +33,6 @@ if assertConfirmation "Configure vim?" "${autoConfirm:?}"; then
         source "$DOTFILES/install/neovim-install"
     fi
     source "$DOTFILES/install/vim-setup"
-fi
-
-if assertConfirmation "Configure workspaces?" "${autoConfirm:?}"; then
-    # Create workspaces at startup
-    sudo apt-get install -y wmctrl
-    [ -f "$DOTFILES/bin/workspaces" ]  &&  workspaces
-        if [[ ! -f $HOME/.config/autostart/workspaces.desktop ]]; then
-            cat << EOF > $HOME/.config/autostart/workspaces.desktop
-            [Desktop Entry]
-            Name=workspaces
-            Exec=$DOTFILES/bin/workspaces
-            Type=Application
-            X-GNOME-Autostart-Delay=60
-EOF
-    fi
 fi
 
 if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"; then
@@ -87,11 +72,18 @@ fi
 # http://askubuntu.com/questions/136264/how-do-i-turn-off-all-the-password-prompts
 # http://askubuntu.com/questions/43969/how-to-make-ubuntu-remember-forever-the-password-after-the-first-time
 # http://askubuntu.com/questions/534125/never-ask-me-for-passwords?lq=1
-[ ! -f /etc/sudoers.bak ]  &&  sudo cp /etc/sudoers /etc/sudoers.bak  &&  sudo sed 's/%admin ALL=(ALL) ALL/%admin ALL=(ALL) NOPASSWD: ALL/'
+# TODO fix this sed command
+if [ ! -f /etc/sudoers.orig ]; then # https://askubuntu.com/questions/406787/best-way-add-nopasswd-vagrant-user
+    sudo groupadd -r admin
+    sudo usermod -a -G admin vagrant
+    sudo cp /etc/sudoers /etc/sudoers.orig
+    sudo sed -i -e '/Defaults\s\+env_reset/a Defaults\texempt_group=admin' /etc/sudoers
+    sudo sed -i -e 's/%admin ALL=(ALL) ALL/%admin ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
+fi
 # Update automatically everyday at 14:30
 [ ! -f /etc/crontab.bak ]  &&  sudo cp /etc/crontab /etc/crontab.bak  &&  echo "30 14 * * * root apt-get update" | sudo tee -a /etc/crontab
 
-# TODO copy my firefox settings
+# TODO fix this
 #[ -f "$HOME/.mozilla/firefox/*.default/prefs.js" ]  &&  grep browser.startup.homepage ~/.mozilla/firefox/*.default/prefs.js | awk '{print $2}' | sed '1 s/\"*www*\"/\"www.google.com\"/'
 echo "Manual Firefox Configuration
 ============================================================================
