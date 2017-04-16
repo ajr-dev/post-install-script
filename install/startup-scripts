@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# http://askubuntu.com/questions/814/how-to-run-scripts-on-start-up
+# http://askubuntu.com/questions/228304/how-do-i-run-a-script-at-start-up
+# http://superuser.com/questions/685471/how-can-i-run-a-command-after-boot
+if assertConfirmation "Execute xflux at startup?" "${autoConfirm:?}"; then
+  if [[ ! -f /etc/init.d/mystartup.sh ]]; then
+    clear
+    echo "Creating startup application for xflux"
+    echo "========================================================================"
+    [ -d "$HOME/.config/autostart" ]  ||  mkdir -p "$HOME/.config/autostart"
+    if [[ ! -f $HOME/.config/autostart/xflux.desktop ]]; then
+      cat << EOF > $HOME/.config/autostart/xflux.desktop
+      [Desktop Entry]
+      Name=xflux
+      Exec=$DOTFILES/bin/night
+      Type=Application
+EOF
+    fi
+    #echo "#!/bin/bash" | sudo tee -a /etc/init.d/mystartup.sh
+    #echo "xflux -l 36.7 -g -4.5 -k 2000" | sudo tee -a /etc/init.d/mystartup.sh
+    #sudo chmod +x /etc/init.d/mystartup.sh
+    #sudo update-rc.d mystartup.sh defaults 100
+    echo "========================================================================"
+  fi
+fi

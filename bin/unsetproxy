@@ -1,0 +1,14 @@
+#!/bin/bash
+
+myproxy="http://proxy.wifi.uma.es:3128/"
+proxyhost="proxy.wifi.uma.es"
+myport=3128
+
+sudo rm /etc/environment
+sudo tee /etc/environment << EOF
+PATH="/home/user/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+EOF
+
+gsettings set org.gnome.system.proxy mode none
+
+sudo rm /etc/apt/apt.conf.d/95proxies

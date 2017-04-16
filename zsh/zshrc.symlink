@@ -1,0 +1,82 @@
+export DOTFILES=$HOME/.dotfiles
+export ZSH=$DOTFILES/zsh
+
+command_exists() {
+  command -v "$1" > /dev/null 2>&1
+}
+
+# Mostrar cuanto tarda cualquier tarea que tarde más de 10 segundos
+export REPORTTIME=10
+
+[[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
+
+# Definir el directorio de código
+# Aquí es donde reside mi código y donde quiero que funcione el autocompletado `c` exclusivamente
+if [[ -d ~/code ]]; then
+  export CODE_DIR=~/code
+fi
+
+# Importar todos los archivos .zsh dentro de los directorios zsh/
+for config ($ZSH/**/*.zsh) source $config
+
+  if [[ -a ~/.localrc ]]; then
+    source ~/.localrc
+  fi
+
+
+  # Inicializar autocompletado
+  autoload -U compinit add-zsh-hook
+  compinit
+
+  #for config ($ZSH/**/*completion.sh) source $config
+
+  if command_exists nvim; then
+    export EDITOR='nvim'
+    export GIT_EDITOR='nvim'
+  fi
+
+  export PATH=/usr/local/bin:$PATH
+
+  # Añadir /usr/local/sbin a la ruta
+  if [[ -d /usr/local/sbin ]]; then
+    export PATH=/usr/local/sbin:$PATH
+  fi
+
+  # Añadir directorio para secuencias de comando propias
+  if [[ -d $DOTFILES/bin ]]; then
+    export PATH=$DOTFILES/bin:$PATH
+  fi
+
+  # Comprobar for directorio bin personal y añadir a la ruta
+  if [[ -d ~/bin ]]; then
+    export PATH=~/bin:$PATH
+  elif [[ -d ~/.bin ]]; then
+    export PATH=~/.bin:$PATH
+  fi
+
+  export TERM=xterm-256color-italic
+
+  # Instalar rbenv
+  #if command_exists rbenv; then
+  #    eval "$(rbenv init -)"
+  #fi
+
+  #if [[ -d ~/.rvm ]]; then
+  #    PATH=$HOME/.rvm/bin:$PATH # Añadir RVM a la ruta para la escritura de código
+  #    source ~/.rvm/scripts/rvm
+  #fi
+
+  # Alias de hub a git
+  #if command_exists hub; then
+  #    eval "$(hub alias -s)"
+  #fi
+
+  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+  export FZF_DEFAULT_COMMAND='ag -g ""'
+
+  # Iniciar línea de comandos con tmux abierto
+  # http://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
+  #if command_exists tmux; then
+  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || exec tmux new-session && exit; } # Esto cerraría el terminal al cerrar tmux
+  #  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || tmux new-session} # Esto no lo cerraría
+  #fi

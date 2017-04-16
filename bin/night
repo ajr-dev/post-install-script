@@ -1,0 +1,2 @@
+pkill flux
+xflux -l 37 -g 5 -k 2500

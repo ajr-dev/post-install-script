@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# abortar si ya estamos dentro de una sesión de TMUX
+[ "$TMUX" == "" ] || exit 0
+# Iniciar una sesión por "defecto" si no existes ninguna actualmente
+# tmux has-session -t _default || tmux new-session -s _default -d
+
+# presentar menu para que el usuario elija que entorno de trabajo abrir
+PS3="Por favor elije tu sesión: "
+options=($(tmux list-sessions -F "#S" 2>/dev/null) "New Session" "zsh")
+echo "Sesiones disponibles"
+echo "------------------"
+echo " "
+select opt in "${options[@]}"
+do
+	case $opt in
+		"New Session")
+			read -p "Introduzca el nombre de la nueva sesión: " SESSION_NAME
+			tmux new -s "$SESSION_NAME"
+			break
+			;;
+		"zsh")
+			zsh --login
+			break;;
+		*)
+			tmux attach-session -t $opt
+			break
+			;;
+	esac
+done

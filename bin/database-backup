@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# Add date in Backup filename
+TIME=`date +%d-%b-%y %H:%M:%S`
+
+# Backup file format
+DBFILE=backup-${TIME}.gz
+
+# Location of data to be backed up
+SRCDIR=/home/path/to/backup/folder
+
+# Location of backup to be stored
+DBDESTDIR=${SRCDIR}/backups/
+
+# Log File
+DBLOG=${DBDESTDIR}/DB-${TIME}.txt
+
+# Start the backup
+echo "mysqldump started at ${TIME}" >> ${DBLOG}
+mysqldump --user=mydbuser --password=mypass mydatabase | gzip > ${DBDESTDIR}/${DBFILE}
+echo "mysqldump finished at $(date +%d-%b-%y %H:%M:%S)" >> ${DBLOG}
+
+# Remove old backup/log files; any file older than 30 days
+find ${DBDESTDIR}/*.gz -mtime +30 -exec rm {} \;
+find ${DBDESTDIR}/*.txt -mtime +30 -exec rm {} \;
+
+echo "operation finished at $(date +%d-%b-%y %H:%M:%S)" >> ${DBLOG}
+echo "*****************" >> ${DBLOG}
+exit 0

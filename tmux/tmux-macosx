@@ -1,0 +1,7 @@
+set -g default-command 'login-shell'
+bind-key -t vi-copy PPage page-up
+bind-key -t vi-copy NPage page-down
+bind-key -t vi-copy WheelUpPane halfpage-up
+bind-key -t vi-copy WheelDownPane halfpage-down
+bind -t vi-copy 'v' begin-selection
+bind -t vi-copy 'y' copy-selection

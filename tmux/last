@@ -1,0 +1,24 @@
+pane	powa	1	:PSC	0	:-	1	:/home/user/facu/Programación de Sistemas y Concurrencia (PSC)	0	zsh	:
+pane	powa	1	:PSC	0	:-	2	:/home/user/facu/Programación de Sistemas y Concurrencia (PSC)	1	zsh	:
+pane	powa	2	:POO	0	:	1	:/home/user/facu/Programación Orientada a Objetos (POO)	0	zsh	:
+pane	powa	2	:POO	0	:	2	:/home/user/facu/Programación Orientada a Objetos (POO)	1	zsh	:
+pane	powa	3	:SO	0	:	1	:/home/user/facu/Sistemas Operativos (SO)	1	zsh	:
+pane	powa	3	:SO	0	:	2	:/home/user/facu/Sistemas Operativos (SO)	0	zsh	:
+pane	powa	4	:TC	0	:	1	:/home/user/dotnet/ARMSim-201/practica	0	zsh	:
+pane	powa	4	:TC	0	:	2	:/home/user/dotnet/ARMSim-201/practica	1	zsh	:
+pane	powa	5	:RSD	0	:	1	:/home/user/facu/Redes y Sistemas Distribuidos (RSD)	1	zsh	:
+pane	powa	5	:RSD	0	:	2	:/home/user/facu/Redes y Sistemas Distribuidos (RSD)	0	zsh	:
+pane	powa	6	:IIS	0	:	1	:/home/user/facu/Introducción a la Ingeniería del Software (IIS)	1	zsh	:
+pane	powa	6	:IIS	0	:	2	:/home/user/facu/Introducción a la Ingeniería del Software (IIS)	0	zsh	:
+pane	powa	7	:practice	0	:	1	:/home/user/practice/c/Exercises 4th Edition/chapter10/exercises	1	zsh	:
+pane	powa	7	:practice	0	:	2	:/home/user/practice/c/Exercises 4th Edition/chapter10/exercises	0	zsh	:
+pane	powa	8	:config	1	:*	1	:/home/user/.dotfiles/install	1	zsh	:
+window	powa	1	0	:-	f8cf,124x33,0,0[124x26,0,0,0,124x6,0,27,1]
+window	powa	2	0	:	f8d8,124x33,0,0[124x26,0,0,2,124x6,0,27,3]
+window	powa	3	0	:	f8e1,124x33,0,0[124x26,0,0,4,124x6,0,27,5]
+window	powa	4	0	:	f8ea,124x33,0,0[124x26,0,0,6,124x6,0,27,7]
+window	powa	5	0	:	f8f3,124x33,0,0[124x26,0,0,8,124x6,0,27,9]
+window	powa	6	0	:	5f6b,124x33,0,0[124x26,0,0,10,124x6,0,27,11]
+window	powa	7	0	:	5f70,124x33,0,0[124x26,0,0,12,124x6,0,27,13]
+window	powa	8	1	:*	5bb3,124x33,0,0,14
+state	powa	

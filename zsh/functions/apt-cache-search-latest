@@ -1,0 +1,1 @@
+echo "$(apt-cache-search-versions $1 | tail -1)"

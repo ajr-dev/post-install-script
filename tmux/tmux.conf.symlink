@@ -1,0 +1,135 @@
+# tmux muestra las cosas en 256 colores
+set -g default-terminal "xterm-256color-italic"
+
+# Habilitar la compatibilidad del terminal
+set-option -ga terminal-overrides ",xterm-256color-italic:Tc"
+
+set -g history-limit 20000
+
+# Renumera automáticamente las ventanas de tmux
+set -g renumber-windows on
+
+# Desvincular el prefijo predeterminado y establecerlo en Ctrl+a
+unbind C-b
+set -g prefix C-a
+bind C-a send-prefix
+
+# Para las sesiones de tmux anidadas
+#bind-key a send-prefix
+
+# Supervisión de la actividad
+setw -g monitor-activity off
+set -g visual-activity off
+
+# En lugar de restringir el tamaño de la ventana al tamaño máximo de cualquier
+# cliente conectado a la *sesión*, limita el tamaño de la ventana al tamaño
+# máximo de cualquier cliente conectado a *esa ventana*. Mucho más razonable.
+setw -g aggressive-resize on
+
+# Hacer retraso más corto
+set -sg escape-time 0
+
+# Aplicar estilo en todas las ventanas
+unbind =
+bind = select-layout tiled
+
+# Desplazarse a través de los paneles
+unbind C-a
+unbind o # esta es la tecla por defecto para desplazarse a través de los paneles
+bind ^A select-pane -t:.+
+
+# Hacer que el íncide de la ventana/panel comience por 1
+set -g base-index 1
+setw -g pane-base-index 1
+
+set-option -g set-titles on
+set-option -g set-titles-string "#T - #W"
+# set-window-option -g automatic-rename on
+
+############################
+##### Atajos de teclado ####
+############################
+
+# Recargar el archivo de configuración
+bind r source-file ~/.tmux.conf \; display "¡Configuración Recargada!"
+
+# Abrir una nueva ventana rápidamente
+bind N new-window
+
+# Partir ventana y arreglar la ruta para tmux 1.9
+bind h split-window -h -c "#{pane_current_path}"
+bind v split-window -v -c "#{pane_current_path}"
+bind | split-window -h -c "#{pane_current_path}"
+bind - split-window -v -c "#{pane_current_path}"
+
+# Sincronizar todos los paneles de una ventana
+bind y setw synchronize-panes
+
+# Atajos de movimientos por los paneles
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+bind -r C-h select-window -t :-
+bind -r C-l select-window -t :+
+
+# Atajos para redimensionar paneles
+bind -r H resize-pane -L 10
+bind -r J resize-pane -D 10
+bind -r K resize-pane -U 10
+bind -r L resize-pane -R 10
+
+# Habilitar el soporte del mouse para cambiar los paneles/ventanas
+setw -g mouse on
+set-option -g -q mouse on
+
+bind-key -T root PPage if-shell -F "#{alternate_on}" "send-keys PPage" "copy-mode -e; send-keys PPage"
+
+bind -T root WheelUpPane if-shell -F -t = "#{alternate_on}" "select-pane -t =; send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
+bind -T root WheelDownPane if-shell -F -t = "#{alternate_on}" "select-pane -t =; send-keys -M" "select-pane -t =; send-keys -M"
+
+# Maximizar y restaurar ventanas
+unbind Up
+bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-window -t fullscreen
+unbind Down
+bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
+
+# Configurar el modo vi para el modo de copia
+setw -g mode-keys vi
+# Más ajustes para hacer que el modo de copia sea más parecido a vim
+unbind [
+bind Escape copy-mode
+unbind p
+bind p paste-buffer
+
+# Usa el portapapeles del sistema en Mac para los buffers, gracias al libro sobre linux de pragprog
+#if-shell "uname | grep -q Darwin" \
+#"bind C-c run 'tmux save-buffer - | reattach-to-user-namespace pbcopy'; \
+#bind C-v run 'tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer'"
+bind C-c run 'tmux save-buffer - | reattach-to-user-namespace pbcopy'
+bind C-v run 'tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer'
+
+###############################
+#### Configuración de Color ###
+###############################
+
+#if-shell "test -f $DOTFILES/tmux/theme" \
+#"source $DOTFILES/tmux/theme"
+
+# Lista de extensiones
+set -g @plugin 'tmux-plugins/tpm'
+set -g @plugin 'tmux-plugins/tmux-sensible'
+set -g @plugin 'odedlaz/tmux-onedark-theme'
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @plugin 'tmux-plugins/tmux-continuum'
+set -g @continuum-boot 'on' # Tmux is automatically started after the computer is turned on. This doesn't start a terminal with tmux
+set -g @continuum-restore 'on' # Last saved environment is automatically restored when tmux is started
+set -g @continuum-save-interval '0' # Stop automatic saving
+#set -g @continuum-save-interval '60' # Setting save interval to 60 minutes
+#set -g @plugin 'seebi/tmux-colors-solarized'
+
+if-shell "uname | grep -q Darwin" "source tmux-macosx"
+
+# Inicializar el gestor de extensiones de TMUX (mantén esta línea justo al final de tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'

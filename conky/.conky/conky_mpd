@@ -1,0 +1,37 @@
+conky.config = {
+    background = false,
+    use_xft = true,
+    font = 'monospace:pixelsize=11',
+    xftalpha = 1,
+    total_run_times = 0,
+    own_window = true,
+    own_window_type = 'override',
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    double_buffer = true,
+    draw_shades = false,
+    draw_graph_borders = true,
+    default_color = 'cyan',
+    default_shade_color = 'black',
+    default_outline_color = 'white',
+    alignment = 'bottom_left',
+    gap_x = 12,
+    gap_y = 0,
+    cpu_avg_samples = 10,
+    override_utf8_locale = true,
+    minimum_width = 500,
+    maximum_width = 500,
+    color2 = '#DC143C',
+};
+
+conky.text = [[
+ ┌──────────────────────┐
+┌┤  MUSIC PLAYER DAEMON │
+│└──────────┬───────────┘
+├─ Status: ${mpd_status} / Volume: ${mpd_vol}% / ${exec amixer get Master | grep "Front Left:" | awk '{print $5}'}
+├─ Artist: ${mpd_artist}
+├─ Title : ${mpd_title}
+├─ Album : ${mpd_album}
+${color2}${mpd_percent}% ${mpd_bar 3,400}${color}
+
+]];

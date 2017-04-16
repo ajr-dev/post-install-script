@@ -1,0 +1,209 @@
+#!/bin/bash
+
+source "$HOME/.dotfiles/install/declarations"
+
+if assertConfirmation "Update the system?" "${autoConfirm:?}"; then
+    echo "========================================================================"
+    sudo apt-get -y --force-yes update
+    sudo apt-get -y --force-yes upgrade
+fi
+
+if assertConfirmation "Remove all preinstalled packages?" "${autoConfirm:?}"; then
+    if [[ "$OS" == "elementaryOS" ]]; then
+        sudo apt-get autoremove -y empathy totem noise scratch-text-editor geary midori-granite
+    elif [[ "$OS" == "LinuxMint" ]]; then
+        sudo apt-get -y autoremove pidgin hexchat thunderbird banshee brasero simple-scan\
+            xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest*
+    elif [[ "$OS" == "Arch Linux" ]]; then
+        echo "No unwanted packages on Arch Linux"
+    else
+        echo "Removing unwanted packages from Ubuntu"
+        sudo apt-get -y autoremove rhythmbox empathy totem transmission-gtk
+    fi
+else
+    if assertConfirmation "Remove packages one by one?" "${autoConfirm:?}"; then
+        if [[ "$OS" == "elementaryOS" ]]; then
+            packages=( empathy totem noise scratch-text-editor geary midori-granite )
+        elif [[ "$OS" == "LinuxMint" ]]; then
+            packages=( pidgin hexchat thunderbird banshee brasero simple-scan\
+                xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest* )
+        elif [[ "$OS" == "Arch Linux" ]]; then
+            echo "No unwanted packages on Arch Linux"
+        else
+            echo "Removing unwanted packages from Ubuntu"
+            packages=( rhythmbox empathy totem transmission-gtk)
+        fi
+        for app in "${packages[@]}" ; do
+            clear
+            read -n 1 -p "Uninstall $app? (Yes/no) "
+            if [[ ! $REPLY =~ ^([Nn])$ ]]; then
+                printf '\n========================================================================'
+                sudo apt-get -y autoremove "$app"
+            fi
+        done
+    fi
+fi
+
+if assertConfirmation "Install programs?" "${autoConfirm:?}"; then
+    if assertConfirmation "Install tmux?" "${autoConfirm:?}"; then
+        sudo apt-get -y autoremove tmux
+        sudo apt-get install -y exuberant-ctags cmake libevent-dev libncurses5-dev
+        wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz ~/Downloads
+        cd ~/Downloads
+        tar -xzvf tmux*.tar.gz
+        rm tmux*.tar.gz
+        cd tmux-*
+        ./configure    ||  { echo "Error executing ./config" ; exit ; }
+        make           ||  { echo "Error executing make" ; exit ; }
+        sudo make install
+    fi
+
+    if assertConfirmation "Install jDownloader?" "${autoConfirm:?}"; then
+        if [[ ! -d ~/Downloads/jd2 ]]; then
+            clear
+            echo "Installing jDownloader"
+            sudo add-apt-repository ppa:jd-team/jdownloader
+            sudo apt-get update
+            sudo apt-get install jdownloader-installer
+            cd ~/bin
+            bash JD2Setup_x64.sh
+            echo "========================================================================"
+        fi
+    fi
+
+    install_xflux() {
+        mkdir -p ~/bin
+        cd ~/bin
+        if [ ! -f ~/bin/xflux ]; then
+            if [ "${MACHINE_TYPE}" == 64 ]; then
+                wget https://justgetflux.com/linux/xflux64.tgz
+                tar zxvf xflux64.tgz
+                rm xflux64.tgz
+            else
+                wget https://justgetflux.com/linux/xflux64.tgz
+                tar zxvf xflux64.tgz
+                rm xflux64.tgz
+            fi
+            mv xflux ~/bin
+        fi
+    }
+
+    if (( autoConfirm )); then
+        install_xflux
+    else
+        clear
+        read  -n 1 -p "Install xflux? (yes/No) "
+        printf '\n========================================================================'
+        if [[ $REPLY =~ ^([Yy])$ ]]; then
+            clear
+            read -n 1 -p "Install with Graphic Interface? (yes/No) "
+            printf '\n========================================================================'
+            if [[ $REPLY =~ ^([Yy])$ ]]; then
+                cd /tmp
+                git clone "https://github.com/xflux-gui/xflux-gui.git"
+                cd xflux-gui
+                python download-xflux.py
+                clear
+                read -n 1 -p "Global install? (yes/No) "
+                printf '\n========================================================================'
+                if [[ $REPLY =~ ^([Yy])$ ]]; then
+                    sudo python setup.py install
+                else # install in ~/.local/bin folder
+                    if [[ ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
+                        python setup.py install --user
+                    else
+                        cat << EOF
+                        echo "PATH=\"$HOME/.local/bin:$PATH\"" >> $HOME/.profile
+EOF
+                        python setup.py install --user
+                    fi
+                fi
+            else
+                install_xflux
+            fi
+        fi
+    fi
+
+    if (( autoConfirm )); then
+        :
+    else
+        clear
+        read -n 1 -p "Install Google Chrome? (yes/No) "
+        printf '\n========================================================================'
+        if [[ $REPLY =~ ^([Yy])$ ]]; then
+            sudo apt-get install libxss1 libappindicator1 libindicator7
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i google-chrome*.deb
+            sudo apt-get install -f
+            rm google-chrome-stable_current_amd64.deb
+            echo "========================================================================"
+        fi
+    fi
+
+    if (( autoConfirm )); then
+        :
+    else
+        clear
+        read -n 1 -p "¿Install Selenium? (yes/No) "
+        printf '\n========================================================================'
+        if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
+            # Instalar xvfb
+            sudo apt-get install xvfb
+            # Instalar ChromeDriver
+            wget -N http://chromedriver.storage.googleapis.com/2.20/chromedriver_linux64.zip
+            unzip chromedriver_linux64.zip
+            chmod +x chromedriver
+
+            sudo mv -f chromedriver /usr/local/share/chromedriver
+            rm chromedriver_linux64.zip
+            sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
+            sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
+            echo "========================================================================"
+        fi
+    fi
+
+    if (( autoConfirm )); then
+        if [[ "$OS" == "elementaryOS" ]]; then
+            echo "Installing extra packages to Elementary OS"
+            sudo apt-get -y install audacity chromium-browser kazam geany thunderbird\
+                vlc conky virtualbox griffith filezilla gksu flashplugin-installer\
+                easytag curl ubuntu-restricted-extras youtube-dl git-gui hddtemp\
+                lm-sensors clementine pidgin steam asunder deluge libreoffice libreoffice-gtk\
+                handbrake wine1.8
+        elif [[ "$OS" == "LinuxMint" ]]; then
+            echo "Installing extra packages to Linux Mint"
+            sudo apt-get -y install audacity chromium-browser kazam geany conky\
+                virtualbox griffith filezilla gksu flashplugin-installer easytag\
+                curl ubuntu-restricted-extras youtube-dl git-gui hddtemp lm-sensors\
+                clementine steam asunder deluge handbrake wine1.8
+        elif [[ "$OS" == "ArchLinux" ]]; then
+            echo "Installing extra packages to Arch Linux"
+            sudo pacman -S --noconfirm audacity chromium virtualbox simplescreenrecorder\
+                geany audacious conky filezilla easytag youtube-dl clementine asunder\
+                deluge wine wine_gecko wine-mono handbrake evince baobab soundconverter\
+                vorbis-tools hddtemp gnu-netcat
+            yaourt -Sa --noconfirm teamviewer9 pamac-aur dropbox griffith
+        else
+            echo "Installing extra packages to Ubuntu"
+            sudo apt-get -y install audacity chromium-browser kazam geany\
+                compizconfig-settings-manager unity-tweak-tool vlc conky virtualbox\
+                griffith filezilla gksu flashplugin-installer easytag curl\
+                ubuntu-restricted-extras youtube-dl git-gui hddtemp lm-sensors\
+                clementine pidgin steam asunder deluge handbrake wine1.8
+        fi
+    else
+        clear
+        packages=( audacity evince kazam geany thunderbird vlc conky virtualbox filezilla \
+            easytag dropbox youtube-dl git-gui steam keepassx calibre gimp audacious clementine \
+            rhythmbox banshee libreoffice wine deluge )
+        for app in "${packages[@]}" ; do
+            clear
+            read -n 1 -p "Install $app? (yes/No) "
+            printf '\n========================================================================'
+            if [[ $REPLY =~ ^([Yy])$ ]]; then
+                sudo apt-get -y install "$app"
+                echo "========================================================================"
+            fi
+        done
+    fi
+fi

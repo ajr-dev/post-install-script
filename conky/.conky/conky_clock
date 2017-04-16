@@ -1,0 +1,31 @@
+conky.config = {
+    update_interval = 1,
+    total_run_times = 0,
+    net_avg_samples = 1,
+    cpu_avg_samples = 1,
+    double_buffer = true,
+    no_buffers = true,
+    use_xft = true,
+    font = 'Dinreg:pixelsize=165',
+    override_utf8_locale = true,
+    own_window_class = 'Conky',
+    own_window = true,
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    alignment = 'top_left',
+    gap_x = 0,
+    gap_y = 0,
+    draw_shades = false,
+    default_color = 'cyan',
+    default_shade_color = '#1d1d1d',
+    color0 = '#ffffff',
+    color1 = '#ffffff',
+    color2 = 'cyan',
+    color3 = '#DC143C',
+};
+
+conky.text = [[
+${voffset -145}${goto 12}${font Monospace:pixelsize=20}${color3}[ ${color2}${time %S}${color3} ]${color}${font}
+${color3}${voffset -220}${time %H}${color}
+${color2}${voffset -130}${time %M}${color}
+]];

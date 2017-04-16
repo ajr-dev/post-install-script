@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [[ "$(grep -q 'RELEASE=18' "/etc/linuxmint/info")" == 0  &&  ! -f /etc/apt/apt.conf.d/50unattended-upgrades.bak ]]; then
+    clear
+    echo "Unattended upgrades"
+    echo "========================================================================"
+    sudo cp /etc/apt/apt.conf.d/50unattended-upgrades /etc/apt/apt.conf.d/50unattended-upgrades.bak
+    sudo sed -i '3s#^#//#' /etc/apt/apt.conf.d/50unattended-upgrades
+    echo -e "\nUnattended-Upgrade::Origins-Pattern {
+    \"o=Ubuntu,a=xenial-security\";
+    \"o=Ubuntu,a=xenial-updates\";
+    \"o=Ubuntu,a=xenial\";
+    \"o=Canonical,a=xenial\";
+    \"o=linuxmint,n=sarah\";
+};" | sudo tee --append /etc/apt/apt.conf.d/50unattended-upgrades
+fi
+if [[ ! -f /etc/apt/apt.conf.d/20auto-upgrades.bak ]]; then
+    sudo cp /etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades.bak
+    sudo rm /etc/apt/apt.conf.d/20auto-upgrades
+    echo "APT::Periodic::Update-Package-Lists \"1\";
+    APT::Periodic::Download-Upgradeable-Packages \"1\";
+    APT::Periodic::AutocleanInterval \"30\";
+    APT::Periodic::Unattended-Upgrade \"1\";" | sudo tee --append /etc/apt/apt.conf.d/20auto-upgrades
+fi

@@ -1,0 +1,42 @@
+conky.config = {
+    background = false,
+    use_xft = true,
+    font = 'monospace:pixelsize=11',
+    xftalpha = 1,
+    total_run_times = 0,
+    own_window = true,
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    double_buffer = true,
+    draw_shades = false,
+    draw_outline = false,
+    draw_borders = false,
+    draw_graph_borders = true,
+    stippled_borders = 0,
+    default_color = 'cyan',
+    default_shade_color = 'black',
+    default_outline_color = 'white',
+    no_buffers = true,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    override_utf8_locale = true,
+    use_spacer = 'none',
+    minimum_width = 150,
+    maximum_width = 150,
+    text_buffer_size = 2048,
+    color1 = 'cyan',
+    color2 = '#DC143C',
+    color3 = '#FFFF00',
+    alignment = 'top_left',
+    gap_x = 17,
+    gap_y = 220,
+};
+
+conky.text = [[
+
+┌──────────┐
+│ CALENDAR ├───────●
+└───┬──────┘
+${execpi 60 cal_var=`date +%_d`; cal | sed s/"\(^\|[^0-9]\)$cal_var"'\b'/'\1${color2}'"$cal_var"'${color}'/}
+--${execpi 60 sh ./conky_calendar}
+]];

@@ -1,0 +1,101 @@
+#!/bin/bash
+
+if assertConfirmation "Install programming tools?" "${autoConfirm:?}"; then
+    clear
+    echo "Installing c compiler, gdb, jdk, jre 9, nodejs, npm"
+    echo "========================================================================"
+    sudo apt-get -y remove openjdk-8*
+    sudo apt-get -y install gcc g++ gdb make openjdk-9-jdk openjdk-9-jre nodejs npm \
+        git dconf-cli unattended-upgrades unzip shellcheck xdotool python python-setuptools \
+        ruby python3 hddtemp lm-sensors curl ubuntu-restricted-extras lftp zsh
+    echo "========================================================================"
+
+    clear
+    echo "Installing mono"
+    echo "========================================================================"
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+    echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+    wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz
+    sudo tar -C /usr/local/ -zxvf go1.8.linux-amd64.tar.gz
+    echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+    curl https://sh.rustup.rs -sSf | sh
+    source $HOME/.cargo/env
+    echo "========================================================================"
+
+    if assertConfirmation "Install apache2, php7, mysql-server?" "${autoConfirm:?}"; then
+        source "$DOTFILES/install/lamp-install"
+    fi
+
+    if assertConfirmation "Install cs50 functions?" "${autoConfirm:?}"; then
+        # https://github.com/tysonchamp/cs50/blob/master/cs50.sh
+        sudo apt-get install -y scratch filezilla
+        echo "========================================================================"
+        echo "c compiler, default-jdk & jre and filezilla has been installed"
+        echo "========================================================================"
+
+        wget http://mirror.cs50.net/appliance50/2015/debs/dists/trusty/main/binary-i386/check50_1.19-2_i386.deb
+        wget http://mirror.cs50.net/appliance50/2015/debs/dists/trusty/main/binary-i386/render50_1.8-0_i386.deb
+        wget http://mirror.cs50.net/appliance50/2015/debs/dists/trusty/main/binary-i386/style50_2.1.4-1_i386.deb
+        echo "Download completed"
+        uname -a | grep arm && dpkg --force-architecture --force-depends -i check50_1.19-2_i386.deb || dpkg -i check50_1.19-2_i386.deb
+        echo "check50 made"
+        uname -a | grep arm && dpkg --force-architecture --force-depends -i style50_2.1.4-1_i386.deb || dpkg -i style50_2.1.4-1_i386.deb
+        echo "style50 made"
+        uname -a | grep arm && dpkg --force-architecture --force-depends -i render50_1.8-0_i386.deb || dpkg -i render50_1.8-0_i386.deb
+        echo "render50 made"
+        echo "========================================================================"
+        echo "check50, style50 and render50 have been installed"
+
+        clear
+        echo "Installing custom libraries for C/C++ and php for cs50"
+        echo "========================================================================"
+        wget http://mirror.cs50.net/appliance50/2015/debs/dists/trusty/main/binary-i386/library50-c_6-0_i386.deb
+        dpkg -i library50-c_6-0_i386.deb
+        rm library50-c_6-0_i386.deb
+        wget http://mirror.cs50.net/appliance50/2015/debs/dists/trusty/main/binary-i386/library50-php_4-0_i386.deb
+        dpkg -i library50-php_4-0_i386.deb
+        rm library50-php_4-0_i386.deb
+        wget https://github.com/tysonchamp/spl-for-ubuntu/archive/master.zip
+        unzip master.zip
+        cd spl-for-ubuntu-master
+        make
+        make install
+        rm -rf master.zip spl-for-ubuntu-master *deb*
+        echo "========================================================================"
+
+        clear
+        echo "
+        # My custom alias for CS50 By Harvard University
+        mkcs50() {
+            echo "cc -ggdb -std=c99 -Wall -Werror ${1}.c -lcrypt -lcs50 -lm -o $1";
+            cc -ggdb -std=c99 -Wall -Werror ${1}.c -lcrypt -lcs50 -lm -o $1 ;
+        }
+        alias mk=mkcs50" | cat >> ~/.bashrc
+        echo "========================================================================"
+        source ~/.bashrc
+        sudo chmod -R 777 /var/www/*
+
+        clear
+        echo "CS50 README
+        ============================================================================
+        1. Install Browser Addons:
+        ============================================================================
+        After installation of apliance is finished, install the below addons in your
+        mozilla firefox web browser:
+        1) https://addons.mozilla.org/en-US/firefox/addon/1843
+        2) https://addons.mozilla.org/en-US/firefox/addon/3829
+        3) https://addons.mozilla.org/en-US/firefox/addon/60
+        2. Scratch:
+        ============================================================================
+        Scratch Is already installed but still If you want to access the online
+        version then visit below url: http://scratch.mit.edu/
+        3. Install Oracle Java:
+        ============================================================================
+        If you wanna install through PPA, goto below url
+        http://www.webupd8.org/2012/01/install-oracle-java-jdk-7-in-ubuntu-via.html
+        or,
+        download from official website
+        http://java.com/en/download/manual.jsp"
+        read -n 1 -p "\nContinue?\n"
+    fi
+fi

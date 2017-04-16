@@ -1,0 +1,29 @@
+#!/usr/bin/python2
+
+"Fichero de ayuda para configurar el nombre del escritorio actual"
+
+import sys
+
+from xpybutil import conn, root
+
+import xpybutil.ewmh as ewmh
+
+if len(sys.argv) == 2 and sys.argv[1] == '--help':
+    print "Usage: "
+    print "   set-desktop-name NAME_OF_NEW_DESKTOP  - sets current desktop name"
+    print "   set-desktop-name NR NAME_OF_NEW_DESKTOP - sets name of NRth desktop"
+
+if len(sys.argv) > 2:
+    desktop_offset = int(sys.argv[1])
+    new_name = sys.argv[2]
+
+else:
+    desktop_offset = ewmh.get_current_desktop().reply()
+    new_name = sys.argv[1]
+
+current_names = ewmh.get_desktop_names().reply()
+
+current_names[desktop_offset] = new_name
+
+c = ewmh.set_desktop_names(current_names)
+c = ewmh.set_desktop_names(current_names)

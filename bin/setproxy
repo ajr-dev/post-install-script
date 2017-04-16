@@ -1,0 +1,28 @@
+#!/bin/bash
+
+myproxy="http://proxy.wifi.uma.es:3128/"
+proxyhost="proxy.wifi.uma.es"
+myport=3128
+
+sudo tee -a /etc/environment << EOF
+http_proxy="$myproxy"
+https_proxy="$myproxy"
+ftp_proxy="$myproxy"
+no_proxy="localhost,127.0.0.1,localaddress,.localdomain.com"
+HTTP_PROXY="$myproxy"
+HTTPS_PROXY="$myproxy"
+FTP_PROXY="$myproxy"
+NO_PROXY="localhost,127.0.0.1,localaddress,.localdomain.com"
+EOF
+
+gsettings set org.gnome.system.proxy mode manual
+gsettings set org.gnome.system.proxy.http host "$proxyhost"
+gsettings set org.gnome.system.proxy.http port "$myport"
+gsettings set org.gnome.system.proxy.https host "$proxyhost"
+gsettings set org.gnome.system.proxy.https port "$myport"
+
+sudo tee /etc/apt/apt.conf.d/95proxies << EOF
+Acquire::http::proxy "http://$proxyhost:$myport/";
+Acquire::ftp::proxy "ftp://$proxyhost:$myport/";
+Acquire::https::proxy "https://$proxyhost:$myport/";
+EOF

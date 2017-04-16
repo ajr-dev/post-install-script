@@ -1,0 +1,46 @@
+conky.config = {
+    background = false,
+    use_xft = true,
+    font = 'monospace:pixelsize=11',
+    xftalpha = 1,
+    total_run_times = 0,
+    own_window = true,
+    own_window_transparent = true,
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    double_buffer = true,
+    draw_shades = false,
+    draw_outline = false,
+    draw_borders = false,
+    draw_graph_borders = true,
+    stippled_borders = 0,
+    default_color = 'cyan',
+    default_shade_color = 'black',
+    default_outline_color = 'white',
+    alignment = 'top_left',
+    gap_x = 178,
+    gap_y = 12,
+    no_buffers = true,
+    cpu_avg_samples = 2,
+    net_avg_samples = 2,
+    override_utf8_locale = true,
+    use_spacer = 'no',
+    minimum_width = 300, minimum_height = 200,
+    maximum_width = 220,
+    text_buffer_size = 2048,
+    color1 = 'cyan',
+    color2 = '#DC143C',
+    color3 = '#FFFF00',
+};
+
+conky.text = [[
+ ┌──────────┐
+┌┤ FORECAST │
+│└───┬──────┘
+${texeci 900 python2.7 pyweath.py | head -n 7 && cp /home/$USER/.conky_weather_icons/$(python2.7 pyweath.py | grep "Condition" | awk '{print $4}').png /home/$USER/Sky.png}
+│
+│
+▼
+${image weather_icons/Sky.png -p 20,150 -s 65x65 -n}
+${voffset -40}${goto 100}Tomorrow
+${voffset 10}${goto 135}${font Monospace:bold:pixelsize=12}${texeci 900 python2.7 weather.py | grep "Highs" | awk '{print $4, $5}' && cp weather_icons/$(python2.7 weather.py | grep "Sky" | awk '{print $4}').png weather_icons/Sky_Tomorrow.png}${font}${image weather_icons/Sky_Tomorrow.png -p 95,155 -s 35x35 -n}
+]];

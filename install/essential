@@ -1,0 +1,39 @@
+#!/bin/bash
+
+source declarations
+
+[ ! -d ~/bin ]  &&  mkdir -p ~/bin
+
+if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "¿Essential actions for Linux Mint Cinnamon?" "${autoConfirm:?}"; then
+    # Consider recommended packages as dependencies
+    sudo rm -v /etc/apt/apt.conf.d/00recommends /etc/apt/apt.conf.d/99synaptic
+    sudo apt-get install -y mint-meta-codecs
+
+    # Change swap usage
+    if [ ! -f /etc/sysctl.conf.bak ]; then
+        sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
+    fi
+    if [ "$DISK" = "SSD" ]; then
+        sudo tee -a /proc/sys/vm/swappiness << EOF
+        # Decrease swap usage to a more reasonable level
+        vm.swappiness=1
+        #
+EOF
+    elif (( $(echo "$RAM < 4" | bc -l) )); then
+        sudo tee -a /proc/sys/vm/swappiness << EOF
+        # Decrease swap usage to a more reasonable level
+        vm.swappiness=10
+        #
+EOF
+    fi
+    sudo ufw enable # enable firewall
+
+    # Install Microsoft fonts
+    sudo apt-get install -y ttf-mscorefonts-installer
+
+    # Disable hibernation
+    [ ! -f /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkl.bak ]  &&  sudo mv -v /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla.bak
+
+    # Prevent other users from accessing the files in your account
+    chmod -v 700 "$HOME"
+fi
