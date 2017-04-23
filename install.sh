@@ -1,11 +1,11 @@
 #!/bin/bash
 
-source install/declarations
-source install/essential            "${autoConfirm:?}"
-source install/app-install          "${autoConfirm:?}"
-source install/programming-tools    "${autoConfirm:?}"
-source install/system-setup         "${autoConfirm:?}"
-source install/startup-scripts      "${autoConfirm:?}"
+source "$HOME/.dotfiles/install/declarations"
+source "$DOTFILES/install/essential"
+source "$DOTFILES/install/app-install"
+source "$DOTFILES/install/programming-tools"
+source "$DOTFILES/install/system-setup"
+source "$DOTFILES/install/startup-scripts"
 
 if [ "$(uname)" == "Darwin" ]; then
     source install/brew-setup

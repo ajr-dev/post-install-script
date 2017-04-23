@@ -1,10 +1,10 @@
 #!/bin/bash
 
-source "$HOME/.dotfiles/install/declarations"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
 [ ! -d ~/bin ]  &&  mkdir -p ~/bin
 
-if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "¿Essential actions for Linux Mint Cinnamon?" "${autoConfirm:?}"; then
+if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "Essential actions for Linux Mint?"; then
     # Consider recommended packages as dependencies
     sudo rm -v /etc/apt/apt.conf.d/00recommends /etc/apt/apt.conf.d/99synaptic
     sudo apt-get install -y mint-meta-codecs
@@ -12,19 +12,19 @@ if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "¿Essential actions for Linu
     # Change swap usage
     if [ ! -f /etc/sysctl.conf.bak ]; then
         sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
-    fi
-    if [ "$DISK" = "SSD" ]; then
-        sudo tee -a /proc/sys/vm/swappiness << EOF
-        # Decrease swap usage to a more reasonable level
-        vm.swappiness=1
-        #
+        if [ "$DISK" = "SSD" ]; then
+            sudo tee -a /proc/sys/vm/swappiness << EOF
+# Decrease swap usage to a more reasonable level
+vm.swappiness=1
+#
 EOF
-    elif (( $(echo "$RAM < 4" | bc -l) )); then
-        sudo tee -a /proc/sys/vm/swappiness << EOF
-        # Decrease swap usage to a more reasonable level
-        vm.swappiness=10
-        #
+        elif (( $(echo "$RAM < 4" | bc -l) )); then
+            sudo tee -a /proc/sys/vm/swappiness << EOF
+# Decrease swap usage to a more reasonable level
+vm.swappiness=10
+#
 EOF
+        fi
     fi
     sudo ufw enable # enable firewall
 

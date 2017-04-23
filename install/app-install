@@ -1,9 +1,8 @@
 #!/bin/bash
 
-source "$HOME/.dotfiles/install/declarations"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
-
-if assertConfirmation "Update the system?" "${autoConfirm:?}"; then
+if assertConfirmation "Update the system?"; then
     echo "Updating the system"
     echo "========================================================================"
     sudo apt-get -y --force-yes update
@@ -14,7 +13,7 @@ if assertConfirmation "Update the system?" "${autoConfirm:?}"; then
 fi
 
 
-if assertConfirmation "Remove all preinstalled packages?" "${autoConfirm:?}"; then
+if assertConfirmation "Remove all preinstalled packages?"; then
     if [[ "$OS" == "elementaryOS" ]]; then
         echo "Removing unwanted packages from elementary OS"
         sudo apt-get autoremove -y empathy totem noise scratch-text-editor geary midori-granite
@@ -32,7 +31,7 @@ if assertConfirmation "Remove all preinstalled packages?" "${autoConfirm:?}"; th
     echo "Packages removed"
     echo "========================================================================"
 else
-    if assertConfirmation "Remove packages one by one?" "${autoConfirm:?}"; then
+    if assertConfirmation "Remove packages one by one?"; then
         if [[ "$OS" == "elementaryOS" ]]; then
             packages=( empathy totem noise scratch-text-editor geary midori-granite )
         elif [[ "$OS" == "LinuxMint" ]]; then
@@ -59,12 +58,12 @@ else
 fi
 
 
-if assertConfirmation "Install programs?" "${autoConfirm:?}"; then
-    if assertConfirmation "Install tmux?" "${autoConfirm:?}"; then
+if assertConfirmation "Install programs?"; then
+    if assertConfirmation "Install tmux?"; then
         source "$DOTFILES/install/tmux-install"
     fi
 
-    if [[ ! -d ~/Downloads/jd2 ]]  &&  assertConfirmation "Install jDownloader?" "${autoConfirm:?}"; then
+    if [[ ! -d ~/Downloads/jd2 ]]  &&  assertConfirmation "Install jDownloader?"; then
         source "$DOTFILES/install/jdownloader-install"
     fi
 

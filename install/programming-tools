@@ -1,8 +1,8 @@
 #!/bin/bash
 
-source "$HOME/.dotfiles/install/declarations"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
-if assertConfirmation "Install programming tools?" "${autoConfirm:?}"; then
+if assertConfirmation "Install programming tools?"; then
     clear
     echo "Installing c compiler, gdb, jdk, jre 9, nodejs, npm"
     echo "========================================================================"
@@ -24,11 +24,11 @@ if assertConfirmation "Install programming tools?" "${autoConfirm:?}"; then
     source "$HOME/.cargo/env"
     echo "========================================================================"
 
-    if assertConfirmation "Install apache2, php7, mysql-server?" "${autoConfirm:?}"; then
+    if assertConfirmation "Install apache2, php7, mysql-server?"; then
         source "$DOTFILES/install/lamp-install"
     fi
 
-    if assertConfirmation "Install cs50 functions?" "${autoConfirm:?}"; then
+    if assertConfirmation "Install cs50 functions?"; then
         # https://github.com/tysonchamp/cs50/blob/master/cs50.sh
         sudo apt-get install -y scratch filezilla
         echo "========================================================================"

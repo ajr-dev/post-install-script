@@ -49,8 +49,8 @@ if [[ $? != 4 ]]; then
     exit 1
 fi
 
-SHORT=yq
-LONG=yes,quick
+SHORT=hyq
+LONG=help,yes,quick
 
 # -temporarily store output to be able to check for errors
 # -activate advanced mode getopt quoting e.g. via “--options”
@@ -62,24 +62,19 @@ if [[ $? != 0 ]]; then
     exit 2
 fi
 # use eval with "$PARSED" to properly handle the quoting
-#eval set -- "$PARSED"
+eval set -- "$PARSED"
 
-h=0; q=0; v=0; autoConfirm=0
+h=0; q=0; autoConfirm=0
 
 # now enjoy the options in order and nicely split until we see --
 while true; do
-    case "$PARSED" in
+    case "$1" in
         -h|--help)
             h=1
             shift
-    exit 2 # Use a dedicated exit code to signal this condition.
             ;;
-        -c|--config)
-            config=1
-            shift
-            ;;
-        -v|--verbose)
-            v=1
+        -q|--quick)
+            q=1
             shift
             ;;
         -y|--yes)
@@ -98,7 +93,7 @@ while true; do
 done
 
 assertConfirmation () {
-    local promptMsg=$1 autoConfirm=$2
+    local promptMsg=$1 #autoConfirm=$2
     if (( autoConfirm )); then
         return
     else
@@ -113,4 +108,4 @@ assertConfirmation () {
     return 1
 }
 
-export ARCH DOTFILES DELAY DESKTOP DISK OS RAM VER autoConfirm config
+export ARCH DOTFILES DELAY DESKTOP DISK OS RAM VER h q autoConfirm
