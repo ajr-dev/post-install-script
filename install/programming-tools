@@ -28,6 +28,10 @@ if assertConfirmation "Install programming tools?"; then
         source "$DOTFILES/install/lamp-install"
     fi
 
+    if assertConfirmation "Install kali linux tools?"; then
+        source "$DOTFILES/install/katoolin"
+    fi
+
     if assertConfirmation "Install cs50 functions?"; then
         # https://github.com/tysonchamp/cs50/blob/master/cs50.sh
         sudo apt-get install -y scratch filezilla
@@ -62,7 +66,7 @@ if assertConfirmation "Install programming tools?"; then
         cd spl-for-ubuntu-master
         make
         make install
-        rm -rf master.zip spl-for-ubuntu-master *deb*
+        rm -rf master.zip spl-for-ubuntu-master ./*deb*
         echo "========================================================================"
 
         clear

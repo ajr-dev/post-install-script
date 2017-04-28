@@ -1,0 +1,117 @@
+#!/bin/bash
+
+### Linux Mint
+# Updates
+dconf write /com/linuxmint/updates/hide-window-after-update true
+dconf write /com/linuxmint/updates/hide-systray true
+dconf write /com/linuxmint/updates/default-repo-is-ok true
+dconf write /com/linuxmint/updates/show-configuration false
+dconf write /com/linuxmint/updates/level1-is-visible true
+dconf write /com/linuxmint/updates/level2-is-visible true
+dconf write /com/linuxmint/updates/level3-is-visible true
+dconf write /com/linuxmint/updates/level4-is-visible false
+dconf write /com/linuxmint/updates/level5-is-visible false
+dconf write /com/linuxmint/updates/security-updates-are-visible false
+dconf write /com/linuxmint/updates/security-updates-are-safe false
+dconf write /com/linuxmint/updates/kernel-updates-are-visible false
+dconf write /com/linuxmint/updates/kernel-updates-are-safe false
+dconf write /com/linuxmint/updates/level1-is-safe true
+dconf write /com/linuxmint/updates/level2-is-safe true
+dconf write /com/linuxmint/updates/level3-is-safe true
+dconf write /com/linuxmint/updates/level4-is-safe false
+dconf write /com/linuxmint/updates/level5-is-safe false
+dconf write /com/linuxmint/updates/security-updates-are-visible true
+dconf write /com/linuxmint/updates/security-updates-are-safe false
+dconf write /com/linuxmint/updates/kernel-updates-are-visible true
+dconf write /com/linuxmint/updates/kernel-updates-are-safe false
+dconf write /com/linuxmint/updates/refresh-days 7
+dconf write /com/linuxmint/updates/refresh-hours 0
+dconf write /com/linuxmint/updates/refresh-minutes 10
+dconf write /com/linuxmint/updates/autorefresh-days 7
+dconf write /com/linuxmint/updates/autorefresh-hours 2
+dconf write /com/linuxmint/updates/autorefresh-minutes 0
+dconf write /com/linuxmint/updates/dist-upgrade true
+dconf write /com/linuxmint/updates/blacklisted-packages "@as []"
+
+## Caja
+dconf write /org/mate/caja/desktop/font "'Noto Sans 16'"
+
+## Desktop
+dconf write /org/mate/desktop/peripherals/mouse/cursor-size 24
+
+# Background
+dconf write /org/mate/desktop/background/color-shading-type "'solid'"
+dconf write /org/mate/desktop/background/picture-filename "'/usr/share/backgrounds/linuxmint/linuxmint.jpg'"
+dconf write /org/mate/desktop/background/picture-options "'zoom'"
+dconf write /org/mate/desktop/background/primary-color "'#000000000000'"
+
+# Interface
+dconf write /org/mate/desktop/interface/font-name "'Noto Sans 14'"
+dconf write /org/mate/desktop/interface/document-font-name "'Noto Sans 14'"
+dconf write /org/mate/desktop/interface/monospace-font-name "'Monospace 14'"
+dconf write /org/mate/desktop/interface/gtk-theme "'Mint-Y-Dark'"
+dconf write /org/mate/desktop/interface/icon-theme "'Mint-Y'"
+dconf write /org/mate/desktop/interface/menus-have-icons true
+dconf write /org/mate/desktop/interface/can-change-accels false
+dconf write /org/mate/desktop/interface/toolbar-style "'icons'" # both, both-horiz, icons, text
+
+## Marco
+# General
+dconf write /org/mate/marco/general/action-double-click-titlebar "'toggle_maximize'"
+dconf write /org/mate/marco/general/action-middle-click-titlebar "'toggle_maximize'"
+dconf write /org/mate/marco/general/action-right-click-titlebar "'menu'"
+dconf write /org/mate/marco/general/action-right-click-titlebar "'menu'"
+dconf write /org/mate/marco/general/application-based false
+dconf write /org/mate/marco/general/audible-bell false
+dconf write /org/mate/marco/general/auto-raise false
+dconf write /org/mate/marco/general/auto-raise-delay 500
+dconf write /org/mate/marco/general/center-new-windows true
+dconf write /org/mate/marco/general/focus-mode "'click'"
+dconf write /org/mate/marco/general/focus-new-windows "'smart'"
+dconf write /org/mate/marco/general/num-workspaces 8
+dconf write /org/mate/marco/general/reduced-resources true
+dconf write /org/mate/marco/general/side-by-side-tiling true
+dconf write /org/mate/marco/general/theme "'Mint-Y-Dark'"
+dconf write /org/mate/marco/general/titlebar-font "'Noto Sans Bold 10'"
+dconf write /org/mate/marco/general/titlebar-uses-system-font false
+dconf write /org/mate/marco/general/visual-bell false
+dconf write /org/mate/marco/general/visual-bell-type "'fullscreen'"
+dconf write /org/mate/marco/general/wrap-style "'no wrap'"
+
+#Window-keybindings
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-1 "'<Shift><Alt>1'"
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-2 "'<Shift><Alt>2'"
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-3 "'<Shift><Alt>3'"
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-4 "'<Shift><Alt>4'"
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-5 "'<Shift><Alt>5'"
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-6 "'<Shift><Alt>6'"
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-7 "'<Shift><Alt>7'"
+dconf write /org/mate/marco/window-keybindings/move-to-workspace-8 "'<Shift><Alt>8'"
+
+# workspace-names
+dconf write /org/mate/marco/workspace-names/name-1 "'Concu'"
+dconf write /org/mate/marco/workspace-names/name-2 "'OOP'"
+dconf write /org/mate/marco/workspace-names/name-3 "'Compu'"
+dconf write /org/mate/marco/workspace-names/name-4 "'RySD'"
+dconf write /org/mate/marco/workspace-names/name-5 "'software'"
+dconf write /org/mate/marco/workspace-names/name-6 "'code'"
+dconf write /org/mate/marco/workspace-names/name-7 "'config'"
+dconf write /org/mate/marco/workspace-names/name-8 "'other'"
+
+## Power manager
+dconf write /org/mate/power-manager/action-critical-battery "'suspend'"
+dconf write /org/mate/power-manager/action-sleep-type-ac "'nothing'"
+dconf write /org/mate/power-manager/action-sleep-type-battery "'nothing'"
+dconf write /org/mate/power-manager/backlight-battery-reduce false
+dconf write /org/mate/power-manager/backlight-enable false
+dconf write /org/mate/power-manager/brightness-ac 50
+dconf write /org/mate/power-manager/brightness-dim-battery 0
+dconf write /org/mate/power-manager/button-lid-ac "'nothing'"
+dconf write /org/mate/power-manager/button-lid-battery "'nothing'"
+dconf write /org/mate/power-manager/button-power "'suspend'"
+dconf write /org/mate/power-manager/enable-sound false
+dconf write /org/mate/power-manager/event-when-closed-battery true
+dconf write /org/mate/power-manager/idle-brightness 100
+dconf write /org/mate/power-manager/idle-dim-ac false
+dconf write /org/mate/power-manager/idle-dim-battery false
+dconf write /org/mate/power-manager/idle-dim-time 100
