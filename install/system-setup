@@ -54,7 +54,7 @@ if assertConfirmation "Change system configuration?" "${autoConfirm:?}"; then
     cd ..
     rm -rf fonts
     if [[ $DESKTOP == "cinnamon" ]]; then
-        source "$DOTFILES/install/dconf-settings"
+        source "$DOTFILES/install/cinnamon-settings"
         #### Unattended Upgrades
         # https://forums.linuxmint.com/viewtopic.php?f=42&t=202715
         # https://forums.linuxmint.com/viewtopic.php?t=169580

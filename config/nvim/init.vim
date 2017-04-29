@@ -83,7 +83,7 @@ vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
 " Atajo para guardar
 nmap <leader>, :w<cr>
-" :W guardar el archivo usando sudo 
+" :W guardar el archivo usando sudo
 " (es útil para manejar los errores de permiso denegado)
 command W w !sudo tee % > /dev/null
 " }}}
@@ -182,7 +182,6 @@ nmap <leader>mq :MarkedQuit<cr>
 nmap <leader>* *<c-o>:%s///gn<cr>
 "}}}
 " => General {{{
-set nocompatible                                          " no compatible con vi
 set autoread                                              " recargar ficheros cuando cambian
 set history=1000                                          " cambiar historial a 1000
 set secure                                                " desactivar comandos inseguros en los archivos .vimrc
