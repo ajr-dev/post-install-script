@@ -2,8 +2,9 @@
 
 sudo apt-get -y autoremove tmux
 sudo apt-get install -y exuberant-ctags cmake libevent-dev libncurses5-dev
-wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz ~/Downloads
-cd ~/Downloads
+[ ! -d ~/tmp ]  &&  mkdir ~/tmp
+cd ~/tmp
+wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz
 tar -xzvf tmux*.tar.gz
 rm tmux*.tar.gz
 cd tmux-*

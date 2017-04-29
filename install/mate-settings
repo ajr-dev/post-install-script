@@ -37,7 +37,16 @@ dconf write /com/linuxmint/updates/blacklisted-packages "@as []"
 dconf write /org/mate/caja/desktop/font "'Noto Sans 16'"
 
 ## Desktop
+# Keyboard
+dconf write /org/mate/desktop/peripherals/keyboard/delay 200
+dconf write /org/mate/desktop/peripherals/keyboard/repeat true
+dconf write /org/mate/desktop/peripherals/keyboard/rate 100
+
+# Mouse
 dconf write /org/mate/desktop/peripherals/mouse/cursor-size 24
+
+# Touchpad
+dconf write /org/mate/desktop/peripherals/touchpad/natural-scroll false
 
 # Background
 dconf write /org/mate/desktop/background/color-shading-type "'solid'"
@@ -54,6 +63,8 @@ dconf write /org/mate/desktop/interface/icon-theme "'Mint-Y'"
 dconf write /org/mate/desktop/interface/menus-have-icons true
 dconf write /org/mate/desktop/interface/can-change-accels false
 dconf write /org/mate/desktop/interface/toolbar-style "'icons'" # both, both-horiz, icons, text
+dconf write /org/mate/desktop/interface/cursor-blink true
+dconf write /org/mate/desktop/interface/cursor-blink-time 1200
 
 ## Marco
 # General

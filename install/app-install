@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
 if assertConfirmation "Update the system?"; then
@@ -12,59 +13,69 @@ if assertConfirmation "Update the system?"; then
     echo "========================================================================"
 fi
 
-
-if assertConfirmation "Remove all preinstalled packages?"; then
-    if [[ "$OS" == "elementaryOS" ]]; then
-        echo "Removing unwanted packages from elementary OS"
-        sudo apt-get autoremove -y empathy totem noise scratch-text-editor geary midori-granite
-    elif [[ "$OS" == "LinuxMint" ]]; then
-        echo "Removing unwanted packages from Linux Mint"
-        sudo apt-get -y autoremove pidgin hexchat thunderbird banshee brasero simple-scan\
-            xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest*
-    elif [[ "$OS" == "Arch Linux" ]]; then
-        echo "No unwanted packages on Arch Linux"
-    else
-        echo "Removing unwanted packages from Ubuntu"
-        sudo apt-get -y autoremove rhythmbox empathy totem transmission-gtk
-    fi
-    echo "========================================================================"
-    echo "Packages removed"
-    echo "========================================================================"
+if (( ${autoConfirm:?} )); then
+    :
 else
-    if assertConfirmation "Remove packages one by one?"; then
+    clear
+    read -n 1 -p "Remove all preinstalled packages? (yes/No) "
+    printf '\n========================================================================'
+    if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
         if [[ "$OS" == "elementaryOS" ]]; then
-            packages=( empathy totem noise scratch-text-editor geary midori-granite )
+            echo "Removing unwanted packages from elementary OS"
+            sudo apt-get autoremove -y empathy totem noise scratch-text-editor geary midori-granite
         elif [[ "$OS" == "LinuxMint" ]]; then
-            packages=( pidgin hexchat thunderbird banshee brasero simple-scan\
-                xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest* )
+            echo "Removing unwanted packages from Linux Mint"
+            sudo apt-get -y autoremove pidgin hexchat thunderbird banshee brasero simple-scan\
+                xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest*
         elif [[ "$OS" == "Arch Linux" ]]; then
             echo "No unwanted packages on Arch Linux"
         else
             echo "Removing unwanted packages from Ubuntu"
-            packages=( rhythmbox empathy totem transmission-gtk)
+            sudo apt-get -y autoremove rhythmbox empathy totem transmission-gtk
         fi
-        for app in "${packages[@]}" ; do
-            clear
-            read -n 1 -p "Uninstall $app? (Yes/no) "
-            if [[ ! $REPLY =~ ^([Nn])$ ]]; then
-                printf '\n========================================================================'
-                sudo apt-get -y autoremove "$app"
+        echo "========================================================================"
+        echo "Packages removed"
+        echo "========================================================================"
+    else
+        clear
+        read -n 1 -p "Remove packages one by one? (yes/No) "
+        printf '\n========================================================================'
+        if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
+            if [[ "$OS" == "elementaryOS" ]]; then
+                packages=( empathy totem noise scratch-text-editor geary midori-granite )
+            elif [[ "$OS" == "LinuxMint" ]]; then
+                packages=( pidgin hexchat thunderbird banshee brasero simple-scan\
+                    xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest* )
+            elif [[ "$OS" == "Arch Linux" ]]; then
+                echo "No unwanted packages on Arch Linux"
+            else
+                echo "Removing unwanted packages from Ubuntu"
+                packages=( rhythmbox empathy totem transmission-gtk)
             fi
-        done
-        echo "========================================================================"
-        echo "Done"
-        echo "========================================================================"
+            for app in "${packages[@]}" ; do
+                clear
+                read -n 1 -p "Uninstall $app? (Yes/no) "
+                if [[ ! $REPLY =~ ^([Nn])$ ]]; then
+                    printf '\n========================================================================'
+                    sudo apt-get -y autoremove "$app"
+                fi
+            done
+            echo "========================================================================"
+            echo "Packages removed"
+            echo "========================================================================"
+        fi
     fi
 fi
 
 
 if assertConfirmation "Install programs?"; then
+    # TODO: check if tmux is already installed. [ ${tmux -V} ~= 2.3 ]  &&  ...
     if assertConfirmation "Install tmux?"; then
         source "$DOTFILES/install/tmux-install"
     fi
 
-    if [[ ! -d ~/Downloads/jd2 ]]  &&  assertConfirmation "Install jDownloader?"; then
-        source "$DOTFILES/install/jdownloader-install"
+    if [ ! -d ~/Downloads/jd2 ]  &&  assertConfirmation "Install jDownloader?"; then
+        source "$DOTFILES/install/jdownloader-install" # TODO: Downloads may not exist.
     fi
 
     install_xflux() {
@@ -120,13 +131,8 @@ EOF
         fi
     fi
 
-    if (( autoConfirm )); then
-        :
-    else
-        clear
-        read -n 1 -p "Install Google Chrome? (yes/No) "
-        printf '\n========================================================================'
-        if [[ $REPLY =~ ^([Yy])$ ]]; then
+    if assertConfirmation "Install Google Chrome?"; then
+        if [ "${MACHINE_TYPE}" == 64 ]; then
             sudo apt-get install libxss1 libappindicator1 libindicator7
             wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
             sudo dpkg -i google-chrome*.deb
@@ -140,9 +146,10 @@ EOF
         :
     else
         clear
-        read -n 1 -p "¿Install Selenium? (yes/No) "
+        read -n 1 -p "Install Selenium? (yes/No) "
         printf '\n========================================================================'
         if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
+            if [ "${MACHINE_TYPE}" == 64 ]; then
             # Instalar xvfb
             sudo apt-get install xvfb
             # Instalar ChromeDriver
@@ -155,6 +162,7 @@ EOF
             sudo ln -s /usr/local/share/chromedriver /usr/local/bin/chromedriver
             sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
             echo "========================================================================"
+            fi
         fi
     fi
 

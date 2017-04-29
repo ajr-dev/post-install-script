@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
 if assertConfirmation "Install programming tools?"; then
@@ -7,19 +8,65 @@ if assertConfirmation "Install programming tools?"; then
     echo "Installing c compiler, gdb, jdk, jre 9, nodejs, npm"
     echo "========================================================================"
     sudo apt-get -y remove openjdk-8*
-    sudo apt-get -y install gcc g++ gdb make openjdk-9-jdk openjdk-9-jre nodejs npm \
+    sudo apt-get -y install build-essential gcc g++ gdb make openjdk-9-jdk openjdk-9-jre nodejs npm \
         git dconf-cli unattended-upgrades unzip shellcheck xdotool python python-setuptools \
         ruby python3 hddtemp lm-sensors curl ubuntu-restricted-extras lftp zsh zenity
     echo "========================================================================"
 
     clear
-    echo "Installing mono"
+    echo "Installing xbuild, go, tsserver, node, npm, rustc, and cargo"
     echo "========================================================================"
-    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-    echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
-    wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz
-    sudo tar -C /usr/local/ -zxvf go1.8.linux-amd64.tar.gz
-    echo 'export PATH=$PATH:/usr/local/go/bin' >> ~/.bashrc
+    # Install mono http://www.mono-project.com/docs/getting-started/install/linux/
+    # http://stackoverflow.com/questions/4749330/how-to-test-if-string-exists-in-file-with-bash-shell
+    sudo apt-get -y install mono-xbuild
+    if ! grep -Fxq "deb http://download.mono-project.com/repo/debian wheezy main" /etc/apt/sources.list.d/mono-xamarin.list; then
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+        echo "deb http://download.mono-project.com/repo/debian wheezy main" | sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+        sudo apt-get -y update  && sudo apt-get -y upgrade
+        sudo apt-get -y install mono-complete
+    fi
+
+    # Install go https://www.digitalocean.com/community/tutorials/how-to-install-go-1-6-on-ubuntu-16-04
+    if [ ! -f /usr/local/go ]; then
+        wget https://storage.googleapis.com/golang/go1.8.linux-amd64.tar.gz
+        sudo tar -C /usr/local/ -zxvf go1.8.linux-amd64.tar.gz
+        rm go1.8.linux-amd64.tar.gz
+        mkdir -p ~/code/go
+        # shellcheck disable=SC2016
+        if [ -f ~/.local.zsh ]  &&  ! grep -q "/usr/local/go/bin" ~/.local.zsh; then
+            echo 'export GOPATH=$HOME/code/go' >> ~/.local.zsh
+            echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.local.zsh
+        elif [ -f ~/.zshrc ]  &&  ! grep -q "/usr/local/go/bin" ~/.zshrc; then
+            echo 'export GOPATH=$HOME/code/go' >> ~/.zshrc
+            echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.zshrc
+        elif [ -f ~/.profile ]  &&  ! grep -q "/usr/local/go/bin" ~/.profile; then
+            echo 'export GOPATH=$HOME/code/go' >> ~/.profile
+            echo 'export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin' >> ~/.profile
+            source ~/.profile
+        fi
+        mkdir -p "$GOPATH/src/github.com/user/go-installed"
+        echo << EOF >> "$GOPATH/src/github.com/user/go-installed/go-installed.go"
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Printf("Go succesfully installed\n")
+}
+EOF
+        go install github.com/user/go-installed
+        which go-installed
+        if [ ! "$?" = "0" ]; then
+            echo "Go wasn't properly installed" 1>&2
+            rm -rf "$GOPATH/src/github.com/user/go-installed"
+            exit 1
+        fi
+        rm -rf "$GOPATH/src/github.com/user/go-installed"
+    fi
+
+    # Install TypeScript standalone server
+    npm install --save typescript
+
     curl https://sh.rustup.rs -sSf | sh
     source "$HOME/.cargo/env"
     echo "========================================================================"

@@ -47,7 +47,7 @@ for config ($ZSH/**/*.zsh) source $config
     export PATH=$DOTFILES/bin:$PATH
   fi
 
-  # Comprobar for directorio bin personal y añadir a la ruta
+  # Comprobar directorio bin personal y añadir a la ruta
   if [[ -d ~/bin ]]; then
     export PATH=~/bin:$PATH
   elif [[ -d ~/.bin ]]; then

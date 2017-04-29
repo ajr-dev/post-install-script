@@ -1,13 +1,16 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
 [ ! -d ~/bin ]  &&  mkdir -p ~/bin
 
 if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "Essential actions for Linux Mint?"; then
-    # Consider recommended packages as dependencies
-    sudo rm -v /etc/apt/apt.conf.d/00recommends /etc/apt/apt.conf.d/99synaptic
-    sudo apt-get install -y mint-meta-codecs
+    # Consider recommended packages as dependencies to install them automatically as Ubuntu does
+    [ ! -f /etc/apt/apt.conf.d/00recommends.bak ]  &&  sudo mv /etc/apt/apt.conf.d/00recommends /etc/apt/apt.conf.d/00recommends.bak
+    [ ! -f /etc/apt/apt.conf.d/99synaptic.bak ]    &&  sudo mv /etc/apt/apt.conf.d/99synaptic   /etc/apt/apt.conf.d/99synaptic.bak
+
+    sudo apt-get install -y mint-meta-codecs # Install proprietary software
 
     # Change swap usage
     if [ ! -f /etc/sysctl.conf.bak ]; then
@@ -37,5 +40,5 @@ EOF
         /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkla.bak
 
     # Prevent other users from accessing the files in your account
-    chmod -v 700 "$HOME"
+    find ~ -type d -exec chmod 700 {} \;
 fi

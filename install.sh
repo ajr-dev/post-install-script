@@ -15,6 +15,7 @@ fi
 sudo apt-get -y --force-yes autoremove
 sudo apt-get -y --force-yes update
 sudo apt-get -y --force-yes upgrade
+[ -d ~/tmp ]  &&  rm -rf ~/tmp
 
 clear
 read -n 1 -p "Reboot? (yes/No) "
