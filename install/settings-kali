@@ -23,6 +23,11 @@ dconf write $profile/palette ['rgb(7,54,66)', 'rgb(220,50,47)', 'rgb(133,153,0)'
         'rgb(101,123,131)', 'rgb(131,148,150)', 'rgb(108,113,196)', 'rgb(147,161,161)', 'rgb(253,246,227)']
 dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
 dconf write /org/gnome/nm-applet/disable-connected-notifications true
+dconf write /org/gnome/shell/favorite-apps ['firefox-esr.desktop', \
+    'org.gnome.Nautilus.desktop', 'kali-msfconsole.desktop', \
+    'kali-armitage.desktop', 'kali-burpsuite.desktop', \
+    'kali-beef.desktop', 'kali-faraday.desktop', 'leafpad.desktop', \
+    'gnome-tweak-tool.desktop']
 xset r rate 200 50
 
 #dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
