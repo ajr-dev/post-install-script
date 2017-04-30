@@ -150,18 +150,24 @@ dconf write /org/cinnamon/desktop/sound/volume-sound-enabled false
 dconf write /org/cinnamon/settings-daemon/plugins/xsettings/menus-have-icons true
 dconf write /org/cinnamon/settings-daemon/plugins/xsettings/buttons-have-icons false
 
-profile="$(dconf dump / |grep legacy/profiles:/ |sed -r 's/^\[|\]$//g' |head -n1)"
-dconf write /$profile/audible-bell false
-dconf write /$profile/use-transparent-background false
+profile="$(dconf dump / |grep /legacy/profiles:/ |sed -r 's/^\[|\]$//g' |head -n1)"
+dconf write $profile/audible-bell false
+dconf write $profile/use-transparent-background false
 if [ -f ~/.local/share/fonts/Hack-Regular.ttf ]; then
-  dconf write /$profile/use-system-font false
-  dconf write /$profile/font "'Hack 14'"
+  dconf write $profile/use-system-font false
+  dconf write $profile/font "'Hack 14'"
 fi
-dconf write /$profile/scrollbar-policy "'never'"
-dconf write /$profile/scroll-on-output false
-dconf write /$profile/scroll-on-keystroke true
-dconf write /$profile/scrollback-unlimited true
-dconf write /$profile/scrollback-lines 10000
+# Solarized
+dconf write $profile/palette ['rgb(7,54,66)', 'rgb(220,50,47)', 'rgb(133,153,0)', \
+        'rgb(181,137,0)', 'rgb(38,139,210)', 'rgb(211,54,130)', 'rgb(42,161,152)', \
+        'rgb(238,232,213)', 'rgb(0,43,54)', 'rgb(203,75,22)', 'rgb(88,110,117)', \
+        'rgb(101,123,131)', 'rgb(131,148,150)', 'rgb(108,113,196)', 'rgb(147,161,161)', 'rgb(253,246,227)']
+dconf write $profile/scrollbar-policy "'never'"
+dconf write $profile/scroll-on-output false
+dconf write $profile/scroll-on-keystroke true
+dconf write $profile/scrollback-unlimited true
+dconf write $profile/scrollback-lines 10000
+dconf write /org/gnome/terminal/legacy/default-show-menubar false
 # Built-in schemes
 # select solarized dark
 # dconf write /$profile/foreground-color "'rgb(131,148,150)'"
