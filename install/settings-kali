@@ -1,11 +1,23 @@
 #!/bin/bash
 
-# Install tor browser
-sudo apt-get -y install tor
+# shellcheck disable=SC2034
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
 # Create non root user
 adduser user --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
 echo "user:admin" | sudo chpasswd
+adduser user sudo
+
+# Install tor browser, TODO: this has to be done as a non-root user
+sudo apt-get -y install tor
+[ -d ~/tmp ]  ||  mkdir ~/tmp
+cd ~/tmp
+version="6.5.2"
+link=https://www.torproject.org/dist/torbrowser/$version/
+file=tor-browser-linux$MACHINE_TYPE-$version_en-US
+wget $link$file.tar.xz
+tar -xzvf $file.tar.xz
+mv $file ~
 
 dconf write /org/gnome/desktop/interface/enable-animations false
 dconf write /org/gnome/desktop/interface/text-scaling-factor 1.25
