@@ -1,5 +1,11 @@
 #!/bin/bash
 
+dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
+dconf write /org/gnome/nm-applet/disable-connected-notifications true
+dconf write /org/gnome/desktop/interface/document-font-name "'Noto Sans 14'"
+dconf write /org/gnome/desktop/interface/monospace-font-name "'Monospace 14'"
+dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"
+
 ################################################################################
 #### Update Manager
 ################################################################################
@@ -147,9 +153,10 @@ dconf write /org/cinnamon/settings-daemon/plugins/xsettings/buttons-have-icons f
 profile="$(dconf dump / |grep legacy/profiles:/ |sed -r 's/^\[|\]$//g' |head -n1)"
 dconf write /$profile/audible-bell false
 dconf write /$profile/use-transparent-background false
-# TODO: check if Hack 14 font available
-dconf write /$profile/use-system-font false
-dconf write /$profile/font "'Hack 14'"
+if [ -f ~/.local/share/fonts/Hack-Regular.ttf ]; then
+  dconf write /$profile/use-system-font false
+  dconf write /$profile/font "'Hack 14'"
+fi
 dconf write /$profile/scrollbar-policy "'never'"
 dconf write /$profile/scroll-on-output false
 dconf write /$profile/scroll-on-keystroke true
@@ -163,9 +170,3 @@ dconf write /$profile/scrollback-lines 10000
 # select green on black
 # dconf write /$profile/foreground-color "'rgb(0,255,0)'"
 # dconf write /$profile/background-color "'rgb(0,0,0)'"
-
-dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
-dconf write /org/gnome/nm-applet/disable-connected-notifications true
-dconf write /org/gnome/desktop/interface/document-font-name "'Noto Sans 14'"
-dconf write /org/gnome/desktop/interface/monospace-font-name "'Monospace 14'"
-dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"

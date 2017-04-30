@@ -3,7 +3,7 @@
 source "$HOME/.dotfiles/install/declarations"
 
 if assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
-    source "$DOTFILES/install/git-setup"
+    source "$INSTALL/git-setup"
 fi
 
 if assertConfirmation "Import local config?" "${autoConfirm:?}"; then
@@ -18,7 +18,7 @@ if assertConfirmation "Import local config?" "${autoConfirm:?}"; then
 fi
 
 if assertConfirmation "Configure vim?" "${autoConfirm:?}"; then
-    source "$DOTFILES/install/link-setup"
+    source "$INSTALL/link-setup"
     # Terminal con cursiva
     cd ~/.dotfiles/tmux  ||  { echo "$HOME/.dotfiles/tmux doesn't exist" ; exit ; }
     tic xterm-256color-italic.terminfo
@@ -30,9 +30,9 @@ if assertConfirmation "Configure vim?" "${autoConfirm:?}"; then
 
     #if [[ ! -e ~/.vimrc  &&  ! -d ~/.vim  &&  ! -d ~/.config/nvim/ ]]; then
     if assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
-        source "$DOTFILES/install/neovim-install"
+        source "$INSTALL/neovim-install"
     fi
-    source "$DOTFILES/install/vim-setup"
+    source "$INSTALL/vim-setup"
 fi
 
 if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"; then
@@ -47,74 +47,30 @@ if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"; then
     fi
 fi
 
-if assertConfirmation "Change system configuration?" "${autoConfirm:?}"; then
+if assertConfirmation "Add powerline fonts?" "${autoConfirm:?}"; then
     git clone https://github.com/powerline/fonts ~/Downloads/fonts
     cd ~/Downloads/fonts || { echo "No existe el directorio fonts" ; exit ; }
     ./install.sh
     cd ..
     rm -rf fonts
-    if [[ $DESKTOP == "cinnamon" ]]; then
-        source "$DOTFILES/install/cinnamon-settings"
-        #### Unattended Upgrades
-        # https://forums.linuxmint.com/viewtopic.php?f=42&t=202715
-        # https://forums.linuxmint.com/viewtopic.php?t=169580
-        # if the file already exists uncomment the second line if not, create it
-
-        # https://community.linuxmint.com/tutorial/view/1217
-        if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
-            source "$DOTFILES/install/unattended-upgrades"
-        echo "========================================================================"
+    if [[ $OS == "cinnamon" ]]; then
+        source "$INSTALL/settings-cinnamon"
+    elif [[ $OS == "mate" ]]; then
+        source "$INSTALL/settings-mate"
     fi
+    if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
+        source "$INSTALL/unattended-upgrades"
+    echo "========================================================================"
 fi
 fi
 
-#### Never ask for passwords
-# http://askubuntu.com/questions/136264/how-do-i-turn-off-all-the-password-prompts
-# http://askubuntu.com/questions/43969/how-to-make-ubuntu-remember-forever-the-password-after-the-first-time
-# http://askubuntu.com/questions/534125/never-ask-me-for-passwords?lq=1
-# TODO fix this sed command
-if [ ! -f /etc/sudoers.orig ]; then # https://askubuntu.com/questions/406787/best-way-add-nopasswd-vagrant-user
-    sudo groupadd -r admin
-    sudo usermod -a -G admin vagrant
-    sudo cp /etc/sudoers /etc/sudoers.orig
-    sudo sed -i -e '/Defaults\s\+env_reset/a Defaults\texempt_group=admin' /etc/sudoers
-    sudo sed -i -e 's/%admin ALL=(ALL) ALL/%admin ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
+if assertConfirmation "Never ask for passwords?"; then
+    source "$INSTALL/no-password-prompt"
 fi
+
 # Update automatically everyday at 14:30
 [ ! -f /etc/crontab.bak ]  &&  sudo cp /etc/crontab /etc/crontab.bak  &&  echo "30 14 * * * root apt-get update" | sudo tee -a /etc/crontab
 
-# TODO fix this
-#[ -f "$HOME/.mozilla/firefox/*.default/prefs.js" ]  &&  grep browser.startup.homepage ~/.mozilla/firefox/*.default/prefs.js | awk '{print $2}' | sed '1 s/\"*www*\"/\"www.google.com\"/'
-echo "Manual Firefox Configuration
-============================================================================
-1. Change default search engine
-https://www.linuxmint.com/searchengines.php
-
-2. Change homepage
-============================================================================
-1) Write about:config in address bar
-2) Accept the risk
-3) Search the string \"keyword.URL\"
-4) Change the value to: https://www.google.com/#safe=active&output=search&sclient=psy-ab&q=
-# https://support.mozilla.org/en-US/questions/968367
-# http://unix.stackexchange.com/questions/93795/how-to-set-firefox-homepage-from-terminal
-# grep browser.startup.homepage .mozilla/firefox/*.default/prefs.js
-# user_pref(\"browser.startup.homepage\", \"http://www.google.com\");
-
-3. Change country code and region of the search engine about:config
-============================================================================
-1) browser.search.countryCode;EN
-2) browser.search.region;EN
-
-4. Search a webpage from the address bar
-============================================================================
-https://support.mozilla.org/en-US/kb/how-search-from-address-bar
-# http://www.wordreference.com/tools/Firefox-search-shortcut.aspx
-# youtube yt
-# wordreference es en fr esen esfr enes enfr fres fren
-# torrent kat
-# amazon a
-# wikipedia wk wkes
-# facebook fb"
-
-read -n 1 -p "\nContinue?"
+if assertConfirmation "Firefox setup?"; then
+    source "$INSTALL/firefox-setup"
+fi

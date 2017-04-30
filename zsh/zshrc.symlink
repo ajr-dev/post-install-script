@@ -80,3 +80,5 @@ for config ($ZSH/**/*.zsh) source $config
   [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || exec tmux new-session && exit; } # Esto cerraría el terminal al cerrar tmux
   #  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || tmux new-session} # Esto no lo cerraría
   #fi
+export GOPATH=$HOME/code/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin

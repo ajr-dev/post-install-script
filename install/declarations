@@ -11,6 +11,7 @@ command_exists() {
 
 DELAY=10
 DOTFILES=$HOME/.dotfiles
+INSTALL=$DOTFILES/install
 
 # Desktop environment https://unix.stackexchange.com/questions/116539/how-to-detect-the-desktop-environment-in-a-bash-script
 DESKTOP=$DESKTOP_SESSION
@@ -20,7 +21,7 @@ DESKTOP=$DESKTOP_SESSION
 #  DESKTOP=$XDG_CURRENT_DESKTOP
 #fi
 
-#DESKTOP=${DESKTOP,,}  # convert to lowercase
+DESKTOP="$(echo "$DESKTOP" | tr '[:upper:]' '[:lower:]')"
 
 # Machine architecture 64 or 32 bits
 ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
@@ -41,6 +42,7 @@ else
     OS=$(uname -s)
     VER=$(uname -r)
 fi
+OS="$(echo "$OS" | tr '[:upper:]' '[:lower:]')"
 
 RAM=$(awk '/MemTotal/ {print $2}' /proc/meminfo | xargs -I {} echo "scale=4; {}/1024^2" | bc)
 
@@ -73,7 +75,7 @@ fi
 # use eval with "$PARSED" to properly handle the quoting
 eval set -- "$PARSED"
 
-h=0; q=0; autoConfirm=0
+h=0; quick=0; autoConfirm=0
 
 # now enjoy the options in order and nicely split until we see --
 while true; do
@@ -83,7 +85,7 @@ while true; do
             shift
             ;;
         -q|--quick)
-            q=1
+            quick=1
             shift
             ;;
         -y|--yes)
@@ -117,4 +119,4 @@ assertConfirmation () {
     return 1
 }
 
-export ARCH DOTFILES DELAY DESKTOP DISK OS RAM VER h q autoConfirm
+export ARCH DOTFILES DELAY DESKTOP INSTALL DISK OS RAM VER h quick autoConfirm

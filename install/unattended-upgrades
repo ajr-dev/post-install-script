@@ -1,5 +1,31 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
+
+#### Unattended Upgrades
+# https://forums.linuxmint.com/viewtopic.php?f=42&t=202715
+# if the file already exists uncomment the second line if not, create it
+if ! command_exits fcron; then
+    [ ! -d ~/tmp ]  &&  mkdir ~/tmp
+    cd ~/tmp
+    localFcron="fcron-3.2.1"
+    wget http://fcron.free.fr/archives/$localFcron.src.tar.gz
+    tar -xzvf $localFcron.src.tar.gz
+    cd $localFcron
+    ./configure --without-sendmail
+    make
+    sudo make install
+    cd && rm -rf ~/tmp
+    # TODO: add fcrontab
+    myCrontab="/etc/path/to/fcrontab"
+    if [ ! -f $myCrontab.bak ]; then
+        cp $myCrontab $myCrontab.bak
+        echo "@ 24h sudo apt-get -y --force-yes update  &&  sudo apt-get -y --force-yes upgrade"
+    fi
+fi
+
+# https://community.linuxmint.com/tutorial/view/1217
 if [[ "$(grep -q 'RELEASE=18' "/etc/linuxmint/info")" == 0  &&  ! -f /etc/apt/apt.conf.d/50unattended-upgrades.bak ]]; then
     clear
     echo "Unattended upgrades"
@@ -19,6 +45,6 @@ if [[ ! -f /etc/apt/apt.conf.d/20auto-upgrades.bak ]]; then
     sudo rm /etc/apt/apt.conf.d/20auto-upgrades
     echo "APT::Periodic::Update-Package-Lists \"1\";
     APT::Periodic::Download-Upgradeable-Packages \"1\";
-    APT::Periodic::AutocleanInterval \"30\";
+    APT::Periodic::AutocleanInterval \"7\";
     APT::Periodic::Unattended-Upgrade \"1\";" | sudo tee --append /etc/apt/apt.conf.d/20auto-upgrades
 fi

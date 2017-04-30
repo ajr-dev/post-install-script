@@ -1,5 +1,8 @@
 #!/bin/bash
 
+dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
+dconf write /org/gnome/nm-applet/disable-connected-notifications true
+
 ################################################################################
 #### Update Manager
 ################################################################################
@@ -47,6 +50,15 @@ dconf write /org/mate/caja/preferences/confirm-trash false
 dconf write /org/mate/caja/preferences/show-image-thumbnails "'never'"
 dconf write /org/mate/caja/preferences/show-advanced-permissions true
 dconf write /org/mate/caja/window-state/start-with-sidebar false
+dconf write /org/mate/caja/window-state/maximized true
+
+################################################################################
+#### Multimedia Player
+################################################################################
+dconf write /org/x/player/remember-position true
+dconf write /org/x/player/autoload-subtitles true
+dconf write /org/x/player/repeat true
+dconf write /org/x/player/shuffle true
 
 ################################################################################
 #### Desktop
@@ -157,5 +169,9 @@ dconf write /org/mate/power-manager/sleep-display-battery 0
 #### Terminal
 ################################################################################
 dconf write /org/mate/terminal/profiles/default/silent-bell
-dconf write /org/mate/terminal/profiles/default/use-system-font false
-dconf write /org/mate/terminal/profiles/default/font "'Hack 14'"
+dconf write /org/mate/terminal/profiles/default/default-show-menubar false
+dconf write /org/mate/terminal/profiles/default/scrollback-unlimited true
+if [ -f ~/.local/share/fonts/Hack-Regular.ttf ]; then
+  dconf write /org/mate/terminal/profiles/default/use-system-font false
+  dconf write /org/mate/terminal/profiles/default/font "'Hack 14'"
+fi

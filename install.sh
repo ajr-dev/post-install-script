@@ -1,15 +1,15 @@
 #!/bin/bash
 
 source "$HOME/.dotfiles/install/declarations"
-source "$DOTFILES/install/essential"
-source "$DOTFILES/install/app-install"
-source "$DOTFILES/install/programming-tools"
-source "$DOTFILES/install/system-setup"
-source "$DOTFILES/install/startup-scripts"
+source "$INSTALL/essential"
+source "$INSTALL/app-install"
+source "$INSTALL/programming-tools"
+source "$INSTALL/system-setup"
+source "$INSTALL/startup-scripts"
 
 if [ "$(uname)" == "Darwin" ]; then
-    source install/brew-setup
-    source install/osx-setup
+    source "$INSTALL/brew-setup"
+    source "$INSTALL/osx-setup"
 fi
 
 sudo apt-get -y --force-yes autoremove
