@@ -13,6 +13,18 @@ if assertConfirmation "Update the system?"; then
     echo "========================================================================"
 fi
 
+# virtual machine https://unix.stackexchange.com/a/32605/96101
+grep -q "^flags.*\ hypervisor\ " /proc/cpuinfo && sudo apt-get -y install dkms "linux-headers-$(uname -r)"
+zenity --info --text "Insert Guest Additions CD Image"
+# TODO: allow user to insert cd path
+if [ ! -d /media/cdrom0 ]; then
+    echo "No CD found"
+    exit
+fi
+# TODO: allow user to insert executable path
+cp /media/cdrom0/VBoxLinuxAdditions.run ~ || { echo "No executable"; exit; }
+~/VBoxLinuxAdditions.run
+
 clear
 read -n 1 -p "Remove all preinstalled packages? (yes/No) "
 printf '\n========================================================================'
@@ -64,18 +76,6 @@ else
 fi
 
 if assertConfirmation "Install all extra packages?"; then
-    # virtual machine https://unix.stackexchange.com/a/32605/96101
-    grep -q "^flags.*\ hypervisor\ " /proc/cpuinfo && sudo apt-get -y install dkms "linux-headers-$(uname -r)"
-    zenity --info --text "Insert Guest Additions CD Image"
-    # TODO: allow user to insert cd path
-    if [ ! -d /media/cdrom0 ]; then
-        echo "No CD found"
-        exit
-    fi
-    # TODO: allow user to insert executable path
-    cp /media/cdrom0/VBoxLinuxAdditions.run ~ || { echo "No executable"; exit; }
-    ~/VBoxLinuxAdditions.run
-
     if [[ "$OS" == "elementaryOS" ]]; then
         echo "Installing extra packages to Elementary OS"
         sudo apt-get -y install audacity chromium-browser kazam geany thunderbird\
