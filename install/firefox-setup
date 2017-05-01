@@ -1,7 +1,20 @@
 #!/bin/bash
 
 # TODO fix this
-#[ -f "$HOME/.mozilla/firefox/*.default/prefs.js" ]  &&  grep browser.startup.homepage ~/.mozilla/firefox/*.default/prefs.js | awk '{print $2}' | sed '1 s/\"*www*\"/\"www.google.com\"/'
+#[ -f "$HOME/.mozilla/firefox/*.default/prefs.js" ]  &&  \
+#  grep browser.startup.homepage ~/.mozilla/firefox/*.default/prefs.js | \
+#  awk '{print $2}' | sed '1 s/\"*www*\"/\"www.google.com\"/'
+
+# If Firefox configuration is in Dropbox copy it to your home directory
+if [ -d ~/Dropbox/mozilla ]; then
+  rm -rf ~/.mozilla
+  ln -s ~/Dropbox/mozilla ~/.mozilla
+# Create the mozilla configuration in dropbox
+elif [ -d ~/Dropbox ]  &&  [ -d ~/.mozilla ]; then
+    mv ~/.mozilla ~/Dropbox/mozilla
+    ln -s ~/Dropbox/mozilla ~/.mozilla
+fi
+
 echo "Manual Firefox Configuration
 ============================================================================
 1. Change default search engine

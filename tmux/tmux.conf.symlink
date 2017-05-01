@@ -114,9 +114,6 @@ bind C-v run 'tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-
 #### Configuración de Color ###
 ###############################
 
-#if-shell "test -f $DOTFILES/tmux/theme" \
-#"source $DOTFILES/tmux/theme"
-
 # Lista de extensiones
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
@@ -126,8 +123,7 @@ set -g @plugin 'tmux-plugins/tmux-continuum'
 set -g @continuum-boot 'on' # Tmux is automatically started after the computer is turned on. This doesn't start a terminal with tmux
 set -g @continuum-restore 'on' # Last saved environment is automatically restored when tmux is started
 set -g @continuum-save-interval '0' # Stop automatic saving
-#set -g @continuum-save-interval '60' # Setting save interval to 60 minutes
-#set -g @plugin 'seebi/tmux-colors-solarized'
+set -g @resurrect-dir '~/.dotfiles/tmux/resurrect/'
 
 if-shell "uname | grep -q Darwin" "source tmux-macosx"
 
