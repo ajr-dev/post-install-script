@@ -1,9 +1,9 @@
 # gitconfig
 [user]
-    name = arturojosejr
-    email = arturojosejr@gmail.com
+	name = Arturo
+	email = arturojosejr@gmail.com
 [github]
-    user = arturojosejr
+	user = arturojosejr
 [init]
     templatedir = ~/.dotfiles/git/templates
 [alias]
@@ -150,7 +150,7 @@
     extendRegexp = true
     lineNumber = true
 [credential]
-	helper = cache --timeout=3600
+	helper = store
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [mergetool "Kaleidoscope"]

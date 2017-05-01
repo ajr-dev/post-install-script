@@ -9,7 +9,11 @@ declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/de
 sudo apt-get -y install mono-xbuild
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
     3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
-echo "deb http://download.mono-project.com/repo/debian wheezy main" | \
+if ! grep -Fxq "deb http://download.mono-project.com/repo/debian wheezy main" \
+    /etc/apt/sources.list.d/mono-xamarin.list; then
+
+    echo "deb http://download.mono-project.com/repo/debian wheezy main" | \
     sudo tee /etc/apt/sources.list.d/mono-xamarin.list
+fi
 sudo apt-get -y update  && sudo apt-get -y upgrade
 sudo apt-get -y install mono-complete

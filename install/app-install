@@ -13,118 +13,15 @@ if assertConfirmation "Update the system?"; then
     echo "========================================================================"
 fi
 
-if assertConfirmation "Running in Virtual Machine?"; then
-    # virtual machine https://unix.stackexchange.com/a/32605/96101
-    grep -q "^flags.*\ hypervisor\ " /proc/cpuinfo && sudo apt-get -y install dkms "linux-headers-$(uname -r)"
-    command_exists zenity  ||  sudo apt-get -y install zenity
-    zenity --info --text "Insert Guest Additions CD Image"
-    # TODO: allow user to insert cd path
-    cdPath=/media/cdrom0
-    if [ ! -d $cdPath ]; then
-        echo "No CD found"
-        exit
-    fi
-    # TODO: allow user to insert executable path
-    additions=VBoxLinuxAdditions
-    cp $cdPath/$additions.run ~ || { echo "No executable"; exit; }
-    ~/$additions.run
-    rm ~/$additions.run
+if grep -q "^flags.*\ hypervisor\ " /proc/cpuinfo  &&  assertConfirmation "Install Virtual Machine extras?"; then
+    source "$INSTALL/virtual-machine"
 fi
 
-clear
-read -n 1 -p "Remove all preinstalled packages? (yes/No) "
-printf '\n========================================================================'
-if ! (( ${autoConfirm:?} ))  &&  [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
-    if [[ "$OS" == "elementaryOS" ]]; then
-        echo "Removing unwanted packages from elementary OS"
-        sudo apt-get autoremove -y empathy totem noise scratch-text-editor geary midori-granite
-    elif [[ "$OS" == "LinuxMint" ]]; then
-        echo "Removing unwanted packages from Linux Mint"
-        sudo apt-get -y autoremove pidgin hexchat thunderbird banshee brasero simple-scan\
-            xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest*
-    elif [[ "$OS" == "Arch Linux" ]]; then
-        echo "No unwanted packages on Arch Linux"
-    else
-        echo "Removing unwanted packages from Ubuntu"
-        sudo apt-get -y autoremove rhythmbox empathy totem transmission-gtk
-    fi
-    echo "========================================================================"
-    echo "Packages removed"
-    echo "========================================================================"
-else
-    clear
-    read -n 1 -p "Remove packages one by one? (yes/No) "
-    printf '\n========================================================================'
-    if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
-        if [[ "$OS" == "elementaryOS" ]]; then
-            packages=( empathy totem noise scratch-text-editor geary midori-granite )
-        elif [[ "$OS" == "LinuxMint" ]]; then
-            packages=( pidgin hexchat thunderbird banshee brasero simple-scan\
-                xed tomboy transmission-gtk rhythmbox gnome-orca virtualbox-guest* )
-        elif [[ "$OS" == "Arch Linux" ]]; then
-            echo "No unwanted packages on Arch Linux"
-        else
-            echo "Removing unwanted packages from Ubuntu"
-            packages=( rhythmbox empathy totem transmission-gtk)
-        fi
-        for app in "${packages[@]}" ; do
-            clear
-            read -n 1 -p "Uninstall $app? (Yes/no) "
-            if [[ ! $REPLY =~ ^([Nn])$ ]]; then
-                printf '\n========================================================================'
-                sudo apt-get -y autoremove "$app"
-            fi
-        done
-        echo "========================================================================"
-        echo "Packages removed"
-        echo "========================================================================"
-    fi
+if ! (( ${autoConfirm:?} )); then
+    source "$INSTALL/remove-packages"
 fi
 
-if assertConfirmation "Install all extra packages?"; then
-    if [[ "$OS" == "elementaryOS" ]]; then
-        echo "Installing extra packages to Elementary OS"
-        sudo apt-get -y install audacity chromium-browser kazam geany thunderbird\
-            vlc conky virtualbox griffith filezilla gksu flashplugin-installer\
-            easytag curl ubuntu-restricted-extras youtube-dl git-gui hddtemp\
-            lm-sensors clementine pidgin steam asunder deluge libreoffice libreoffice-gtk\
-            handbrake wine1.8 zenity
-    elif [[ "$OS" == "LinuxMint" ]]; then
-        echo "Installing extra packages to Linux Mint"
-        sudo apt-get -y install audacity chromium-browser kazam geany conky\
-            virtualbox griffith filezilla gksu flashplugin-installer easytag\
-            curl ubuntu-restricted-extras youtube-dl git-gui hddtemp lm-sensors\
-            clementine steam asunder deluge handbrake wine1.8 zenity
-    elif [[ "$OS" == "ArchLinux" ]]; then
-        echo "Installing extra packages to Arch Linux"
-        sudo pacman -S --noconfirm audacity chromium virtualbox simplescreenrecorder\
-            geany audacious conky filezilla easytag youtube-dl clementine asunder\
-            deluge wine wine_gecko wine-mono handbrake evince baobab soundconverter\
-            vorbis-tools hddtemp gnu-netcat zenity
-        yaourt -Sa --noconfirm teamviewer9 pamac-aur dropbox griffith
-    else
-        echo "Installing extra packages to Ubuntu"
-        sudo apt-get -y install audacity chromium-browser kazam geany\
-            compizconfig-settings-manager unity-tweak-tool vlc conky virtualbox\
-            griffith filezilla gksu flashplugin-installer easytag curl\
-            ubuntu-restricted-extras youtube-dl git-gui hddtemp lm-sensors\
-            clementine pidgin steam asunder deluge handbrake wine1.8 zenity
-    fi
-else
-    clear
-    packages=( audacity evince kazam geany thunderbird vlc conky virtualbox filezilla \
-        easytag dropbox youtube-dl git-gui steam keepassx calibre gimp audacious clementine \
-        rhythmbox banshee libreoffice wine deluge )
-    for app in "${packages[@]}" ; do
-        clear
-        read -n 1 -p "Install $app? (yes/No) "
-        printf '\n========================================================================'
-        if [[ $REPLY =~ ^([Yy])$ ]]; then
-            sudo apt-get -y install "$app"
-            echo "========================================================================"
-        fi
-    done
-fi
+source "$INSTALL/install-packages"
 
 if [[ ! "$(tmux -V)" == *"2.3"* ]]  &&  assertConfirmation "Install tmux?"; then
     source "$DOTFILES/install/tmux-install"
@@ -134,75 +31,24 @@ if [ ! -d ~/Downloads/jd2 ]  &&  assertConfirmation "Install jDownloader?"; then
     source "$DOTFILES/install/jdownloader-install" # TODO: Downloads may not exist.
 fi
 
-install_xflux() {
-    mkdir -p ~/bin
-    cd ~/bin
-    if [ ! -f ~/bin/xflux ]; then
-        if [ "${MACHINE_TYPE}" == 64 ]; then
-            wget https://justgetflux.com/linux/xflux64.tgz
-            tar zxvf xflux64.tgz
-            rm xflux64.tgz
-        else
-            wget https://justgetflux.com/linux/xflux64.tgz
-            tar zxvf xflux64.tgz
-            rm xflux64.tgz
-        fi
-        mv xflux ~/bin
-    fi
-}
+source "$INSTALL/flux-install"
 
-if (( autoConfirm )); then
-    install_xflux
-else
-    clear
-    read  -n 1 -p "Install xflux? (yes/No) "
-    printf '\n========================================================================'
-    if [[ $REPLY =~ ^([Yy])$ ]]; then
-        clear
-        read -n 1 -p "Install with Graphic Interface? (yes/No) "
-        printf '\n========================================================================'
-        if [[ $REPLY =~ ^([Yy])$ ]]; then
-            cd /tmp
-            git clone "https://github.com/xflux-gui/xflux-gui.git"
-            cd xflux-gui
-            python download-xflux.py
-            clear
-            read -n 1 -p "Global install? (yes/No) "
-            printf '\n========================================================================'
-            if [[ $REPLY =~ ^([Yy])$ ]]; then
-                sudo python setup.py install
-            else # install in ~/.local/bin folder
-                if [[ ":$PATH:" == *":$HOME/.local/bin:"* ]]; then
-                    python setup.py install --user
-                else
-                    cat << EOF
-                    echo "PATH=\"$HOME/.local/bin:$PATH\"" >> $HOME/.profile
-EOF
-                    python setup.py install --user
-                fi
-            fi
-        else
-            install_xflux
-        fi
-    fi
-fi
-
-if assertConfirmation "Install Google Chrome?"; then
-    if [ "${MACHINE_TYPE}" == 64 ]; then
+if [ "${MACHINE_TYPE}" == 64 ]  &&  assertConfirmation "Install Google Chrome?"; then
         sudo apt-get install libxss1 libappindicator1 libindicator7
         wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
         sudo dpkg -i google-chrome*.deb
         sudo apt-get install -f
         rm google-chrome-stable_current_amd64.deb
         echo "========================================================================"
-    fi
+        echo "Gogle Chrome Installed"
+        echo "========================================================================"
 fi
 
-clear
-read -n 1 -p "Install Selenium? (yes/No) "
-printf '\n========================================================================'
-if ! (( autoConfirm ))  &&  [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
-    if [ "${MACHINE_TYPE}" == 64 ]; then
+if ! (( autoConfirm ))  &&  [ "${MACHINE_TYPE}" == 64 ]; then
+    clear
+    read -n 1 -p "Install Selenium? (yes/No) "
+    printf '\n========================================================================'
+    if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
         # Instalar xvfb
         sudo apt-get install xvfb
         # Instalar ChromeDriver

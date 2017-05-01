@@ -53,23 +53,25 @@ if assertConfirmation "Add powerline fonts?" "${autoConfirm:?}"; then
     ./install.sh
     cd ..
     rm -rf fonts
-    if [[ $OS == "cinnamon" ]]; then
-        source "$INSTALL/settings-cinnamon"
-    elif [[ $OS == "mate" ]]; then
-        source "$INSTALL/settings-mate"
-    fi
-    if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
-        source "$INSTALL/unattended-upgrades"
-    echo "========================================================================"
 fi
+
+if assertConfirmation "Change system settings?" "${autoConfirm:?}"; then
+    if [[ $DESKTOP == "cinnamon" ]]; then
+        source "$INSTALL/settings-cinnamon"
+    elif [[ $DESKTOP == "mate" ]]; then
+        source "$INSTALL/settings-mate"
+    elif [[ $DESKTOP == "kali" ]]; then
+        source "$INSTALL/settings-kali"
+    fi
+fi
+
+if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
+    source "$INSTALL/unattended-upgrades"
 fi
 
 if assertConfirmation "Never ask for passwords?"; then
     source "$INSTALL/no-password-prompt"
 fi
-
-# Update automatically everyday at 14:30
-[ ! -f /etc/crontab.bak ]  &&  sudo cp /etc/crontab /etc/crontab.bak  &&  echo "30 14 * * * root apt-get update" | sudo tee -a /etc/crontab
 
 if assertConfirmation "Firefox setup?"; then
     source "$INSTALL/firefox-setup"

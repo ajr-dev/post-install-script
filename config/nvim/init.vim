@@ -91,6 +91,7 @@ command W w !sudo tee % > /dev/null
 " Moverse rápidamente entre búfers
 map <leader>h :bp<cr>
 map <leader>l :bn<cr>
+map <leader>d :bd<cr>
 
 " Liquidar bufer
 nmap <silent> <leader>b :bw<cr>

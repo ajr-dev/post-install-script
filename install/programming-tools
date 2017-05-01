@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#exec 2>/tmp/stdout.log
-#exec 2>/tmp/stderr.log
 # shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
@@ -13,20 +11,18 @@ if assertConfirmation "Install c compiler, gdb, jdk, jre 9, nodejs, npm?"; then
     echo "========================================================================"
 fi
 
-if ! grep "deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main"\
-    /etc/apt/sources.list  &&  assertConfirmation "Install clang?"; then
+if ! command_exists clang  &&  assertConfirmation "Install clang?"; then
 
-    source "$DOTFILES/install/clang-4.0-install"
+    source "$DOTFILES/install/clang-install"
     echo "========================================================================"
 fi
 
-if ! grep -Fxq "deb http://download.mono-project.com/repo/debian wheezy main" \
-    /etc/apt/sources.list.d/mono-xamarin.list  &&  assertConfirmation "Install mono?"; then
+if ! command_exists mono  &&  assertConfirmation "Install mono?"; then
 
     source "$DOTFILES/install/mono-install"
 fi
 
-if [ ! -f /usr/local/go ]  &&  assertConfirmation "Install go?"; then
+if [ ! -d /usr/local/go ]  &&  assertConfirmation "Install go?"; then
     source "$DOTFILES/install/go-install"
 fi
 
@@ -47,9 +43,7 @@ if assertConfirmation "Install kali linux tools?"; then
     source "$DOTFILES/install/katoolin"
 fi
 
-if (( ${autoConfirm:?} )); then
-    :
-else
+if ! (( ${autoConfirm:?} )); then
     clear
     read -n 1 -p "Install cs50 functions? (yes/No) "
     printf '\n========================================================================'

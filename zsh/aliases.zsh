@@ -71,6 +71,6 @@ done
 
 # My custom alias for CS50 By Harvard University
 mk() {
-    echo cc -ggdb -std=c99 -Wall -Werror .c -lcrypt -lcs50 -lm -o ;
-    cc -ggdb -std=c99 -Wall -Werror .c -lcrypt -lcs50 -lm -o  ;
+    echo cc -ggdb -std=c99 -Wall -Werror .c -lcrypt -lcs50 -lm -o;
+    cc -ggdb -std=c99 -Wall -Werror .c -lcrypt -lcs50 -lm -o argv-2;
 }
