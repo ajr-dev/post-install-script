@@ -11,13 +11,15 @@ if [ "$(uname)" == "Linux" ]; then
     source "$INSTALL/programming-tools"
     source "$INSTALL/system-setup"
     source "$INSTALL/startup-scripts"
+    if assertConfirmation "Final updates?"; then
+      sudo apt-get -y --force-yes autoremove
+      sudo apt-get -y --force-yes update
+      sudo apt-get -y --force-yes upgrade
+    fi
   fi
-  sudo apt-get -y --force-yes autoremove
-  sudo apt-get -y --force-yes update
-  sudo apt-get -y --force-yes upgrade
 elif [ "$(uname)" == "Darwin" ]; then
-    source "$INSTALL/brew-setup"
-    source "$INSTALL/osx-setup"
+  source "$INSTALL/brew-setup"
+  source "$INSTALL/osx-setup"
 fi
 
 [ -d ~/tmp ]  &&  rm -rf ~/tmp

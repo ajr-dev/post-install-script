@@ -84,12 +84,13 @@ dconf write /org/mate/desktop/interface/document-font-name "'Noto Sans 14'"
 dconf write /org/mate/desktop/interface/monospace-font-name "'Monospace 14'"
 dconf write /org/mate/desktop/interface/gtk-theme "'Mint-Y-Dark'"
 dconf write /org/mate/desktop/interface/icon-theme "'Mint-Y'"
-dconf write /org/mate/desktop/interface/gtk-color-scheme "unset"
 dconf write /org/mate/desktop/interface/menus-have-icons true
 dconf write /org/mate/desktop/interface/can-change-accels false
 dconf write /org/mate/desktop/interface/toolbar-style "'icons'"
 dconf write /org/mate/desktop/interface/cursor-blink true
 dconf write /org/mate/desktop/interface/cursor-blink-time 1200
+dconf write /org/mate/desktop/session/idle-delay 120
+dconf write /org/mate/screensaver/idle-activation-enabled false
 
 ################################################################################
 #### Marco
@@ -146,24 +147,26 @@ dconf write /org/mate/power-manager/action-critical-battery "'suspend'"
 dconf write /org/mate/power-manager/action-sleep-type-ac "'nothing'"
 dconf write /org/mate/power-manager/action-sleep-type-battery "'nothing'"
 dconf write /org/mate/power-manager/backlight-battery-reduce false
-dconf write /org/mate/power-manager/brightness-ac 100
 dconf write /org/mate/power-manager/brightness-dim-battery 0
 dconf write /org/mate/power-manager/button-lid-ac "'nothing'"
 dconf write /org/mate/power-manager/button-lid-battery "'nothing'"
 dconf write /org/mate/power-manager/button-power "'suspend'"
 dconf write /org/mate/power-manager/enable-sound false
 dconf write /org/mate/power-manager/event-when-closed-battery true
-dconf write /org/mate/power-manager/idle-brightness 100
-dconf write /org/mate/power-manager/idle-dim-ac false
-dconf write /org/mate/power-manager/idle-dim-battery false
-dconf write /org/mate/power-manager/idle-dim-time 0
+#dconf write /org/mate/power-manager/idle-brightness 100
+dconf write /org/mate/power-manager/idle-dim-ac true
+dconf write /org/mate/power-manager/idle-dim-battery true
+dconf write /org/mate/power-manager/idle-dim-time 1800
 dconf write /org/mate/power-manager/lock-hibernate false
 dconf write /org/mate/power-manager/lock-blank-screen false
 dconf write /org/mate/power-manager/lock-keyring-hibernate false
 dconf write /org/mate/power-manager/lock-suspend false
 dconf write /org/mate/power-manager/lock-use-screensaver false
 dconf write /org/mate/power-manager/notify-discharging false
-dconf write /org/mate/power-manager/sleep-display-battery 0
+dconf write /org/mate/power-manager/sleep-computer-ac 3600
+dconf write /org/mate/power-manager/sleep-computer-battery 3600
+dconf write /org/mate/power-manager/sleep-display-ac 1800
+dconf write /org/mate/power-manager/sleep-display-battery 1800
 
 ################################################################################
 #### Terminal

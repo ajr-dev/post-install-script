@@ -398,7 +398,7 @@ let g:neomake_typescript_tsc_maker = {
         \ '%C%\s%\+%m'
 \ }
 
-" airline options
+" Airline options
 let g:airline_powerline_fonts=1
 let g:airline_theme='onedark'
 let g:airline#extensions#tabline#enabled = 1              " Habilitar la pestaña de Airline
@@ -410,7 +410,7 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 
-" airline Symbols
+" Airline Symbols
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
@@ -419,12 +419,12 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
-" don't hide quotes in json files
+" Don't hide quotes in json files
 let g:vim_json_syntax_conceal = 0
 
 let g:SuperTabCrMapping = 0
 
-" delimitMate
+" DelimitMate
 let delimitMate_expand_cr = 1
 let delimitMate_expand_space = 1
 

@@ -17,11 +17,17 @@ endif
 call plug#begin('~/.config/nvim/plugged')
 
 if has('nvim')
-call plug#begin('~/.config/nvim/plugged')
-  Plug 'valloric/youcompleteme',       { 'do': './install.py --clang-complete --system-libclang --omnisharp-completer --gocode-completer --tern-completer --racer-completer' }
-  Plug 'vim-ruby/vim-ruby',            { 'for': 'ruby' }
+  call plug#begin('~/.config/nvim/plugged')
+  if system('uname -m | grep 64') == 0
+    Plug 'valloric/youcompleteme',       { 'do': './install.py --all' }
+  else
+    Plug 'valloric/youcompleteme',       { 'do': './install.py --clang-complete --system-libclang --omnisharp-completer --gocode-completer --tern-completer --racer-completer' }
+    Plug 'vim-ruby/vim-ruby',            { 'for': 'ruby' }
+  endif
 else
   call plug#begin('~/.vim/plugged')
+  echom "You have to execute ./install.py in ~/.vim/plugged/youcompleteme"
+  Plug 'valloric/youcompleteme'
 endif
 
 Plug 'ryanoasis/vim-devicons'
@@ -48,7 +54,7 @@ Plug 'editorconfig/editorconfig-vim' " .editorconfig support
 Plug 'MarcWeber/vim-addon-mw-utils' " interpret a file by function and cache file automatically
 Plug 'tomtom/tlib_vim' " utility functions for vim
 Plug 'sotte/presenting.vim', { 'for': 'markdown' } " a simple tool for presenting slides in vim based on text files
-"Plug 'ervandew/supertab' " Perform all your vim insert mode completions with Tab
+Plug 'ervandew/supertab' " Perform all your vim insert mode completions with Tab
 Plug 'tpope/vim-dispatch' " asynchronous build and test dispatcher
 Plug 'tpope/vim-vinegar' " netrw helper
 Plug 'AndrewRadev/splitjoin.vim' " single/multi line code handler: gS - split one line into multiple, gJ - combine multiple lines into one

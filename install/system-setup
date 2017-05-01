@@ -17,16 +17,19 @@ if assertConfirmation "Import local config?" "${autoConfirm:?}"; then
     fi
 fi
 
-if assertConfirmation "Configure vim?" "${autoConfirm:?}"; then
-    source "$INSTALL/link-setup"
+if command_exists tmux  &&  assertConfirmation "Configure tmux?" "${autoConfirm:?}"; then
     # Terminal con cursiva
     cd ~/.dotfiles/tmux  ||  { echo "$HOME/.dotfiles/tmux doesn't exist" ; exit ; }
     tic xterm-256color-italic.terminfo
     mkdir -p ~/.tmux/resurrect
-    [ ! -f ~/.dotfiles/tmux/last ]  &&  cp ~/.dotfiles/tmux/last ~/.tmux/resurrect/
+    [ -f ~/.dotfiles/tmux/last ]  &&  cp ~/.dotfiles/tmux/last ~/.tmux/resurrect/
     if [[ ! -d ~/.tmux/plugins/tpm ]]; then
         git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     fi
+fi
+
+if assertConfirmation "Configure vim?" "${autoConfirm:?}"; then
+    source "$INSTALL/link-setup"
 
     #if [[ ! -e ~/.vimrc  &&  ! -d ~/.vim  &&  ! -d ~/.config/nvim/ ]]; then
     if assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
@@ -57,11 +60,11 @@ fi
 
 if assertConfirmation "Change system settings?" "${autoConfirm:?}"; then
     if [[ $DESKTOP == "cinnamon" ]]; then
-        source "$INSTALL/settings-cinnamon"
+        source "$INSTALL/cinnamon-settings"
     elif [[ $DESKTOP == "mate" ]]; then
-        source "$INSTALL/settings-mate"
+        source "$INSTALL/mate-settings"
     elif [[ $DESKTOP == "kali" ]]; then
-        source "$INSTALL/settings-kali"
+        source "$INSTALL/kali-settings"
     fi
 fi
 
