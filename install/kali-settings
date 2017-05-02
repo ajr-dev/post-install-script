@@ -36,15 +36,18 @@ if [ -f ~/.local/share/fonts/Hack-Regular.ttf ]; then
   dconf write $profile/use-system-font false
   dconf write $profile/font "'Hack 14'"
 fi
-dconf write $profile/palette "['rgb(7,54,66)', 'rgb(220,50,47)', 'rgb(133,153,0)', \
-        'rgb(181,137,0)', 'rgb(38,139,210)', 'rgb(211,54,130)', 'rgb(42,161,152)', \
-        'rgb(238,232,213)', 'rgb(0,43,54)', 'rgb(203,75,22)', 'rgb(88,110,117)', \
-        'rgb(101,123,131)', 'rgb(131,148,150)', 'rgb(108,113,196)', 'rgb(147,161,161)', 'rgb(253,246,227)']"
+# Onedark
+
+# Solarzed
+#dconf write $profile/palette "['rgb(7,54,66)', 'rgb(220,50,47)', 'rgb(133,153,0)', \
+#        'rgb(181,137,0)', 'rgb(38,139,210)', 'rgb(211,54,130)', 'rgb(42,161,152)', \
+#        'rgb(238,232,213)', 'rgb(0,43,54)', 'rgb(203,75,22)', 'rgb(88,110,117)', \
+#        'rgb(101,123,131)', 'rgb(131,148,150)', 'rgb(108,113,196)', 'rgb(147,161,161)', 'rgb(253,246,227)']"
 dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
 dconf write /org/gnome/nm-applet/disable-connected-notifications true
 
 # Make Terminal Shortcut open in FullScreen
-sudo cat << EOF > /usr/share/applications/gnome-terminal.desktop
+sudo cat << EOF > /usr/share/applications/terminal-fullscreen.desktop
 [Desktop Entry]
 Type=Application
 Terminal=false
@@ -54,12 +57,23 @@ Exec=gnome-terminal --window --full-screen
 Comment=Opens Gnome-Termnal in Fullscreen
 Icon=gnome-terminal
 EOF
-dconf write /org/gnome/shell/favorite-apps "['gnome-terminal.desktop', 'firefox-esr.desktop', \
+dconf write /org/gnome/shell/favorite-apps "['terminal-fullscreen.desktop', 'firefox-esr.desktop', \
     'org.gnome.Nautilus.desktop', 'kali-msfconsole.desktop', \
     'kali-armitage.desktop', 'kali-burpsuite.desktop', \
     'kali-beef.desktop', 'kali-faraday.desktop', 'leafpad.desktop', \
     'gnome-tweak-tool.desktop']"
-xset r rate 200 50
+
+if [ ! -f "$HOME/.config/autostart" ]; then
+  [ -d "$HOME/.config/autostart" ]  ||  mkdir -p "$HOME/.config/autostart"
+  sudo cat << EOF > /usr/share/applications/gnome-terminal.desktop
+  [Desktop Entry]
+  Type=Application
+  Name=xset
+  GenericName=xset
+  Exec=key-repeat
+  Comment=Change key repeat speed
+  X-GNOME-Autostart-Delay=10
+EOF
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/binding \
   "'<Primary><Alt>t'"
 dconf write /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/name \
