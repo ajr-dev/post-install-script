@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# shellcheck disable=SC2034
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
+
 dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
 dconf write /org/gnome/nm-applet/disable-connected-notifications true
 
@@ -91,6 +94,17 @@ dconf write /org/mate/desktop/interface/cursor-blink true
 dconf write /org/mate/desktop/interface/cursor-blink-time 1200
 dconf write /org/mate/desktop/session/idle-delay 120
 dconf write /org/mate/screensaver/idle-activation-enabled false
+if ! (( ${autoConfirm:?} )); then
+  clear
+  read -n 1 -p "Enable typing break? (yes/No) "
+  printf '\n========================================================================'
+  if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
+    dconf write /org/mate/desktop/typing-break/enabled true
+    dconf write /org/mate/desktop/typing-break/type-time 25
+    dconf write /org/mate/desktop/typing-break/break-time 5
+    dconf write /org/mate/desktop/typing-break/allow-postpone true
+  fi
+fi
 
 ################################################################################
 #### Marco

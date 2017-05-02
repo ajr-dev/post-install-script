@@ -7,7 +7,8 @@ if assertConfirmation "Install c compiler, gdb, jdk, jre 9, nodejs, npm?"; then
     sudo apt-get -y remove openjdk-8*
     sudo apt-get -y install build-essential gcc g++ gdb make openjdk-9-jdk openjdk-9-jre \
         nodejs npm git dconf-cli unattended-upgrades unzip shellcheck xdotool python \
-        python-setuptools ruby python3 hddtemp lm-sensors curl ubuntu-restricted-extras lftp zsh
+        python-setuptools ruby python3 hddtemp lm-sensors curl ubuntu-restricted-extras lftp zsh \
+        whois
     echo "========================================================================"
 fi
 
