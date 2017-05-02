@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source "$HOME/.dotfiles/install/declarations"
+# shellcheck disable=SC2034
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
 if assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
     source "$INSTALL/git-setup"
@@ -76,6 +77,6 @@ if assertConfirmation "Never ask for passwords?"; then
     source "$INSTALL/no-password-prompt"
 fi
 
-if assertConfirmation "Firefox setup?"; then
-    source "$INSTALL/firefox-setup"
+if [ -d ~/Dropbox ]  &&  assertConfirmation "Copy dropbox files to system?"; then
+    source "$INSTALL/dropbox-setup"
 fi
