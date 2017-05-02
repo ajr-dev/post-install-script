@@ -9,7 +9,6 @@ if ! grep "deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main"\
   sudo bash -c "cat << EOF >> /etc/apt/sources.list
   deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial main
   deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial main
-  # 4.0
   deb http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main
   deb-src http://apt.llvm.org/xenial/ llvm-toolchain-xenial-4.0 main
   EOF
@@ -25,3 +24,8 @@ sudo apt-get -y install clang
 #libllvm4.0 libllvm4.0-dbg lldb-4.0 llvm-4.0 llvm-4.0-dev llvm-4.0-doc\
 #llvm-4.0-examples llvm-4.0-runtime clang-format-4.0 python-clang-4.0\
 #liblldb-4.0-dev lld-4.0 libfuzzer-4.0-dev
+
+if grep "llvm" /etc/apt/sources.list; then
+  sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
+  sed '/llvm/d' /etc/apt/sources.list.bak | sudo tee /etc/apt/sources.list
+fi
