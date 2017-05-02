@@ -51,7 +51,7 @@ set-option -g set-titles-string "#T - #W"
 ######################
 
 # Open and reload config file
-bind-key C-k split-window -h vim ~/.dotfiles/tmux/tmux.conf.symlink
+bind-key e split-window -h vim ~/.dotfiles/tmux/tmux.conf.symlink
 bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
 
 # Quickly open a new window
@@ -109,8 +109,8 @@ bind-key -t vi-copy 'v' begin-selection
 bind p run "xclip -o | tmux load-buffer - ; tmux paste-buffer"
 bind y run "tmux save-buffer - | xclip -i"
 #bind -t vi-copy y copy-pipe "xclip -sel clip -i"
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'y' copy-selection
+bind -t vi-copy 'v' begin-selection
+bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'
 
 # Buffers to/from Mac clipboard
 #bind C-c run 'tmux save-buffer - | reattach-to-user-namespace pbcopy'

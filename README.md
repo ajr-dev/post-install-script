@@ -6,36 +6,36 @@ Obviously this setup work for me, a JavaScript developer on macOS, but this part
 
 ## Contents
 
-+ [Initial Setup and Installation](#initial-setup-and-installation)
-+ [ZSH Setup](#zsh-setup)
-+ [Vim and Neovim Setup](#vim-and-neovim-setup)
-+ [Fonts](#fonts)
-+ [Tmux](#tmux-configuration)
+* [Initial Setup and Installation](#initial-setup-and-installation)
+* [ZSH Setup](#zsh-setup)
+* [Vim and Neovim Setup](#vim-and-neovim-setup)
+* [Fonts](#fonts)
+* [Tmux](#tmux-configuration)
+  * [Tmux Cheatsheet](#tmux-cheatsheet)
+    * [Sessions](#sessions)
+    * [Various](#various)
+    * [Windows (tabs)](#windows-tabs)
+    * [Panes (splits)](#panes-splits)
+  * [Custom Tmux Keybindings](#custom-tmux-keybindings)
+* [Vim](#vim)
+  * [Vim Cheatsheet](#vim-cheatsheet)
+  * [Custom Vim Keybindings](#custom-vim-keybindings)
+* [Conky](#conky)
 
 ## Initial Setup and Installation
-
-### Backup
-
-First, you may want to backup any existing files that exist so this doesn't overwrite your work.
-
-Run `install/backup.sh` to backup all symlinked files to a `~/dotfiles-backup` directory.
-
-This will not delete any of these files, and the install scripts will not overwrite any existing. After the backup is complete, you can delete the files from your home directory to continue installation.
-
-### Installation
 
 If on OSX, you will need to install the XCode CLI tools before continuing. To do so, open a terminal and type
 
 ```bash
-➜ xcode-select --install
+xcode-select --install
 ```
 
 Then, clone the dotfiles repository to your computer. This can be placed anywhere, and symbolic links will be created to reference it from your home directory.
 
 ```bash
-➜ git clone https://github.com/nicknisi/dotfiles.git ~/.dotfiles
-➜ cd ~/.dotfiles
-➜ ./install.sh
+git clone https://github.com/nicknisi/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
+./install.sh
 ```
 
 `install.sh` will start by initializing the submodules used by this repository (if any). **Read through this file and comment out anything you don't want installed.** Then, it will install all symbolic links into your home directory. Every file with a `.symlink` extension will be symlinked to the home directory with a `.` in front of it. As an example, `vimrc.symlink` will be symlinked in the home directory as `~/.vimrc`. Then, this script will create a `~/.vim-tmp` directory in your home directory, as this is where vim is configured to place its temporary files. Additionally, all files in the `$DOTFILES/config` directory will be symlinked to the `~/.config/` directory for applications that follow the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), such as neovim.
@@ -43,6 +43,8 @@ Then, clone the dotfiles repository to your computer. This can be placed anywher
 Next, the install script will perform a check to see if it is running on an OSX machine. If so, it will install Homebrew if it is not currently installed and will install the homebrew packages listed in [`brew.sh`](install/brew.sh). Then, it will run [`osx.sh`](install/osx.sh) and change some OSX configurations. This file is pretty well documented and so it is advised that you __read through and comment out any changes you do not want__. Next, nginx (installed from Homebrew) will be configured with the provided configuration file. If a `nginx.conf` file already exists in `/usr/local/etc`, a backup will be made at `/usr/local/etc/nginx/nginx.conf.original`.
 
 ## ZSH Setup
+
+You should take a look to the [zsh aliases](zsh/aliases.zsh).
 
 ZSH is configured in the `zshrc.symlink` file, which will be symlinked to the home directory. The following occurs in this file:
 
@@ -99,7 +101,7 @@ Inside of [`.zshrc`](zsh/zshrc.symlink), the `EDITOR` shell variable is set to `
 vim and neovim should just work once the correct plugins are installed. To install the plugins, you will need to open Neovim in the following way:
 
 ```bash
-➜ nvim +PlugInstall
+nvim +PlugInstall
 ```
 
 ## Fonts
@@ -110,6 +112,97 @@ I am currently using [Operator Mono](http://www.typography.com/fonts/operator/st
 
 ## Tmux Configuration
 
-Tmux is a terminal multiplexor which lets you create windows and splits in the terminal that you can attach and detach from. I use it to keep multiple projects open in separate windows and to create an IDE-like environment to work in where I can have my code open in vim/neovim and a shell open to run tests/scripts. Tmux is configured in [~/.tmux.conf](tmux/tmux.conf.symlink), and in [tmux/theme.sh](tmux/theme.sh), which defines the colors used, the layout of the tmux bar, and what what will be displayed, including the time and date, open windows, tmux session name, computer name, and current iTunes song playing. If not running on macOS, this configuration should be removed.
+Tmux is a terminal multiplexor which lets you create windows and splits in the terminal that you can attach and detach from. I use it to keep multiple projects open in separate windows and to create an IDE-like environment to work in where I can have my code open in vim/neovim and a shell open to run tests/scripts. Tmux is configured in [~/.tmux.conf](tmux/tmux.conf.symlink).
+
+Tmux starts up automatically when opening zsh. If you don't like this behaviour change it at the end of the file [zsh](zsh/zshrc.symlink).
 
 When tmux starts up, [login-shell](bin/login-shell) will be run and if it determines you are running this on macOS, it will call reattach-to-user-namespace, to fix the system clipboard for use inside of tmux.
+
+## Tmux Cheatsheet
+
+```bash
+tmux                            # Start new session
+tmux new -s myname              # Start new session with name
+tns                             # Same as tmux new -s (custom command)
+tmux a                          # Attach to a session. You can also write tmux at or tmux attach
+ta                              # Same as tmux a (custom command)
+tmux a -t myname                # Attach to named session
+tat                             # Same as tmus a -t (custom command)
+tmux kill-session -t myname     # Kill session
+tk                              # Kill next session (custom command)
+tls                             # List tmux sessions
+tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs kill
+tkl                             # Same as above, kill all tmux sessions
+```
+For the next commands you have to press the <prefix> first. The prefix is `ctrl+a`. The default prefix is `ctrl+b` but it's disabled in my configuration.
+
+### Sessions
+
+```bash
+:new<CR>                        # New session
+s                               # List sessions
+$                               # Name current session
+```
+### Various
+```bash
+d                               # Disconnect from current session
+?                               # List shortcuts
+t                               # Shows a big clock
+:                               # Let's you enter tmux commands
+```
+### Windows (tabs)
+
+```bash
+c                               # Create window
+w                               # List windows
+n                               # Next window
+p                               # Previous window
+f                               # Find window
+,                               # Name window
+&                               # Close window
+```
+### Panes (splits)
+
+```bash
+%                               # Vertical split
+"                               # Horizontal split
+o                               # Cycle through panes
+q                               # Show pane numbers, press the number to go to that pane
+x                               # Close pane
++                               # Break pane into window (e.g. to select text by mouse to copy)
+-                               # Restore pane from window
+⍽(space)                        # Toggle between layouts
+{                               # Move the current pane left
+}                               # Move the current pane right
+z                               # Toggle pane zoom
+```
+## Custom Tmux Keybindings
+
+```bash
+Escape                          # Vi mode, enables movement like in vi
+v (vi mode)                     # Selects text
+y (vi mode)                     # Copy text to system clipboard
+p                               # Paste text from system clipboard
+y                               # Synchronize panes from a window
+e                               # Edit configuration file
+r                               # Reload configuration file
+N                               # Open new window
+|                               # Partir ventana verticalmente
+-                               # Partir ventana horizontalmente
+h                               # Moverse al panel izquierdo
+j                               # Moverse al panel inferior
+k                               # Moverse al panel superior
+l                               # Moverse al panel derecho
+ctrl+h                          # Go to left window
+ctrl+l                          # Go to right window
+H                               # Resize current pane left
+J                               # Resize current pane down
+K                               # Resize current pane up
+L                               # Resize current pane right
+```
+## Vim Configuration
+Take a look at my [.vimrc](config/nvim/init.vim).
+
+## Tmux Cheatsheet
+If you need to see the vim commands I recommend you print a cheatsheet like
+![this one](http://www.viemu.com/vi-vim-dvorak-cheat-sheet.gif)
