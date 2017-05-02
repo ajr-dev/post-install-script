@@ -72,4 +72,14 @@ if ! command_exists dropbox  &&  assertConfirmation "Install Dropbox?"; then
     dropbox start -i
     sudo mv /etc/apt/sources.list /etc/apt/sources.list.bak
     sed '/dropbox/d' /etc/apt/sources.list.bak | sudo tee /etc/apt/sources.list
+    if ! command_exists dropbox; then
+        if [ "${MACHINE_TYPE}" == 64 ]; then
+            dropbox="dropbox_2015.10.28_amd64.deb"
+        else
+            dropbox="dropbox_2015.10.28_i386.deb"
+        fi
+        wget https://www.dropbox.com/download?dl=packages/ubuntu/$dropbox
+        sudo dpkg -i
+        dropbox start -i
+    fi
 fi
