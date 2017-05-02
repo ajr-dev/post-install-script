@@ -1,44 +1,44 @@
-# tmux muestra las cosas en 256 colores
+# Tmux display things in 256 colors
 set -g default-terminal "xterm-256color-italic"
 
-# Habilitar la compatibilidad del terminal
+# Enable terminal compability
 set-option -ga terminal-overrides ",xterm-256color-italic:Tc"
 
 set -g history-limit 20000
 
-# Renumera automáticamente las ventanas de tmux
+# Automatically renumber tmux windows
 set -g renumber-windows on
 
-# Desvincular el prefijo predeterminado y establecerlo en Ctrl+a
+# Unbind default prefix and set it to Ctrl+a
 unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
 
-# Para las sesiones de tmux anidadas
-#bind-key a send-prefix
+# For nested tmux sessions
+bind-key a send-prefix
 
-# Supervisión de la actividad
+# Activity Monitoring
 setw -g monitor-activity off
 set -g visual-activity off
 
-# En lugar de restringir el tamaño de la ventana al tamaño máximo de cualquier
-# cliente conectado a la *sesión*, limita el tamaño de la ventana al tamaño
-# máximo de cualquier cliente conectado a *esa ventana*. Mucho más razonable.
+# Rather than constraining window size to the maximum size of any client
+# connected to the *session*, constrain window size to the maximum size of any
+# client connected to *that window*. Much more reasonable.
 setw -g aggressive-resize on
 
-# Hacer retraso más corto
+# Make delay shorter
 set -sg escape-time 0
 
-# Aplicar estilo en todas las ventanas
+# Lile all windows
 unbind =
 bind = select-layout tiled
 
-# Desplazarse a través de los paneles
+# Cycle through panes
 unbind C-a
-unbind o # esta es la tecla por defecto para desplazarse a través de los paneles
+unbind o # this is the default key for cycling panes
 bind ^A select-pane -t:.+
 
-# Hacer que el íncide de la ventana/panel comience por 1
+# Make window/pane index start with 1
 set -g base-index 1
 setw -g pane-base-index 1
 
@@ -46,26 +46,27 @@ set-option -g set-titles on
 set-option -g set-titles-string "#T - #W"
 # set-window-option -g automatic-rename on
 
-############################
-##### Atajos de teclado ####
-############################
+######################
+#### Key Bindings ####
+######################
 
-# Recargar el archivo de configuración
-bind r source-file ~/.tmux.conf \; display "¡Configuración Recargada!"
+# Open and reload config file
+bind-key C-k split-window -h vim ~/.dotfiles/tmux/tmux.conf.symlink
+bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
 
-# Abrir una nueva ventana rápidamente
+# Quickly open a new window
 bind N new-window
 
-# Partir ventana y arreglar la ruta para tmux 1.9
-bind h split-window -h -c "#{pane_current_path}"
-bind v split-window -v -c "#{pane_current_path}"
+# Split window and fix path for tmux 1.9
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
+#bind h split-window -h -c "#{pane_current_path}"
+#bind v split-window -v -c "#{pane_current_path}"
 
-# Sincronizar todos los paneles de una ventana
+# Synchronize all panes in a window
 bind y setw synchronize-panes
 
-# Atajos de movimientos por los paneles
+# Pane movement shortcuts
 bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
@@ -74,47 +75,52 @@ bind l select-pane -R
 bind -r C-h select-window -t :-
 bind -r C-l select-window -t :+
 
-# Atajos para redimensionar paneles
+# Resize pane shortcuts
 bind -r H resize-pane -L 10
 bind -r J resize-pane -D 10
 bind -r K resize-pane -U 10
 bind -r L resize-pane -R 10
 
-# Habilitar el soporte del mouse para cambiar los paneles/ventanas
+# Enable mouse support for switching panes/windows
 setw -g mouse on
-set-option -g -q mouse on
 
-bind-key -T root PPage if-shell -F "#{alternate_on}" "send-keys PPage" "copy-mode -e; send-keys PPage"
-
-bind -T root WheelUpPane if-shell -F -t = "#{alternate_on}" "select-pane -t =; send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
-bind -T root WheelDownPane if-shell -F -t = "#{alternate_on}" "select-pane -t =; send-keys -M" "select-pane -t =; send-keys -M"
-
-# Maximizar y restaurar ventanas
+# maximizing and restoring windows
 unbind Up
 bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-window -t fullscreen
 unbind Down
 bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
 
-# Configurar el modo vi para el modo de copia
+#### Copy/Pasting in Linux http://www.rushiagr.com/blog/2016/06/16/everything-you-need-to-know-about-tmux-copy-pasting-ubuntu/
+# Copy by mouse drag
+set-option -g -q mouse on
+
+# set vi mode for copy mode
 setw -g mode-keys vi
-# Más ajustes para hacer que el modo de copia sea más parecido a vim
+# more settings to make copy-mode more vim-like
 unbind [
 bind Escape copy-mode
 unbind p
-bind p paste-buffer
+#bind p paste-buffer
+unbind v
+#bind -Tcopy-mode-vi 'v' send -X begin-selection
+#bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
+bind-key -t vi-copy 'v' begin-selection
+# https://unix.stackexchange.com/questions/15715/getting-tmux-to-copy-a-buffer-to-the-clipboard
+bind p run "xclip -o | tmux load-buffer - ; tmux paste-buffer"
+bind y run "tmux save-buffer - | xclip -i"
+#bind -t vi-copy y copy-pipe "xclip -sel clip -i"
+bind-key -t vi-copy 'v' begin-selection
+bind-key -t vi-copy 'y' copy-selection
 
-# Usa el portapapeles del sistema en Mac para los buffers, gracias al libro sobre linux de pragprog
-#if-shell "uname | grep -q Darwin" \
-#"bind C-c run 'tmux save-buffer - | reattach-to-user-namespace pbcopy'; \
-#bind C-v run 'tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer'"
-bind C-c run 'tmux save-buffer - | reattach-to-user-namespace pbcopy'
-bind C-v run 'tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer'
+# Buffers to/from Mac clipboard
+#bind C-c run 'tmux save-buffer - | reattach-to-user-namespace pbcopy'
+#bind C-v run 'tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer'
 
-###############################
-#### Configuración de Color ###
-###############################
+##############################
+### Color & Style Settings ###
+##############################
 
-# Lista de extensiones
+# Extensions
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'odedlaz/tmux-onedark-theme'
@@ -125,7 +131,5 @@ set -g @continuum-restore 'on' # Last saved environment is automatically restore
 set -g @continuum-save-interval '0' # Stop automatic saving
 set -g @resurrect-dir '~/.dotfiles/tmux/resurrect/'
 
-if-shell "uname | grep -q Darwin" "source tmux-macosx"
-
-# Inicializar el gestor de extensiones de TMUX (mantén esta línea justo al final de tmux.conf)
+# Initialize Tmux plugin manager
 run '~/.tmux/plugins/tpm/tpm'
