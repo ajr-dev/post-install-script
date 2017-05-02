@@ -188,6 +188,14 @@ dconf write /org/mate/power-manager/sleep-display-battery 1800
 dconf write /org/mate/terminal/profiles/default/silent-bell
 dconf write /org/mate/terminal/profiles/default/default-show-menubar false
 dconf write /org/mate/terminal/profiles/default/scrollback-unlimited true
+dconf write /org/mate/terminal/global/profile-list "['defaul', 'profile0']"
+dconf write /org/mate/terminal/profiles/profile0/visible-name "'onedark'"
+dconf write /org/mate/terminal/profiles/profile0/palette "'#28272C2B3433:\
+  #E0DF6C6B7574:#9897C3C27978:#E5E5C0BF7B7B:#6160AFAFEFEF:#C6C57877DDDD:\
+  #5656B6B6C2C1:#63636D6C8382:#28272C2B3433:#BEBE504F4646:#9897C3C27978:\
+  #D1D09A996665:#6160AFAFEFEF:#C6C57877DDDD:#5656B6B6C2C1:#5C5B6363706F'"
+dconf write /org/mate/terminal/profiles/profile0/background-color "'#28272C2B3433'"
+dconf write /org/mate/terminal/profiles/profile0/foreground-color "'#ABAAB2B1BFBF'"
 if [ -f ~/.local/share/fonts/Hack-Regular.ttf ]; then
   dconf write /org/mate/terminal/profiles/default/use-system-font false
   dconf write /org/mate/terminal/profiles/default/font "'Hack 14'"
