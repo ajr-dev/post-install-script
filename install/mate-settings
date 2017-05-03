@@ -94,6 +94,13 @@ dconf write /org/mate/desktop/interface/cursor-blink true
 dconf write /org/mate/desktop/interface/cursor-blink-time 1200
 dconf write /org/mate/desktop/session/idle-delay 120
 dconf write /org/mate/screensaver/idle-activation-enabled false
+dconf write /org/mate/marco/global-keybindings/run-command-terminal "'disabled'"
+dconf write /org/mate/desktop/keybindings/custom0/binding "'disabled'"
+dconf write /org/mate/desktop/keybindings/custom0/name "'Fullscreen Terminal'"
+dconf write /org/mate/desktop/keybindings/custom0/binding "'<Primary><Alt>t'"
+
+/org/mate/desktop/keybindings/custom0/action
+  'mate-terminal --window --full-screen'
 if ! (( ${autoConfirm:?} )); then
   clear
   read -n 1 -p "Enable typing break? (yes/No) "

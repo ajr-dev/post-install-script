@@ -7,7 +7,7 @@ alias tls='tmux ls'
 alias tat='tmux attach -t'
 alias tns='tmux new-session -s'
 alias tk='tmux kill-session'
-alias tkl='tmux ls | grep : | cut -d. -f1 | awk '\"{print substr($1, 0, length($1)-1)}'\" | xargs kill'
+#alias tkl='tmux ls | grep : | cut -d. -f1 | awk '\"{print substr($1, 0, length($1)-1)}'\" | xargs kill'
 
 # Detectar which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`

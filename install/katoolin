@@ -12,7 +12,7 @@ def main():
         cmd1 = os.system("apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6")
         cmd2 = os.system("echo '# Kali linux repositories | Added by Katoolin\ndeb http://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list")
         cmd3 = os.system("apt-get update -m")
-        cmd = os.system("apt-get -fy install acccheck ace-voip amap automater braa casefile cdpsnarf ")
+        cmd = os.system("apt-get -fy install hashcat acccheck ace-voip amap automater braa casefile cdpsnarf ")
         cmd = os.system("apt-get -fy install cisco-torch cookie-cadger copy-router-config dmitry dnmap dnsenum dnsmap dnsrecon ")
         cmd = os.system("apt-get -fy install dnstracer dnswalk dotdotpwn enum4linux enumiax exploitdb fierce firewalk fragroute ")
         cmd = os.system("apt-get -fy install fragrouter ghost-phisher golismero goofile lbd maltego-teeth masscan metagoofil ")
