@@ -203,6 +203,8 @@ dconf write /org/mate/terminal/profiles/profile0/palette "'#28272C2B3433:\
   #D1D09A996665:#6160AFAFEFEF:#C6C57877DDDD:#5656B6B6C2C1:#5C5B6363706F'"
 dconf write /org/mate/terminal/profiles/profile0/background-color "'#28272C2B3433'"
 dconf write /org/mate/terminal/profiles/profile0/foreground-color "'#ABAAB2B1BFBF'"
+dconf write /org/mate/terminal/global/default-profile "'profile0'"
+
 if [ -f ~/.local/share/fonts/Hack-Regular.ttf ]; then
   dconf write /org/mate/terminal/profiles/default/use-system-font false
   dconf write /org/mate/terminal/profiles/default/font "'Hack 14'"

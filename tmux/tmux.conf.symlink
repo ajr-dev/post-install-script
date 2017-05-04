@@ -93,6 +93,7 @@ bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
 #### Copy/Pasting in Linux http://www.rushiagr.com/blog/2016/06/16/everything-you-need-to-know-about-tmux-copy-pasting-ubuntu/
 # Copy by mouse drag
 set-option -g -q mouse on
+bind-key -t vi-copy MouseDragEnd1Pane copy-pipe "xclip -selection clipboard -i"
 
 # set vi mode for copy mode
 setw -g mode-keys vi
@@ -131,5 +132,5 @@ set -g @continuum-restore 'on' # Last saved environment is automatically restore
 set -g @continuum-save-interval '0' # Stop automatic saving
 set -g @resurrect-dir '~/.dotfiles/tmux/resurrect/'
 
-# Initialize Tmux plugin manager
+# Initialize Tmux plugin manager. Press <Prefix>I to load plugins
 run '~/.tmux/plugins/tpm/tpm'
