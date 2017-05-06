@@ -40,13 +40,12 @@ dconf write /com/linuxmint/updates/autorefresh-minutes 0
 dconf write /com/linuxmint/updates/dist-upgrade true
 
 ################################################################################
-#### Caja File Manager
+#### File Manager
 ################################################################################
 dconf write /org/mate/caja/list-view/default-visible-columns "['name', 'size', 'type', 'date_modified', 'owner', 'permissions']"
 dconf write /org/mate/caja/desktop/computer-icon-visible false
 dconf write /org/mate/caja/desktop/home-icon-visible false
 dconf write /org/mate/caja/desktop/volumes-visible false
-dconf write /org/mate/caja/desktop/font "'Noto Sans 16'"
 dconf write /org/mate/caja/preferences/always-use-location-entry true
 dconf write /org/mate/caja/preferences/click-policy "'single'"
 dconf write /org/mate/caja/preferences/confirm-trash false
@@ -82,9 +81,6 @@ dconf write /org/mate/desktop/peripherals/touchpad/horizontal-edge-scrolling tru
 dconf write /org/mate/desktop/peripherals/touchpad/horizontal-two-finger-scrolling true
 dconf write /org/mate/desktop/peripherals/touchpad/natural-scroll false
 
-dconf write /org/mate/desktop/interface/font-name "'Noto Sans 14'"
-dconf write /org/mate/desktop/interface/document-font-name "'Noto Sans 14'"
-dconf write /org/mate/desktop/interface/monospace-font-name "'Monospace 14'"
 dconf write /org/mate/desktop/interface/gtk-theme "'Mint-Y-Dark'"
 dconf write /org/mate/desktop/interface/icon-theme "'Mint-Y'"
 dconf write /org/mate/desktop/interface/menus-have-icons true
@@ -98,9 +94,8 @@ dconf write /org/mate/marco/global-keybindings/run-command-terminal "'disabled'"
 dconf write /org/mate/desktop/keybindings/custom0/binding "'disabled'"
 dconf write /org/mate/desktop/keybindings/custom0/name "'Fullscreen Terminal'"
 dconf write /org/mate/desktop/keybindings/custom0/binding "'<Primary><Alt>t'"
+dconf write /org/mate/desktop/keybindings/custom0/action "'mate-terminal --window --full-screen'"
 
-/org/mate/desktop/keybindings/custom0/action
-  'mate-terminal --window --full-screen'
 if ! (( ${autoConfirm:?} )); then
   clear
   read -n 1 -p "Enable typing break? (yes/No) "
@@ -119,7 +114,6 @@ fi
 dconf write /org/mate/marco/general/action-double-click-titlebar "'toggle_maximize'"
 dconf write /org/mate/marco/general/action-middle-click-titlebar "'toggle_maximize'"
 dconf write /org/mate/marco/general/action-right-click-titlebar "'menu'"
-dconf write /org/mate/marco/general/action-right-click-titlebar "'menu'"
 dconf write /org/mate/marco/general/application-based false
 dconf write /org/mate/marco/general/audible-bell false
 dconf write /org/mate/marco/general/auto-raise false
@@ -131,8 +125,6 @@ dconf write /org/mate/marco/general/num-workspaces 8
 dconf write /org/mate/marco/general/reduced-resources true
 dconf write /org/mate/marco/general/side-by-side-tiling true
 dconf write /org/mate/marco/general/theme "'Mint-Y-Dark'"
-dconf write /org/mate/marco/general/titlebar-font "'Noto Sans Bold 10'"
-dconf write /org/mate/marco/general/titlebar-uses-system-font false
 dconf write /org/mate/marco/general/visual-bell false
 dconf write /org/mate/marco/general/visual-bell-type "'fullscreen'"
 dconf write /org/mate/marco/general/wrap-style "'no wrap'"
@@ -205,6 +197,15 @@ dconf write /org/mate/terminal/profiles/profile0/background-color "'#28272C2B343
 dconf write /org/mate/terminal/profiles/profile0/foreground-color "'#ABAAB2B1BFBF'"
 dconf write /org/mate/terminal/global/default-profile "'profile0'"
 
+################################################################################
+#### Fonts
+################################################################################
+dconf write /org/mate/caja/desktop/font "'Noto Sans 16'"
+dconf write /org/mate/desktop/interface/font-name "'Noto Sans 14'"
+dconf write /org/mate/desktop/interface/document-font-name "'Noto Sans 14'"
+dconf write /org/mate/desktop/interface/monospace-font-name "'Monospace 14'"
+dconf write /org/mate/marco/general/titlebar-uses-system-font false
+dconf write /org/mate/marco/general/titlebar-font "'Noto Sans Bold 10'"
 if [ -f ~/.local/share/fonts/Hack-Regular.ttf ]; then
   dconf write /org/mate/terminal/profiles/default/use-system-font false
   dconf write /org/mate/terminal/profiles/default/font "'Hack 14'"

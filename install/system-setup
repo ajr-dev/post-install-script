@@ -18,6 +18,7 @@ if assertConfirmation "Import local config?" "${autoConfirm:?}"; then
     fi
 fi
 
+[ sudo -v ]  &&  sudo apt-get install -y tmux
 if command_exists tmux  &&  assertConfirmation "Configure tmux?" "${autoConfirm:?}"; then
     # Terminal con cursiva
     cd ~/.dotfiles/tmux  ||  { echo "$HOME/.dotfiles/tmux doesn't exist" ; exit ; }
@@ -31,6 +32,10 @@ fi
 
 if assertConfirmation "Configure vim?" "${autoConfirm:?}"; then
     source "$INSTALL/link-setup"
+
+    if [ sudo -v ]; then
+        sudo apt-get -y install vim-gtk curl cmake xclip
+    fi
 
     #if [[ ! -e ~/.vimrc  &&  ! -d ~/.vim  &&  ! -d ~/.config/nvim/ ]]; then
     if assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
@@ -51,16 +56,15 @@ if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"; then
     fi
 fi
 
+# https://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
 if assertConfirmation "Add powerline fonts?" "${autoConfirm:?}"; then
-    git clone https://github.com/powerline/fonts ~/Downloads/fonts
-    cd ~/Downloads/fonts || { echo "No existe el directorio fonts" ; exit ; }
-    ./install.sh
-    cd ..
-    rm -rf fonts
+    source "$INSTALL/font-install"
 fi
 
 if assertConfirmation "Change system settings?" "${autoConfirm:?}"; then
-    if [[ $DESKTOP == "cinnamon" ]]; then
+    if [[ $DESKTOP == "gnome" ]]; then
+        source "$INSTALL/gnome-settings"
+    elif [[ $DESKTOP == "cinnamon" ]]; then
         source "$INSTALL/cinnamon-settings"
     elif [[ $DESKTOP == "mate" ]]; then
         source "$INSTALL/mate-settings"

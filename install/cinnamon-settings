@@ -102,8 +102,8 @@ dconf write /org/cinnamon/desktop/wm/preferences/auto-raise true
 dconf write /org/cinnamon/bring-windows-to-current-workspace false
 dconf write /org/cinnamon/prevent-focus-stealing false
 dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat true
-dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/delay "uint32 200"
-dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat-interval "uint32 20"
+dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/delay "uint32 150"
+dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat-interval "uint32 10"
 dconf write /org/cinnamon/desktop/keybindings/custom-list "['custom0', 'custom1', 'custom2']"
 dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/name "'Task Manager'"
 dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/command "'gnome-system-monitor'"
