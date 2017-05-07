@@ -7,9 +7,9 @@ if [ "$(uname)" == "Linux" ]; then
     source "$INSTALL/system-setup"
   else
     source "$INSTALL/essential"
+    source "$INSTALL/system-setup"
     source "$INSTALL/app-install"
     source "$INSTALL/programming-tools"
-    source "$INSTALL/system-setup"
     source "$INSTALL/startup-scripts"
     if assertConfirmation "Final updates?"; then
       sudo apt-get -y --force-yes autoremove

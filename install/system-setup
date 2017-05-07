@@ -3,11 +3,16 @@
 # shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
+if [ sudo -v ]; then
+    sudo apt-get -y install vim-gtk curl cmake xclip keepassx
+fi
+
 if assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
     source "$INSTALL/git-setup"
 fi
 
-if assertConfirmation "Import local config?" "${autoConfirm:?}"; then
+if assertConfirmation "Import local config?" "${autoConfirm:?}"
+then
     if [ -f ~/.dotfiles/local.vim ]  &&  [ -f ~/.dotfiles/local.zsh ]  &&  [ -f ~/.dotfiles/local.tmux ]; then
         cp ~/.dotfiles/local.vim ~/.local.vim
         cp ~/.dotfiles/local.zsh ~/.local.zsh
@@ -18,9 +23,14 @@ if assertConfirmation "Import local config?" "${autoConfirm:?}"; then
     fi
 fi
 
-[ sudo -v ]  &&  sudo apt-get install -y tmux
-if command_exists tmux  &&  assertConfirmation "Configure tmux?" "${autoConfirm:?}"; then
-    # Terminal con cursiva
+if ! command_exists tmux  ||  [[ ! "$(tmux -V)" == *"2.3"* ]]  &&  assertConfirmation "Install tmux?"; then
+    source "$DOTFILES/install/tmux-install"
+fi
+
+
+if command_exists tmux  &&  assertConfirmation "Configure tmux?" "${autoConfirm:?}"
+then
+    # get italics in tmux
     cd ~/.dotfiles/tmux  ||  { echo "$HOME/.dotfiles/tmux doesn't exist" ; exit ; }
     tic xterm-256color-italic.terminfo
     mkdir -p ~/.tmux/resurrect
@@ -30,21 +40,21 @@ if command_exists tmux  &&  assertConfirmation "Configure tmux?" "${autoConfirm:
     fi
 fi
 
-if assertConfirmation "Configure vim?" "${autoConfirm:?}"; then
-    source "$INSTALL/link-setup"
-
-    if [ sudo -v ]; then
-        sudo apt-get -y install vim-gtk curl cmake xclip
+if assertConfirmation "Configure vim?" "${autoConfirm:?}"
+then
+    if [[ ! -e ~/.vimrc  &&  ! -d ~/.vim  &&  ! -d ~/.config/nvim/ ]]; then
+        source "$INSTALL/link-setup"
     fi
 
-    #if [[ ! -e ~/.vimrc  &&  ! -d ~/.vim  &&  ! -d ~/.config/nvim/ ]]; then
-    if assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
+    if ! command_exists  nvim  &&  assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
         source "$INSTALL/neovim-install"
     fi
-    source "$INSTALL/vim-setup"
+
+    #source "$INSTALL/vim-setup"
 fi
 
-if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"; then
+if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"
+then
     if ! [[ $SHELL =~ .*zsh.* ]]; then
         echo "Configuring zsh as default shell"
         chsh -s "$(which zsh)"
@@ -57,11 +67,14 @@ if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"; then
 fi
 
 # https://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
-if assertConfirmation "Add powerline fonts?" "${autoConfirm:?}"; then
+if font_installed Hack  &&  \
+    assertConfirmation "Add powerline fonts?" "${autoConfirm:?}"
+then
     source "$INSTALL/font-install"
 fi
 
-if assertConfirmation "Change system settings?" "${autoConfirm:?}"; then
+if assertConfirmation "Change system settings?" "${autoConfirm:?}"
+then
     if [[ $DESKTOP == "gnome" ]]; then
         source "$INSTALL/gnome-settings"
     elif [[ $DESKTOP == "cinnamon" ]]; then

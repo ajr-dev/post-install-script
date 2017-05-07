@@ -20,7 +20,7 @@ Obviously this setup work for me, a JavaScript developer on macOS, but this part
 * [Vim](#vim)
   * [Vim Cheatsheet](#vim-cheatsheet)
   * [Custom Vim Keybindings](#custom-vim-keybindings)
-* [Conky](#conky)
+* [Todo list](#todo-list)
 
 ## Initial Setup and Installation
 
@@ -35,8 +35,10 @@ Then, clone the dotfiles repository to your computer. This can be placed anywher
 ```bash
 git clone https://github.com/nicknisi/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
-./install.sh
+./install.sh -qy
 ```
+
+This will install only the configuration without prompting for confirmation (because of the `-y` option meaning yes).  If you want to select what is done then type `./install.sh` instead. `q` stands for quick so it won't install all the packages.
 
 `install.sh` will start by initializing the submodules used by this repository (if any). **Read through this file and comment out anything you don't want installed.** Then, it will install all symbolic links into your home directory. Every file with a `.symlink` extension will be symlinked to the home directory with a `.` in front of it. As an example, `vimrc.symlink` will be symlinked in the home directory as `~/.vimrc`. Then, this script will create a `~/.vim-tmp` directory in your home directory, as this is where vim is configured to place its temporary files. Additionally, all files in the `$DOTFILES/config` directory will be symlinked to the `~/.config/` directory for applications that follow the [XDG base directory specification](http://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html), such as neovim.
 
@@ -206,3 +208,20 @@ Take a look at my [.vimrc](config/nvim/init.vim).
 ## Tmux Cheatsheet
 If you need to see the vim commands I recommend you print a cheatsheet like
 ![this one](http://www.viemu.com/vi-vim-dvorak-cheat-sheet.gif)
+
+## Todo List
+* Port the installation to distros that aren't based on debian.
+* Install first the essential things to begin programming and leave interactive installs for last.
+* Add the posibility for another cloud storage service.
+* Fix [jDownloader install](jdownloader-install).
+* Fix [go install](install/go-install).
+* Fix [not asking for passwords](no-password-prompt).
+* Fix installation in [Virtual Machine](virtual-machine).
+* Install onedark theme in [gnome-terminal](install/gnome-settings).
+* youcompleteme install should depend on the packages found in the system.
+* Also to have a quicker setup it should install the basic and come to it later to make a more complete installation.
+* Add [unattended-upgrades](install/unattended-upgrades) in Linux Mint.
+* Fix some errors:
+Error detected while processing function UltiSnips#TrackChange[1]..provider#python3#Call:
+line 18:
+Invalid channel "2"

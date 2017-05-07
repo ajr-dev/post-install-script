@@ -9,7 +9,7 @@ if !filereadable(plugpath)
             exit
         endif
     else
-        echom "vim-plug not installed. Please install it manually or install curl.\n"
+        echom "Please install curl.\n"
         exit
     endif
 endif
@@ -19,9 +19,10 @@ call plug#begin('~/.config/nvim/plugged')
 if has('nvim')
   call plug#begin('~/.config/nvim/plugged')
   if system('uname -m | grep 64') == 0
-    Plug 'valloric/youcompleteme',       { 'do': './install.py --all' }
+    Plug 'valloric/youcompleteme',       { 'do': './install.py --all' } " Install depending of available programming tools
   else
-    Plug 'valloric/youcompleteme',       { 'do': './install.py --clang-complete --system-libclang --omnisharp-completer --gocode-completer --tern-completer --racer-completer' }
+    Plug 'valloric/youcompleteme',       { 'do': './install.py --clang-complete --system-libclang' }
+    "Plug 'valloric/youcompleteme',       { 'do': './install.py --clang-complete --system-libclang --omnisharp-completer --gocode-completer --tern-completer --racer-completer' }
     Plug 'vim-ruby/vim-ruby',            { 'for': 'ruby' }
   endif
 else

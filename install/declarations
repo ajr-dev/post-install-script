@@ -119,4 +119,9 @@ assertConfirmation () {
     return 1
 }
 
+font_installed () {
+    fontname=$1
+    fc-list | grep -i "$fontname" > /dev/null
+}
+
 export ARCH DOTFILES DELAY DESKTOP INSTALL DISK OS RAM VER h quick autoConfirm

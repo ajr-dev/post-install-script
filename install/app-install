@@ -13,9 +13,10 @@ if assertConfirmation "Update the system?"; then
     echo "========================================================================"
 fi
 
-if grep -q "^flags.*\ hypervisor\ " /proc/cpuinfo  &&  assertConfirmation "Install Virtual Machine extras?"; then
-    source "$INSTALL/virtual-machine"
-fi
+# TODO: check if not installed already
+#if grep -q "^flags.*\ hypervisor\ " /proc/cpuinfo  &&  assertConfirmation "Install Virtual Machine extras?"; then
+    #source "$INSTALL/virtual-machine"
+#fi
 
 if ! (( ${autoConfirm:?} )); then
     source "$INSTALL/remove-packages"
@@ -23,13 +24,10 @@ fi
 
 source "$INSTALL/install-packages"
 
-if [[ ! "$(tmux -V)" == *"2.3"* ]]  &&  assertConfirmation "Install tmux?"; then
-    source "$DOTFILES/install/tmux-install"
-fi
-
-if [ ! -d ~/Downloads/jd2 ]  &&  assertConfirmation "Install jDownloader?"; then
-    source "$DOTFILES/install/jdownloader-install" # TODO: Downloads may not exist.
-fi
+# TODO: fix jDownloader installation
+#if [ ! -d ~/Downloads/jd2 ]  &&  assertConfirmation "Install jDownloader?"; then
+#    source "$DOTFILES/install/jdownloader-install" # TODO: Downloads may not exist.
+#fi
 
 source "$INSTALL/flux-install"
 
