@@ -221,6 +221,7 @@ If you need to see the vim commands I recommend you print a cheatsheet like
 * youcompleteme install should depend on the packages found in the system.
 * Also to have a quicker setup it should install the basic and come to it later to make a more complete installation.
 * Add [unattended-upgrades](install/unattended-upgrades) in Linux Mint.
+* Fix unknown character on vim buffers
 * Fix some errors:
 Error detected while processing function UltiSnips#TrackChange[1]..provider#python3#Call:
 line 18:

@@ -17,6 +17,7 @@ else # OS X `ls`
 fi
 
 alias vim="nvim"
+alias hc="hashcat"
 
 # Alias del sistema de archivo
 alias ..='cd ..'

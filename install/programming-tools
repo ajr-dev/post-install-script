@@ -5,27 +5,30 @@ declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/de
 
 if assertConfirmation "Install c compiler, gdb, jdk, jre 9, nodejs, npm?"; then
     #sudo apt-get -y remove openjdk-8*
-    sudo apt-get -y install build-essential gcc g++ gdb make\
-        nodejs npm git dconf-cli unattended-upgrades unzip shellcheck xdotool python \
-        python-setuptools ruby python3 hddtemp lm-sensors curl ubuntu-restricted-extras lftp zsh \
-        whois
+    packages=( build-essential gcc g++ gdb make nodejs npm git dconf-cli \
+        unattended-upgrades unzip shellcheck xdotool python python-setuptools \
+        ruby python3 hddtemp lm-sensors curl ubuntu-restricted-extras lftp zsh \
+        whois net-tools )
+    for app in "${packages[@]}" ; do
+        sudo apt-get install -y "$app"
+    done
     echo "========================================================================"
 fi
 
 if ! command_exists clang  &&  assertConfirmation "Install clang?"; then
 
-    source "$DOTFILES/install/clang-install"
+    source "$INSTALL/clang-install"
     echo "========================================================================"
 fi
 
 if ! command_exists mono  &&  assertConfirmation "Install mono?"; then
 
-    source "$DOTFILES/install/mono-install"
+    source "$INSTALL/mono-install"
 fi
 
-if [ ! -d /usr/local/go ]  &&  assertConfirmation "Install go?"; then
-    source "$DOTFILES/install/go-install"
-fi
+#if [ ! -d /usr/local/go ]  &&  assertConfirmation "Install go?"; then
+    #source "$INSTALL/go-install"
+#fi
 
 if assertConfirmation "Install TypeScript standalone server?"; then
     npm install --save typescript
@@ -37,11 +40,11 @@ if assertConfirmation "Install rustc?"; then
 fi
 
 if assertConfirmation "Install apache2, php7, mysql-server?"; then
-    source "$DOTFILES/install/lamp-install"
+    source "$INSTALL/lamp-install"
 fi
 
 if assertConfirmation "Install kali linux tools?"; then
-    source "$DOTFILES/install/katoolin"
+    source "$INSTALL/katoolin"
 fi
 
 if ! (( ${autoConfirm:?} )); then
@@ -49,6 +52,6 @@ if ! (( ${autoConfirm:?} )); then
     read -n 1 -p "Install cs50 functions? (yes/No) "
     printf '\n========================================================================'
     if [[ $REPLY =~ ^([Yy]|[Ss])$ ]]; then
-        source "$DOTFILES/install/cs50"
+        source "$INSTALL/cs50"
     fi
 fi
