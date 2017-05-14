@@ -3,11 +3,17 @@
 # shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
-if [ sudo -v ]; then
-    sudo apt-get -y install vim-gtk curl cmake xclip keepassx
+if sudo -v; then
+    packages=( vim-gtk curl cmake xclip keepassx zsh )
+    for app in "${packages[@]}" ; do
+        if ! command_exists $app; then
+            sudo apt-get -y install "$app"
+        fi
+    done
 fi
 
-if assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
+# TODO: fix check to only perform once
+if ! [ -f ~/.gitconfig ]  &&  assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
     source "$INSTALL/git-setup"
 fi
 
@@ -23,7 +29,7 @@ then
     fi
 fi
 
-if ! command_exists tmux  ||  [[ ! "$(tmux -V)" == *"2.3"* ]]  &&  assertConfirmation "Install tmux?"; then
+if ! command_exists tmux  ||  [[ ! "$(tmux -V)" == *"2.4"* ]]  &&  assertConfirmation "Install tmux?"; then
     source "$DOTFILES/install/tmux-install"
 fi
 
@@ -50,15 +56,14 @@ then
         source "$INSTALL/neovim-install"
     fi
 
-    #source "$INSTALL/vim-setup"
+    source "$INSTALL/vim-setup"
 fi
 
-if assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"
+if command_exists zsh  &&  ! [[ $SHELL =~ .*zsh.* ]]  && \
+    assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"
 then
-    if ! [[ $SHELL =~ .*zsh.* ]]; then
-        echo "Configuring zsh as default shell"
-        chsh -s "$(which zsh)"
-    fi
+    echo "Configuring zsh as default shell"
+    chsh -s "$(which zsh)"
 
     if ! command_exists zplug; then
         echo "installing zplug, a plugin manager for zsh - http://zplug.sh"
@@ -67,16 +72,20 @@ then
 fi
 
 # https://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
-if font_installed Hack  &&  \
+if ! font_installed Hack  &&  \
     assertConfirmation "Add powerline fonts?" "${autoConfirm:?}"
 then
     source "$INSTALL/font-install"
 fi
 
-if assertConfirmation "Change system settings?" "${autoConfirm:?}"
+if [[ $DESKTOP == "gnome" ]]  ||  [[ $DESKTOP == "xubuntu" ]]  || \
+   [[ $DESKTOP == "cinnamon" ]]  ||  [[ $DESKTOP == "mate" ]]  || \
+   [[ $DESKTOP == "kali" ]]  &&  assertConfirmation "Change system settings?" "${autoConfirm:?}"
 then
     if [[ $DESKTOP == "gnome" ]]; then
         source "$INSTALL/gnome-settings"
+    elif [[ $DESKTOP == "xubuntu" ]]; then
+        source "$INSTALL/xubuntu-settings"
     elif [[ $DESKTOP == "cinnamon" ]]; then
         source "$INSTALL/cinnamon-settings"
     elif [[ $DESKTOP == "mate" ]]; then
@@ -86,14 +95,17 @@ then
     fi
 fi
 
+# TODO: check if already done
 if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
     source "$INSTALL/unattended-upgrades"
 fi
 
+# TODO: this isn't working. Fix if already done
 if assertConfirmation "Never ask for passwords?"; then
     source "$INSTALL/no-password-prompt"
 fi
 
+# Check if all files from Dropbox have already been copied
 if [ -d ~/Dropbox ]  &&  assertConfirmation "Copy dropbox files to system?"; then
     source "$INSTALL/dropbox-setup"
 fi

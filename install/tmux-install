@@ -4,15 +4,16 @@ sudo apt-get -y autoremove tmux
 sudo apt-get install -y exuberant-ctags cmake libevent-dev libncurses5-dev
 [ ! -d ~/tmp ]  &&  mkdir ~/tmp
 cd ~/tmp
-wget https://github.com/tmux/tmux/releases/download/2.3/tmux-2.3.tar.gz
-tar -xzvf tmux*.tar.gz
-rm tmux*.tar.gz
-cd tmux-*
+varTmux=tmux-2.4
+wget https://github.com/tmux/tmux/releases/download/2.4/$varTmux.tar.gz
+tar -xzvf $varTmux.tar.gz
+rm $varTmux.tar.gz
+cd $varTmux
 ./configure    ||  { echo "Error executing ./config" ; exit ; }
 make           ||  { echo "Error executing make" ; exit ; }
 sudo make install
 
-# Terminal con cursiva
+# Italics
 cd ~/.dotfiles/tmux  ||  { echo "$HOME/.dotfiles/tmux doesn't exist" ; exit ; }
 tic xterm-256color-italic.terminfo
 mkdir -p ~/.tmux/resurrect
