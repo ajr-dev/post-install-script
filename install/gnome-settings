@@ -34,6 +34,8 @@ dconf write /org/gnome/desktop/peripherals/keyboard/repeat-interval "uint32 20"
 dconf write /org/gnome/desktop/peripherals/mouse/natural-scroll false
 dconf write /org/gnome/desktop/peripherals/touchpad/edge-scrolling-enabled true
 
+dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita-dark'"
+dconf write /org/gnome/desktop/interface/enable-animations false
 dconf write /org/gnome/desktop/interface/can-change-accels false
 dconf write /org/gnome/desktop/interface/cursor-blink true
 dconf write /org/gnome/desktop/interface/cursor-blink-time 1200
@@ -69,21 +71,18 @@ dconf write /$profile/scroll-on-output false
 dconf write /$profile/scroll-on-keystroke true
 dconf write /$profile/scrollback-unlimited true
 dconf write /$profile/scrollback-lines 10000
+dconf write /$profile/use-theme-colors false
+dconf write /$profile/foreground-color "'rgb(171,178,191)'"
+dconf wirte /$profile/background-color "'rgb(40, 44, 52)'"
+dconf write /$profile/palette "['rgb(40,44,52)', 'rgb(224,108,117)', \
+  'rgb(152,195,121)', 'rgb(229,192,123)', 'rgb(97,175,239)', 'rgb(198,120,221)', \
+  'rgb(86,182,194)', 'rgb(75,82,99)', 'rgb(40,44,52)', 'rgb(190,80,70)', \
+  'rgb(152,195,121)', 'rgb(209,154,102)', 'rgb(97,175,239)', 'rgb(198,120,221)', \
+  'rgb(86,182,194)', 'rgb(92,99,112)']"
 dconf write /org/gnome/terminal/legacy/default-show-menubar false
-# Built-in schemes
-# onedark TODO: fix this
+# TODO: fix this
 #dconf write /org/mate/terminal/global/profile-list "['defaul', 'profile0']"
 #dconf write /org/gnome/terminal/legacy/profiles:/list "['b1dcc9dd-5262-4d8d-a863-c897e6d979b9', 'f0a8696e-5d7d-4300-b432-6ea0060c1fd6']"
-#dconf write /$profile/visible-name "'onedark'"
-#dconf write /org/mate/terminal/profiles/profile0/palette "'#28272C2B3433:\
-  #E0DF6C6B7574:#9897C3C27978:#E5E5C0BF7B7B:#6160AFAFEFEF:#C6C57877DDDD:\
-  #5656B6B6C2C1:#63636D6C8382:#28272C2B3433:#BEBE504F4646:#9897C3C27978:\
-  #D1D09A996665:#6160AFAFEFEF:#C6C57877DDDD:#5656B6B6C2C1:#5C5B6363706F'"
-#dconf write /org/mate/terminal/profiles/profile0/background-color "'#28272C2B3433'"
-#dconf write /org/mate/terminal/profiles/profile0/foreground-color "'#ABAAB2B1BFBF'"
-#onedark="$(dconf dump / | grep /legacy/profiles:/ | sed -r 's/^\[|\]$//g' | head -n1)"
-#/org/gnome/terminal/legacy/profiles:/default "'f0a8696e-5d7d-4300-b432-6ea0060c1fd6'"
-#/org/gnome/terminal/legacy/profiles:/default "'$onedark'"
 
 ################################################################################
 #### Fonts
