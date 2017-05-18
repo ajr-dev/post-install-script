@@ -5,76 +5,68 @@ command_exists() {
   command -v "$1" > /dev/null 2>&1
 }
 
-# Mostrar cuanto tarda cualquier tarea que tarde más de 10 segundos
+# Display how long all tasks over 10 seconds take
 export REPORTTIME=10
 
 [[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
 
-# Definir el directorio de código
-# Aquí es donde reside mi código y donde quiero que funcione el autocompletado `c` exclusivamente
+# Define the code directory
+# This is where my code exists and where I want the `c` autocomplete to work from exclusively
 if [[ -d ~/code ]]; then
   export CODE_DIR=~/code
 fi
 
-# Importar todos los archivos .zsh dentro de los directorios zsh/
+# Source all .zsh files inside of the zsh/ directory
 for config ($ZSH/**/*.zsh) source $config
 
-  if [[ -a ~/.localrc ]]; then
-    source ~/.localrc
-  fi
-done
+if [[ -a ~/.localrc ]]; then
+  source ~/.localrc
+fi
 
-
-# Inicializar autocompletado
+# Initialize autocomplete
 autoload -U compinit add-zsh-hook
 compinit
 
-#for config ($ZSH/**/*completion.sh) source $config
+for config ($ZSH/**/*completion.sh) source $config
 
 if command_exists nvim; then
   export EDITOR='nvim'
   export GIT_EDITOR='nvim'
 fi
 
+# Adding path directory for custom scripts
+[ -d $DOTFILES/bin ]    &&  export PATH=$DOTFILES/bin:$PATH
+[ -d /usr/local/sbin ]  &&  export PATH=/usr/local/sbin:$PATH
+[ -d ~/bin ]            &&  export PATH=~/bin:$PATH
+[ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
+[ -d ~/Dropbox/.bin ]   &&  export PATH=~/Dropbox/.bin:$PATH
 export PATH=/usr/local/bin:$PATH
-
-# Add /usr/local/sbin to PATH
-[[ -d /usr/local/sbin ]]  &&  export PATH=/usr/local/sbin:$PATH
-
-# Añadir directorio para secuencias de comando propias
-if [[ -d $DOTFILES/bin ]]; then
-  export PATH=$DOTFILES/bin:$PATH
-fi
-
-# Comprobar directorio bin personal y añadir a la ruta
-[[ -d ~/bin ]]   &&  export PATH=~/bin:$PATH
-[[ -d ~/.bin ]]  &&  export PATH=~/.bin:$PATH
+export GOPATH=$HOME/code/go
+export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
 
 export TERM=xterm-256color-italic
 
-# Instalar rbenv
-#if command_exists rbenv; then
-#    eval "$(rbenv init -)"
-#fi
+# Install rbenv
+if command_exists rbenv; then
+    eval "$(rbenv init -)"
+fi
 
-#if [[ -d ~/.rvm ]]; then
-#    PATH=$HOME/.rvm/bin:$PATH # Añadir RVM a la ruta para la escritura de código
-#    source ~/.rvm/scripts/rvm
-#fi
+if [[ -d ~/.rvm ]]; then
+    PATH=$HOME/.rvm/bin:$PATH # add RVM to PATH for scripting
+    source ~/.rvm/scripts/rvm
+fi
 
-# Alias de hub a git
-#if command_exists hub; then
-#    eval "$(hub alias -s)"
-#fi
+# Alias git to hub
+if command_exists hub; then
+    eval "$(hub alias -s)"
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='ag -g ""'
 
-# Iniciar línea de comandos con tmux abierto
+# Start tmux automatically
 # http://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
-#if command_exists tmux; then
-#[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || exec tmux new-session && exit; } # Esto cerraría el terminal al cerrar tmux
+if command_exists tmux; then
+[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || exec tmux new-session && exit; } # Esto cerraría el terminal al cerrar tmux
 #  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || tmux new-session} # Esto no lo cerraría
-#fi
-export GOPATH=$HOME/code/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+fi

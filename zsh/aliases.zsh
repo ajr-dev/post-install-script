@@ -1,7 +1,7 @@
 # Recargar la configuración de zsh
 alias reload!='RELOAD=1 source ~/.zshrc'
 
-# Alias para tmux
+# tmux aliases
 alias ta='tmux attach'
 alias tls='tmux ls'
 alias tat='tmux attach -t'
@@ -9,7 +9,7 @@ alias tns='tmux new-session -s'
 alias tk='tmux kill-session'
 #alias tkl='tmux ls | grep : | cut -d. -f1 | awk '\"{print substr($1, 0, length($1)-1)}'\" | xargs kill'
 
-# Detectar which `ls` flavor is in use
+# Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
     colorflag="--color"
 else # OS X `ls`
@@ -25,6 +25,7 @@ alias ...='cd ../..'
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+alias ls="ls ${colorflag}"
 alias l="ls -lah ${colorflag}"
 alias la="ls -AF ${colorflag}"
 alias ll="ls -lFh ${colorflag}"
