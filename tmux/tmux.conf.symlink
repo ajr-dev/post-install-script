@@ -60,11 +60,9 @@ bind N new-window
 # Split window and fix path for tmux 1.9
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
-#bind h split-window -h -c "#{pane_current_path}"
-#bind v split-window -v -c "#{pane_current_path}"
 
 # Synchronize all panes in a window
-bind y setw synchronize-panes
+bind y set-window-option synchronize-panes
 
 # Pane movement shortcuts
 bind h select-pane -L
@@ -82,7 +80,7 @@ bind -r K resize-pane -U 10
 bind -r L resize-pane -R 10
 
 # Enable mouse support for switching panes/windows
-setw -g mouse on
+setw -g mouse off
 
 # maximizing and restoring windows
 unbind Up
@@ -90,32 +88,35 @@ bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-windo
 unbind Down
 bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
 
-#### Copy/Pasting in Linux http://www.rushiagr.com/blog/2016/06/16/everything-you-need-to-know-about-tmux-copy-pasting-ubuntu/
-# Copy by mouse drag
-set-option -g -q mouse on
-bind-key -t vi-copy MouseDragEnd1Pane copy-pipe "xclip -selection clipboard -i"
-
-# set vi mode for copy mode
-setw -g mode-keys vi
-# more settings to make copy-mode more vim-like
+# More settings to make copy-mode more vim-like
 unbind [
 bind Escape copy-mode
 unbind p
-#bind p paste-buffer
 unbind v
-#bind -Tcopy-mode-vi 'v' send -X begin-selection
-#bind -Tcopy-mode-vi 'y' send -X copy-pipe-and-cancel "tmux save-buffer - | reattach-to-user-namespace pbcopy"
-bind-key -t vi-copy 'v' begin-selection
-# https://unix.stackexchange.com/questions/15715/getting-tmux-to-copy-a-buffer-to-the-clipboard
-bind p run "xclip -o | tmux load-buffer - ; tmux paste-buffer"
-bind y run "tmux save-buffer - | xclip -i"
-#bind -t vi-copy y copy-pipe "xclip -sel clip -i"
-bind -t vi-copy 'v' begin-selection
-bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'
 
-# Buffers to/from Mac clipboard
-#bind C-c run 'tmux save-buffer - | reattach-to-user-namespace pbcopy'
-#bind C-v run 'tmux set-buffer $(reattach-to-user-namespace pbpaste); tmux paste-buffer'
+# Set vi mode for copy mode Tmux > 2.4
+set-window-option -g mode-keys vi
+
+# Copy by mouse drag
+# Mouse mode giving trouble
+set-option -g -q mouse on
+bind-key -t vi-copy MouseDragEnd1Pane copy-pipe "xclip -selection clipboard -i"
+
+run-shell "tmux setenv -g TMUX_VERSION $(tmux -V | cut -c 6-)"
+if-shell -b '[ "$(echo "$TMUX_VERSION < 2.4" | bc)" = 1 ]' \
+  "bind-key Escape copy-mode; \
+  bind-key -t vi-copy Escape cancel; \
+  bind p run "xclip -o | tmux load-buffer - ; tmux paste-buffer" \
+  bind-key -t vi-copy v begin-selection; \
+  bind-key -t vi-copy V select-line; \
+  bind-key -t vi-copy r rectangle-toggle; \
+  bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'"
+
+if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.4" | bc)" = 1 ]' \
+  "bind-key -T copy-mode-vi 'v' send -X begin-selection; \
+  bind-key -T copy-mode-vi 'V' send -X select-line; \
+  bind-key -T copy-mode-vi 'r' send -X rectangle-toggle; \
+  bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'"
 
 ##############################
 ### Color & Style Settings ###
