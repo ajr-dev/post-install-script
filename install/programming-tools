@@ -3,7 +3,9 @@
 # shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
 
-if assertConfirmation "Install c compiler, gdb, jdk, jre 9, nodejs, npm?"; then
+if ! command_exists java  &&  \
+    assertConfirmation "Install c compiler, gdb, jdk, jre 9, nodejs, npm?"
+then
     #sudo apt-get -y remove openjdk-8*
     packages=( build-essential gcc g++ gdb make nodejs npm git dconf-cli \
         unattended-upgrades unzip shellcheck xdotool python python-setuptools \
@@ -27,23 +29,23 @@ if ! command_exists mono  &&  assertConfirmation "Install mono?"; then
 fi
 
 #if [ ! -d /usr/local/go ]  &&  assertConfirmation "Install go?"; then
-    #source "$INSTALL/go-install"
+#    source "$INSTALL/go-install"
 #fi
 
-if assertConfirmation "Install TypeScript standalone server?"; then
-    npm install --save typescript
+if ! command_exists tsc  &&  assertConfirmation "Install TypeScript standalone server?"; then
+    sudo npm install -g typescript
 fi
 
-if assertConfirmation "Install rustc?"; then
+if ! command_exists rustc  &&  assertConfirmation "Install rustc?"; then
     curl https://sh.rustup.rs -sSf | sh
     source "$HOME/.cargo/env"
 fi
 
-if assertConfirmation "Install apache2, php7, mysql-server?"; then
+if ! command_exists php  &&  assertConfirmation "Install apache2, php7, mysql-server?"; then
     source "$INSTALL/lamp-install"
 fi
 
-if assertConfirmation "Install kali linux tools?"; then
+if ! command_exists hashcat  &&  assertConfirmation "Install kali linux tools?"; then
     source "$INSTALL/katoolin"
 fi
 

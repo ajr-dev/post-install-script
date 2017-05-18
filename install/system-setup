@@ -29,7 +29,7 @@ then
     fi
 fi
 
-if ! command_exists tmux  ||  [[ ! "$(tmux -V)" == *"2.4"* ]]  &&  assertConfirmation "Install tmux?"; then
+if ! command_exists tmux  ||  [[ "$(tmux -V)" != *"2.4"* ]]  &&  assertConfirmation "Install tmux?"; then
     source "$DOTFILES/install/tmux-install"
 fi
 
@@ -48,7 +48,7 @@ fi
 
 if assertConfirmation "Configure vim?" "${autoConfirm:?}"
 then
-    if [[ ! -e ~/.vimrc  &&  ! -d ~/.vim  &&  ! -d ~/.config/nvim/ ]]; then
+    if [[ ! -d ~/.config/nvim/ ]]; then
         source "$INSTALL/link-setup"
     fi
 

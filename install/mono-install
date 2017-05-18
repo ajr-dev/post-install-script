@@ -17,3 +17,5 @@ if ! grep -Fxq "deb http://download.mono-project.com/repo/debian wheezy main" \
 fi
 sudo apt-get -y update  && sudo apt-get -y upgrade
 sudo apt-get -y install mono-complete
+
+[ -f /etc/apt/sources.list.d/mono-xamarin.list ]  &&  sudo rm /etc/apt/sources.list.d/mono-xamarin.list

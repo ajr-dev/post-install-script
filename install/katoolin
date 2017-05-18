@@ -39,3 +39,14 @@ packages=( hashcat whois acccheck ace-voip amap automater braa casefile cdpsnarf
 for app in "${packages[@]}" ; do
     sudo apt-get install -y $app
 done
+
+sudo apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
+[ ! -f /etc/apt/sources.list.bak ]  &&  sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
+echo '# Kali linux repositories | Added by Katoolin\ndeb http://http.kali.org/kali kali-rolling main contrib non-free' >> /etc/apt/sources.list
+sudo apt-get update -m
+
+for app in "${packages[@]}" ; do
+    ! command_exists $app  &&  sudo apt-get install -y $app
+done
+
+[ -f /etc/apt/sources.list.bak ]  &&  sudo mv /etc/apt/sources.list.bak /etc/apt/sources.list

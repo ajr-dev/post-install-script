@@ -4,6 +4,8 @@ dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
 dconf write /org/gnome/nm-applet/disable-connected-notifications true
 #dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"
 dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']"
+dconf write /org/gnome/desktop/notifications/show-in-lock-screen false
+dconf write /org/gnome/desktop/screensaver/ubuntu-lock-on-suspend false
 
 ################################################################################
 #### File Manager
@@ -32,23 +34,28 @@ dconf write /org/gnome/desktop/peripherals/keyboard/repeat true
 dconf write /org/gnome/desktop/peripherals/keyboard/delay "uint32 200"
 dconf write /org/gnome/desktop/peripherals/keyboard/repeat-interval "uint32 20"
 dconf write /org/gnome/desktop/peripherals/mouse/natural-scroll false
+dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click true
 dconf write /org/gnome/desktop/peripherals/touchpad/edge-scrolling-enabled true
+dconf write /org/gnome/desktop/peripherals/touchpad/two-finger-scrolling-enabled true
+dconf write /org/gnome/desktop/peripherals/touchpad/click-method "'fingers'"
+dconf write /org/gnome/desktop/peripherals/touchpad/speed 0.6
 
 dconf write /org/gnome/desktop/interface/gtk-theme "'Adwaita-dark'"
+dconf write /org/gnome/desktop/interface/cursor-theme "'Adwaita'"
 dconf write /org/gnome/desktop/interface/enable-animations false
 dconf write /org/gnome/desktop/interface/can-change-accels false
 dconf write /org/gnome/desktop/interface/cursor-blink true
 dconf write /org/gnome/desktop/interface/cursor-blink-time 1200
 dconf write /org/gnome/desktop/interface/cursor-size 24
-dconf write /org/gnome/desktop/interface/cursor-theme "'Adwaita'"
-dconf write /org/gnome/desktop/interface/gtk-theme "'Mint-Y-Dark'"
-dconf write /org/gnome/desktop/interface/icon-theme "'Mint-Y'"
-dconf write /org/gnome/desktop/interface/menus-have-icons true
 dconf write /org/gnome/desktop/interface/toolbar-style "'icons'"
 dconf write /org/gnome/desktop/interface/show-battery-percentage true
 
 #dconf write /org/gnome/desktop/peripherals/mouse/motion-threshold 2.0
 #dconf write /org/gnome/desktop/peripherals/mouse/motion-acceleration 5.5
+dconf write /org/gnome/settings-daemon/plugins/power/idle-dim false
+dconf write /org/gnome/desktop/session/idle-delay "uint32 0"
+dconf write /org/gnome/settings-daemon/plugins/power/lid-close-battery-action "'blank'"
+dconf write /org/gnome/settings-daemon/plugins/power/lid-close-ac-action "'blank'"
 dconf write /org/gnome/settings-daemon/plugins/color/night-light-enabled true
 dconf write /org/gnome/settings-daemon/plugins/color/night-light-schedule-automatic true
 dconf write /org/gnome/settings-daemon/plugins/media-keys/terminal "''"
@@ -65,7 +72,6 @@ dconf write /org/gnome/desktop/wm/preferences/num-workspaces 8
 
 profile="$(dconf dump / | grep /legacy/profiles:/ | sed -r 's/^\[|\]$//g' | head -n1)"
 dconf write /$profile/audible-bell false
-dconf write /$profile/use-transparent-background false
 dconf write /$profile/scrollbar-policy "'never'"
 dconf write /$profile/scroll-on-output false
 dconf write /$profile/scroll-on-keystroke true
@@ -73,7 +79,7 @@ dconf write /$profile/scrollback-unlimited true
 dconf write /$profile/scrollback-lines 10000
 dconf write /$profile/use-theme-colors false
 dconf write /$profile/foreground-color "'rgb(171,178,191)'"
-dconf wirte /$profile/background-color "'rgb(40, 44, 52)'"
+dconf write /$profile/background-color "'rgb(40, 44, 52)'"
 dconf write /$profile/palette "['rgb(40,44,52)', 'rgb(224,108,117)', \
   'rgb(152,195,121)', 'rgb(229,192,123)', 'rgb(97,175,239)', 'rgb(198,120,221)', \
   'rgb(86,182,194)', 'rgb(75,82,99)', 'rgb(40,44,52)', 'rgb(190,80,70)', \

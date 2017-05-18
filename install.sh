@@ -6,8 +6,8 @@ if [ "$(uname)" == "Linux" ]; then
   if (( ${quick:?} )); then
     source "$INSTALL/system-setup"
   else
-    source "$INSTALL/essential"
     source "$INSTALL/system-setup"
+    source "$INSTALL/essential"
     source "$INSTALL/app-install"
     source "$INSTALL/programming-tools"
     source "$INSTALL/startup-scripts"
