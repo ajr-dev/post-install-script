@@ -17,6 +17,18 @@ then
     echo "========================================================================"
 fi
 
+#if ! command_exists junit; then
+    #mkdir -p ~/tmp
+    #cd ~/tmp
+    # TODO: This download has to be done manually
+    #wget "https://sourceforge.net/projects/junit/files/latest/download?source=files"
+    #JUNIT_HOME=/usr/share/java
+    # unzip junit.zip
+    # mv junit* junit
+    # mv junit /usr/share/java
+    #export CLASSPATH=$CLASSPATH:$JUNIT_HOME/junit:.
+#fi
+
 if ! command_exists clang  &&  assertConfirmation "Install clang?"; then
 
     source "$INSTALL/clang-install"

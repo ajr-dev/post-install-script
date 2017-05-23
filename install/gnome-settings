@@ -5,7 +5,7 @@ dconf write /org/gnome/nm-applet/disable-connected-notifications true
 #dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"
 dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']"
 dconf write /org/gnome/desktop/notifications/show-in-lock-screen false
-dconf write /org/gnome/desktop/screensaver/ubuntu-lock-on-suspend false
+dconf write /org/gnome/desktop/screensaver/ubuntu-lock-on-suspend true
 
 ################################################################################
 #### File Manager
@@ -28,7 +28,7 @@ dconf write /org/gnome/nautilus/window-state/start-with-sidebar false
 ################################################################################
 #### Desktop
 ################################################################################
-dconf write /org/gnome/desktop/lockdown/disable-lock-screen true
+dconf write /org/gnome/desktop/lockdown/disable-lock-screen false
 dconf write /org/gnome/desktop/lockdown/disable-user-switching true
 dconf write /org/gnome/desktop/peripherals/keyboard/repeat true
 dconf write /org/gnome/desktop/peripherals/keyboard/delay "uint32 200"

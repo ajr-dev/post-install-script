@@ -38,11 +38,12 @@ fi
 [ -d $DOTFILES/bin ]    &&  export PATH=$DOTFILES/bin:$PATH
 [ -d /usr/local/sbin ]  &&  export PATH=/usr/local/sbin:$PATH
 [ -d ~/bin ]            &&  export PATH=~/bin:$PATH
-[ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
 [ -d ~/Dropbox/.bin ]   &&  export PATH=~/Dropbox/.bin:$PATH
-export PATH=/usr/local/bin:$PATH
-export GOPATH=$HOME/code/go
-export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+[ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
+[ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
+[ -d /usr/local/go ]    &&  export GOPATH=$HOME/code/go
+[ -d /usr/local/go ]    &&  export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
+[ -f /usr/share/junit.jar ]  &&  export CLASSPATH=/usr/share/junit.jar:.:$CLASSPATH
 
 export TERM=xterm-256color-italic
 
@@ -66,7 +67,7 @@ export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # Start tmux automatically
 # http://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
-if command_exists tmux; then
-[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || exec tmux new-session && exit; } # Esto cerraría el terminal al cerrar tmux
+#if command_exists tmux; then
+#[[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || exec tmux new-session && exit; } # Esto cerraría el terminal al cerrar tmux
 #  [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || tmux new-session} # Esto no lo cerraría
-fi
+#fi
