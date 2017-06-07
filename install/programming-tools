@@ -10,11 +10,16 @@ then
     packages=( build-essential gcc g++ gdb make nodejs npm git dconf-cli \
         unattended-upgrades unzip shellcheck xdotool python python-setuptools \
         ruby python3 hddtemp lm-sensors curl ubuntu-restricted-extras lftp zsh \
-        whois net-tools openjdk-8-jdk openjdk-8-jre )
+        whois net-tools openjdk-8-jdk openjdk-8-jre fpc-3.0.2 )
     for app in "${packages[@]}" ; do
         sudo apt-get install -y "$app"
     done
     echo "========================================================================"
+fi
+
+if ! command_exists pfc  &&  [ -d ~/Dropbox/install/pasfc ]; then
+    sudo cp -r ~/Dropbox/install/pasfc /usr/local/lib
+    sudo ln -s /usr/local/lib/pasfc/bin/* /usr/local/bin
 fi
 
 #if ! command_exists junit; then

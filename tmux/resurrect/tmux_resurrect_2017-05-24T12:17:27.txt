@@ -1,0 +1,36 @@
+pane	0	1	:zsh	1	:*	1	:/home/user	1	zsh	:
+pane	1	1	:zsh	0	:-	1	:/home/user	1	zsh	:
+pane	1	1	:zsh	0	:-	2	:/home/user	0	zsh	:
+pane	1	2	:zsh	1	:*	1	:/home/user	1	zsh	:
+pane	powa	1	:PSC	1	:*	1	:/home/user/facu/Programación de Sistemas y Concurrencia (PSC)/Temario/Tema 6/lect-esc	1	vi	:vi ReadersWriters.java
+pane	powa	1	:PSC	1	:*	2	:/home/user/facu/Programación de Sistemas y Concurrencia (PSC)/Temario/Tema 6/lect-esc	0	zsh	:
+pane	powa	2	:POO	0	:Z	1	:/home/user/facu/Programación Orientada a Objetos (POO)/Temario/Tema 5/listaGenerica	0	vi	:vi pruebaLista.java prLista/Lista.java prLista/ListaNum.java
+pane	powa	2	:POO	0	:Z	2	:/home/user/facu/Programación Orientada a Objetos (POO)/Temario/Tema 5/listaGenerica	1	zsh	:
+pane	powa	3	:RySD	0	:	1	:/home/user	0	zsh	:
+pane	powa	3	:RySD	0	:	2	:/home/user	1	zsh	:
+pane	powa	4	:IIS	0	:	1	:/home/user/facu/Introducción a la Ingeniería del Software (IIS)/Prácticas/Práctica 6. Introducción JUnit	1	zsh	:
+pane	powa	4	:IIS	0	:	2	:/home/user/facu/Introducción a la Ingeniería del Software (IIS)/Prácticas	0	zsh	:
+pane	powa	5	:practice	0	:	1	:/home/user	0	zsh	:
+pane	powa	5	:practice	0	:	2	:/home/user	1	zsh	:
+pane	powa	6	:config	0	:-Z	1	:/home/user/Dropbox/.thinkorswim	1	zsh	:
+pane	powa	6	:config	0	:-Z	2	:/home/user/Downloads	0	zsh	:
+pane	powa	7	:hck	0	:	1	:/home/user	1	zsh	:
+pane	powa	7	:hck	0	:	2	:/home/user	0	zsh	:
+pane	powa	7	:hck	0	:	3	:/home/user	0	zsh	:
+pane	powa	8	:pswd	0	:	1	:/home/user	1	zsh	:
+pane	powa	8	:pswd	0	:	2	:/home/user	0	zsh	:
+pane	powa	8	:pswd	0	:	3	:/home/user	0	zsh	:
+pane	powa	9	:wifi	0	:	1	:/home/user	1	zsh	:
+window	0	1	1	:*	aa3e,113x30,0,0,1
+window	1	1	0	:-	6380,113x30,0,0[113x16,0,0,2,113x13,0,17,3]
+window	1	2	1	:*	aa41,113x30,0,0,4
+window	powa	1	1	:*	857f,113x30,0,0[113x23,0,0,5,113x6,0,24,6]
+window	powa	2	0	:Z	8588,113x30,0,0[113x23,0,0,7,113x6,0,24,8]
+window	powa	3	0	:	02cd,113x30,0,0[113x23,0,0,9,113x6,0,24,10]
+window	powa	4	0	:	0a7c,113x30,0,0[113x23,0,0,11,113x6,0,24,12]
+window	powa	5	0	:	0a81,113x30,0,0[113x23,0,0,13,113x6,0,24,14]
+window	powa	6	0	:-Z	1f4b,113x30,0,0[113x15,0,0,15,113x14,0,16,16]
+window	powa	7	0	:	2ba0,113x30,0,0{57x30,0,0,17,55x30,58,0[55x14,58,0,18,55x15,58,15,19]}
+window	powa	8	0	:	661b,113x30,0,0{57x30,0,0[57x15,0,0,20,57x14,0,16,21],55x30,58,0,22}
+window	powa	9	0	:	d552,113x30,0,0,23
+state	powa	1
