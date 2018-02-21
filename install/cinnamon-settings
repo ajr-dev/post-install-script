@@ -5,6 +5,10 @@ dconf write /org/gnome/nm-applet/disable-connected-notifications true
 dconf write /org/gnome/desktop/interface/document-font-name "'Noto Sans 14'"
 dconf write /org/gnome/desktop/interface/monospace-font-name "'Monospace 14'"
 dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"
+dconf write /org/nemo/desktop/font "'Ubuntu 14'"
+dconf write /org/cinnamon/desktop/interface/font-name "'Ubuntu 14'"
+dconf write /org/gnome/desktop/interface/document-font-name "'Ubuntu 14'"
+dconf write /org/cinnamon/desktop/wm/preferences/titlebar-font "'Ubuntu Medium 11'"
 
 ################################################################################
 #### Update Manager
@@ -94,6 +98,7 @@ dconf write /org/cinnamon/desktop/privacy/remember-recent-files false
 dconf write /org/cinnamon/desktop/privacy/recent-files-max-age -1
 dconf write /org/cinnamon/desktop/privacy/recent-files-max-age 30
 dconf write /org/cinnamon/settings-daemon/plugins/power/lock-on-suspend false
+dconf write /org/cinnamon/settings-daemon/plugins/xsettings/antialiasing "'none'"
 dconf write /org/cinnamon/desktop/screensaver/lock-enabled false
 dconf write /org/cinnamon/desktop/session/idle-delay "uint32 0"
 dconf write /org/cinnamon/desktop/screensaver/ask-for-away-message false

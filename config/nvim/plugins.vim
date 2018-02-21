@@ -47,7 +47,7 @@ Plug 'benmills/vimux' " tmux integration for vim
 Plug 'vim-airline/vim-airline' " fancy statusline
 Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
 Plug 'joshdick/onedark.vim' " colorschemes
-Plug 'flazz/vim-colorschemes'
+"Plug 'flazz/vim-colorschemes'
 Plug 'tpope/vim-repeat' " enables repeating other supported plugins with the . command
 Plug 'sirver/ultisnips' | Plug 'garbas/vim-snipmate' " snippet manager
 Plug 'honza/vim-snippets'

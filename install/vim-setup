@@ -18,5 +18,7 @@ else
     vim -c 'PlugInstall' -c 'qa!'
     vim -u NONE -c ":Helptags" -c q
 fi
+sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
+sudo update-alternatives --config vi
 echo "========================================================================"
 clear

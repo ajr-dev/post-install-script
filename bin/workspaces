@@ -52,78 +52,112 @@ if ! command_exists zenity; then
     exit
 fi
 
-wmctrl -n 8
-#set-desktop-name 0 "Programación de Sistemas y Concurrencia"
-sleep 2
-wmctrl -s 0
-sleep 1
-
-$fileManager "$HOME/facu/Programación de Sistemas y Concurrencia (PSC)" & # quizás un gestor de archivos también
-$terminal --working-directory="$HOME/facu/Programación de Sistemas y Concurrencia (PSC)" --window --full-screen &
-$browser -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3177" -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3133&section=4" &
 zenity --question --text "Open workspaces"
 if [[ $? == 1 ]]; then exit; fi
 
+wmctrl -n 8
+sleep 3
+set-desktop-name 0 "PSC"
+wmctrl -s 0
+sleep 1
+
+$fileManager "$HOME/facu/Segundo Curso/Segundo Cuatrimestre/Programación de Sistemas y Concurrencia" &
+$terminal --working-directory="$HOME/facu/Segundo Curso/Segundo Cuatrimestre/Programación de Sistemas y Concurrencia" --window --full-screen &
+$browser -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3177" -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3133&section=4" &
+
+set-desktop-name 1 "POO"
+sleep 2
 wmctrl -s 1
 sleep 1
-#set-desktop-name 1 "Programación Orientada a Objetos"
 
 $browser -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3072" -new-tab -url "http://www.lcc.uma.es/~vicente/docencia/poo/teoria/planificacion_poo.pdf"&
-$fileManager "$HOME/facu/Programación Orientada a Objetos (POO)" &
-$terminal --working-directory="$HOME/facu/Programación Orientada a Objetos (POO)" --window --full-screen &
+$fileManager "$HOME/facu/Primer Curso/Programación Orientada a Objetos" &
+$terminal --working-directory="$HOME/facu/Primer Curso/Programación Orientada a Objetos" --window --full-screen &
 
-sleep 3
+#set-desktop-name 2 "SO"
+
+#$browser --new-window https://informatica.cv.uma.es/course/view.php?id=3112 &
+#$fileManager "$HOME/facu/Sistemas Operativos (SO)/Temario/Tema 2" &
+#$terminal --working-directory="$HOME/facu/Sistemas Operativos (SO)/Temario/Tema 2" --window --full-screen &
+
+set-desktop-name 2 "TALF"
+sleep 2
 wmctrl -s 2
 sleep 1
-#set-desktop-name 2 "Sistemas Operativos"
 
-$browser --new-window https://informatica.cv.uma.es/course/view.php?id=3112 &
-$fileManager "$HOME/facu/Sistemas Operativos (SO)/Temario/Tema 2" &
-$terminal --working-directory="$HOME/facu/Sistemas Operativos (SO)/Temario/Tema 2" --window --full-screen &
+$browser -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3072" -new-tab -url "http://www.lcc.uma.es/~vicente/docencia/poo/teoria/planificacion_poo.pdf"&
+$fileManager "$HOME/facu/Segundo Curso/Primer Cuatrimestre/Teoría de Autómatas y Lenguajes Formales" &
 
-sleep 3
+set-desktop-name 3 "EC"
+sleep 2
 wmctrl -s 3
 sleep 1
-#set-desktop-name 3 "Tecnología de Computadores"
 
 $browser -new-tab -url https://guac.ac.uma.es/guac/mod/tecncomp/view.php?id=3829 -new-tab -url https://informatica.cv.uma.es/mod/page/view.php?id=225525 &
-$fileManager "$HOME/dotnet/ARMSim-201/practica/Ejercicios" &
-$terminal --working-directory="$HOME/dotnet/ARMSim-201/practica/Ejercicios" --window --full-screen &
+$fileManager "$HOME/facu/Segundo Curso/Primer Cuatrimestre/Estructura de Computadores" &
 
-sleep 3
-wmctrl -s 4
+set-desktop-name 4 "MD"
+sleep 2
+wmctrl -s 1
 sleep 1
-#set-desktop-name 4 "Redes y Sistemas Distribuidos"
 
-$browser -new-tab -url https://informatica.cv.uma.es/course/view.php?id=2938 -new-tab -url "https://informatica.cv.uma.es/mod/page/view.php?id=211189"&
-$fileManager "$HOME/facu/Redes y Sistemas Distribuidos (RSD)" &
-$terminal --working-directory="$HOME/facu/Redes y Sistemas Distribuidos (RSD)" --window --full-screen &
+$browser -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3072" &
+$fileManager "$HOME/facu/Primer Curso/Matemática Discreta" &
 
-sleep 3
+set-desktop-name 5 "ADA"
+sleep 2
 wmctrl -s 5
 sleep 1
-#set-desktop-name 5 "Introducción a la Ingeniería del Software"
 
-$browser -new-tab -url https://informatica.cv.uma.es/course/view.php?id=3173 -new-tab -url "https://informatica.cv.uma.es/pluginfile.php/254988/mod_resource/content/1/Planificaci%C3%B3n%202017%20AMG-GradoIngSW.pdf" &
-$fileManager "$HOME/facu/Introducción a la Ingeniería del Software (IIS)" &
-$terminal --working-directory="$HOME/facu/Introducción a la Ingeniería del Software (IIS)" --window --full-screen &
+$terminal --working-directory="$HOME/practice" --window --full-screen &
+$fileManager "$HOME/facu/Segundo Curso/Primer Cuatrimestre/Análisis y Diseño de Algoritmos" &
 
-sleep 3
+set-desktop-name 6 "BD"
+sleep 2
 wmctrl -s 6
 sleep 1
-#set-desktop-name 6 "Programación"
 
-$document_viewer "$HOME/practice/c/Programming in C by Kochan.pdf" &
-$browser --new-window https://www.google.com &
-$terminal --working-directory="$HOME/practice" --window --full-screen &
+$fileManager "$HOME/facu/Segundo Curso/Primer Cuatrimestre/Bases de Datos" &
 
+#sleep 3
+#wmctrl -s 3
+#sleep 1
+#set-desktop-name 3 "TC"
+
+#$browser -new-tab -url https://guac.ac.uma.es/guac/mod/tecncomp/view.php?id=3829 -new-tab -url https://informatica.cv.uma.es/mod/page/view.php?id=225525 &
+#$fileManager "$HOME/dotnet/ARMSim-201/practica/Ejercicios" &
+#$terminal --working-directory="$HOME/dotnet/ARMSim-201/practica/Ejercicios" --window --full-screen &
+
+#sleep 3
+#wmctrl -s 4
+#sleep 1
+#set-desktop-name 4 "RySD"
+
+#$browser -new-tab -url https://informatica.cv.uma.es/course/view.php?id=2938 -new-tab -url "https://informatica.cv.uma.es/mod/page/view.php?id=211189"&
+#$fileManager "$HOME/facu/Redes y Sistemas Distribuidos (RSD)" &
+#$terminal --working-directory="$HOME/facu/Redes y Sistemas Distribuidos (RSD)" --window --full-screen &
+
+#sleep 3
+#wmctrl -s 5
+#sleep 1
+#set-desktop-name 5 "IIS"
+
+#$browser -new-tab -url https://informatica.cv.uma.es/course/view.php?id=3173 -new-tab -url "https://informatica.cv.uma.es/pluginfile.php/254988/mod_resource/content/1/Planificaci%C3%B3n%202017%20AMG-GradoIngSW.pdf" &
+#$fileManager "$HOME/facu/Introducción a la Ingeniería del Software (IIS)" &
+#$terminal --working-directory="$HOME/facu/Introducción a la Ingeniería del Software (IIS)" --window --full-screen &
+
+#sleep 3
+#wmctrl -s 6
+#sleep 1
+#set-desktop-name 6 "PSC"
+
+#$fileManager "$HOME/facu/Programación de Sistemas y Concurrencia (PSC)" & # quizás un gestor de archivos también
+#$terminal --working-directory="$HOME/facu/Programación de Sistemas y Concurrencia (PSC)" --window --full-screen &
+#$browser -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3177" -new-tab -url "https://informatica.cv.uma.es/course/view.php?id=3133&section=4" &
+
+set-desktop-name 7 "Otros"
 sleep 3
 wmctrl -s 7 # estarás en este entorno de trabajo cuando el script termine de ejercutarse
 sleep 1
-#set-desktop-name 7 "Otros"
 
 $browser -new-tab -url https://calendar.google.com/ -new-tab -url https://mail.google.com/ &
-if command_exists ebook-viewer; then
-    #ebook-viewer "$HOME/Documents/Books/Robb Wolf/Wired to Eat/Wired to Eat - How to Rewire Your Appetite and Lose Weight for Good (2017).epub" --open-at=247.5 &
-    ebook-viewer --continue
-fi

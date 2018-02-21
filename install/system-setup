@@ -29,7 +29,7 @@ then
     fi
 fi
 
-if ! command_exists tmux  ||  [[ "$(tmux -V)" != *"2.4"* ]]  &&  assertConfirmation "Install tmux?"; then
+if ! command_exists tmux  ||  [[ "$(tmux -V)" != *"2.5"* ]]  &&  assertConfirmation "Install tmux?"; then
     source "$DOTFILES/install/tmux-install"
 fi
 

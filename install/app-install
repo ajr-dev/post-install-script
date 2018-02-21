@@ -13,6 +13,10 @@ if assertConfirmation "Update the system?"; then
     echo "========================================================================"
 fi
 
+# Linuxbrew
+sudo apt-get install build-essential curl file git python-setuptools ruby
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install)"
+
 # TODO: check if not installed already
 #if grep -q "^flags.*\ hypervisor\ " /proc/cpuinfo  &&  assertConfirmation "Install Virtual Machine extras?"; then
 #source "$INSTALL/virtual-machine"

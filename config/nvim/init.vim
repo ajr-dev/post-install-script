@@ -49,12 +49,17 @@ nmap ;s :set invspell spelllang=en<cr>
 " Markdown para html
 nmap <leader>md :%!markdown --html4tags <cr>
 
+" Cambiar tabuladores por espacios
+nmap <leader>r :set et \| retab<cr>
 " Remover espacios en blanco sobrantes
-nmap <leader><space> :%s/\s\+$<cr>
-nmap <leader><space><space> :%s/\n\{2,}/\r\r/g<cr>
+ nmap <leader><space> :%s/\s\+$<cr>
+" nmap <leader><space><space> :%s/\n\{2,}/\r\r/g<cr>
 " Borrar los espacios en blanco de final de línea al guardar.
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
-"autocmd BufWritePre * :%s/\s\+$//e
+" autocmd BufWritePre * :%s/\s\+$//e
+
+" Filetype specific spaces not working properly sometimes
+nmap <leader>ss :set sw=2 \| set ts=2 \| set sts=2
 
 nmap <leader>l :set list!<cr>
 
@@ -83,9 +88,10 @@ vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
 " Atajo para guardar
 nmap <leader>, :w<cr>
-" :W guardar el archivo usando sudo
-" (es útil para manejar los errores de permiso denegado)
-command W w !sudo tee % > /dev/null
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+"command W w !sudo tee % > /dev/null
+" nmap <leader>, :w !sudo tee % > /dev/null<cr>
 " }}}
 " => Pestañas, ventanas y búfers {{{
 " Moverse rápidamente entre búfers
@@ -143,7 +149,7 @@ else
     nmap <silent> <leader>t :FZF<cr>
 endif
 
-nmap <silent> <leader>r :Buffers<cr>
+"nmap <silent> <leader>r :Buffers<cr>
 nmap <silent> <leader>e :FZF<cr>
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -275,22 +281,18 @@ set title                                                 " Cambiar nombre del t
 " }}}
 " }}}
 " => Tabulador y sangrado {{{
-set expandtab     " et                                    " Usar espacios en lugar de tabuladores
 set smarttab      " sta                                   " Utilizar tabuladores de forma inteligente
+set expandtab     " et                                    " Usar espacios en lugar de tabuladores
 set tabstop=4     " ts                                    " Número de espacios por tabulador
 set softtabstop=4 " sts                                   " Número de espacios por tabulador al editar
 set shiftwidth=4  " sw                                    " Número de espacios sangrado automático
 set shiftround                                            " Redondear indentado a un múltiplo de 'shiftwidth'
 set completeopt+=longest
-set nowrap                                                " Envolver líneas
+set wrap                                                " Envolver líneas
 "set wrapmargin=8                                         " Envolver líneas cuando están a n caracteres del lado
 set linebreak                                             " Envoltura suave
 set showbreak=↪                                           " Mostrar elipsis al romper
 set autoindent    " ai                                    " Mantener sangrado en el cambio de línea
-
-"autocmd filetype c,asm,python setlocal shiftwidth=4 tabstop=4 softtabstop=4
-autocmd filetype html,javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType make setlocal noexpandtab
 
 " Mostrar tabuladores y espacios no deseados
 set list
@@ -351,6 +353,10 @@ set whichwrap+=<,>,h,l,[,]
 " Configuración específica por tipo de archivo
 augroup configgroup
     autocmd!
+
+    "autocmd filetype c,asm,python setlocal shiftwidth=4 tabstop=4 softtabstop=4
+    autocmd Filetype xhtml,php,html,javascript setlocal autoindent smartindent expandtab shiftwidth=2 tabstop=2 softtabstop=2
+    autocmd FileType make setlocal noexpandtab
 
     "Redimensionar automáticamente los paneles al cambiar el tamaño
     autocmd VimResized * exe 'normal! \<c-w>='

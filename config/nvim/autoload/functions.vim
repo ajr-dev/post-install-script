@@ -50,9 +50,9 @@ function! functions#SetCustomCommand()
 endfunction
 
 " Borrar espacios al final de línea
-function! functions#TrimWhiteSpace()
-    %s/\s\+$//e
-endfunction
+" function! functions#TrimWhiteSpace()
+"     %s/\s\+$//e
+" endfunction
 
 function! functions#HtmlUnEscape()
   silent s/&lt;/</eg
