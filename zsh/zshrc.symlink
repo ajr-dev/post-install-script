@@ -39,19 +39,6 @@ if command_exists nvim; then
   export GIT_EDITOR='nvim'
 fi
 
-# Adding path directory for custom scripts
-[ -d $DOTFILES/bin ]    &&  export PATH=$DOTFILES/bin:$PATH
-[ -d /usr/local/sbin ]  &&  export PATH=/usr/local/sbin:$PATH
-[ -d ~/bin ]            &&  export PATH=~/bin:$PATH
-[ -d ~/Dropbox/.bin ]   &&  export PATH=~/Dropbox/.bin:$PATH
-[ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
-[ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
-[ -d /usr/local/go ]    &&  export GOPATH=$HOME/code/go
-[ -d /usr/local/go ]    &&  export PATH=$PATH:/usr/local/go/bin:$GOPATH/bin
-[ -f /usr/share/junit.jar ]  &&  export CLASSPATH=/usr/share/junit.jar:.:$CLASSPATH
-
-export TERM=xterm-256color-italic
-
 # Install rbenv
 if command_exists rbenv; then
     eval "$(rbenv init -)"
@@ -66,6 +53,26 @@ fi
 if command_exists hub; then
     eval "$(hub alias -s)"
 fi
+
+# Adding path directory for custom scripts
+[ -d $DOTFILES/bin ]    &&  export PATH=$DOTFILES/bin:$PATH
+[ -d /usr/local/sbin ]  &&  export PATH=/usr/local/sbin:$PATH
+[ -d ~/bin ]            &&  export PATH=~/bin:$PATH
+[ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
+[ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
+[ -f /usr/share/junit.jar ]  &&  export CLASSPATH=/usr/share/junit.jar:.:$CLASSPATH
+[ -d /opt/android-studio/bin ]  &&  export PATH="/opt/android-studio/bin/:$PATH"
+[ -d ~/.cargo/bin ]  &&  export PATH=~/.cargo/bin:$PATH
+
+# GoLang
+if [ -d /usr/local/go ]; then
+    export GOROOT=/usr/local/go
+    export PATH=$PATH:$GOROOT/bin
+    export GOPATH=$HOME/go
+    export PATH=$PATH:$GOPATH/bin
+fi
+
+export TERM=xterm-256color-italic
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='ag -g ""'

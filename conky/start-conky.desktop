@@ -1,9 +1,0 @@
-#!/bin/bash
-
-conky -dc ~/.config/conky/.conky/conky_cal
-conky -dc ~/.config/conky/.conky/conky_clock
-conky -dc ~/.config/conky/.conky/conky_rss
-conky -dc ~/.config/conky/.conky/conky_speed
-conky -dc ~/.config/conky/.conky/conky_system
-conky -dc ~/.config/conky/.conky/conky_task
-conky -dc ~/.config/conky/.conky/conky_tor

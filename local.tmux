@@ -1,1 +1,0 @@
-# Comandos propios de tmux
