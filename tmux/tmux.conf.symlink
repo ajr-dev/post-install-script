@@ -1,4 +1,4 @@
-# Tmux display things in 256 colors
+ # Tmux display things in 256 colors
 set -g default-terminal "xterm-256color-italic"
 
 # Enable terminal compability
@@ -51,7 +51,7 @@ set-option -g set-titles-string "#T - #W"
 ######################
 
 # Open and reload config file
-bind-key e split-window -h vim ~/.dotfiles/tmux/tmux.conf.symlink
+bind-key e split-window -h vim ~/.tmux.conf
 bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
 
 # Quickly open a new window
@@ -66,8 +66,8 @@ bind y set-window-option synchronize-panes
 
 # Pane movement shortcuts
 bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
+bind j select-pane -D\; resize-pane -Z
+bind k select-pane -U\; resize-pane -Z
 bind l select-pane -R
 
 bind -r C-h select-window -t :-

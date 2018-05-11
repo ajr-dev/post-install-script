@@ -63,6 +63,7 @@ call plug#begin('~/.config/nvim/plugged')
     set laststatus=2 " show the satus line all the time
     set so=7 " set 7 lines to the cursors - when moving vertical
     set wildmenu " enhanced command line completion
+    set wildignorecase " complete filename ignoring case
     set hidden " current buffer can be put into background
     set showcmd " show incomplete commands
     set noshowmode " don't show which mode disabled for PowerLine
@@ -154,13 +155,16 @@ call plug#begin('~/.config/nvim/plugged')
     " Search the word under the cursor
     nnoremap <leader><space> "fyiw :/<c-r>f<cr>
 
-    " shortcut to save
+    " Shortcut to save
     nmap <leader>, :w<cr>
+
+    " Automatically save after editing
+    inoremap <Esc> <Esc>:w<CR>
 
     " Allow saving of files as sudo when I forgot to start vim using sudo.
     command! W w !sudo tee % > /dev/null<cr>
     cmap w!! w !sudo tee > /dev/null %
-    nmap <leader>, :w !sudo tee % > /dev/null<cr>
+    "nmap <leader>, :w !sudo tee % > /dev/null<cr>
 
     " Ctrl-S for saving file
     noremap <silent> <C-S>          :update<CR>
@@ -275,7 +279,7 @@ call plug#begin('~/.config/nvim/plugged')
     " NERDTree {{{
         Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
         Plug 'Xuyuanp/nerdtree-git-plugin'
-        Plug 'ryanoasis/vim-devicons'
+        "Plug 'ryanoasis/vim-devicons'
 
         " Toggle NERDTree
         function! ToggleNerdTree()
@@ -380,6 +384,7 @@ call plug#begin('~/.config/nvim/plugged')
 
     " ALE {{{
         Plug 'w0rp/ale' " Asynchonous linting engine
+        let g:ale_lint_delay = 1000
         let g:ale_change_sign_column_color = 0
         let g:ale_sign_column_always = 1
         let g:ale_sign_error = '✖'
@@ -397,6 +402,8 @@ call plug#begin('~/.config/nvim/plugged')
     " }}}
 
     " UltiSnips {{{
+        Plug 'sirver/ultisnips' " snippet manager
+        Plug 'honza/vim-snippets'
         " better key bindings for UltiSnipsExpandTrigger
         let g:UltiSnipsExpandTrigger = "<tab>"
         let g:UltiSnipsJumpForwardTrigger = "<tab>"

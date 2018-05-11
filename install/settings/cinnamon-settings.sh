@@ -42,7 +42,7 @@ dconf write /com/linuxmint/updates/dist-upgrade true
 ################################################################################
 #### Nemo File Manager
 ################################################################################
-dconf write /org/nemo/desktop/font "'Noto Sans 14'"
+#dconf write /org/nemo/desktop/font "'Noto Sans 14'"
 dconf write /org/nemo/icon-view/default-zoom-level "'large'"
 dconf write /org/nemo/list-view/default-visible-columns "['name', 'size', 'type', 'date_modified', 'owner', 'permissions']"
 dconf write /org/nemo/preferences/click-policy "'single'"
@@ -76,8 +76,8 @@ dconf write /org/cinnamon/desktop/media-handling/automount-open true
 dconf write /org/cinnamon/desktop/media-handling/autorun-never true
 dconf write /org/cinnamon/desktop/lockdown/disable-user-switching true
 dconf write /org/cinnamon/desktop/background/slideshow/slideshow-enabled false
-dconf write /org/cinnamon/desktop/interface/font-name "'Noto Sans 14'"
-dconf write /org/cinnamon/desktop/wm/preferences/titlebar-font "'Noto Sans Bold 11'"
+#dconf write /org/cinnamon/desktop/interface/font-name "'Noto Sans 14'"
+#dconf write /org/cinnamon/desktop/wm/preferences/titlebar-font "'Noto Sans Bold 11'"
 dconf write /org/cinnamon/desktop-effects false
 dconf write /org/cinnamon/desktop-effects-on-dialogs false
 dconf write /org/cinnamon/desktop-effects-on-menus false
@@ -117,7 +117,7 @@ dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/binding
 dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom1/name "'Kill Window'"
 dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom1/command "'xkill'"
 dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom1/binding "['<Primary>KP_Delete']"
-dconf write /org/cinnamon/settings-daemon/peripherals/mouse/motion-acceleration 4.0
+dconf write /org/cinnamon/settings-daemon/peripherals/mouse/motion-acceleration 6.0
 dconf write /org/cinnamon/settings-daemon/peripherals/mouse/motion-threshold 2.0
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/touchpad-enabled true
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/tap-to-click true
@@ -127,9 +127,12 @@ dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/three-finger-clic
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/natural-scroll false
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/vertical-edge-scrolling true
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/horizontal-edge-scrolling true
+dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/horizontal-scrolling true
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/vertical-two-finger-scrolling true
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/horizontal-two-finger-scrolling true
-dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/motion-acceleration 5.0
+dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/custom-acceleration true
+dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/motion-acceleration 7.0
+dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/custom-threshold true
 dconf write /org/cinnamon/settings-daemon/peripherals/touchpad/motion-threshold 2
 dconf write /org/cinnamon/settings-daemon/plugins/power/sleep-display-ac 0 # never
 dconf write /org/cinnamon/settings-daemon/plugins/power/sleep-display-battery 0
@@ -157,20 +160,19 @@ dconf write /org/cinnamon/settings-daemon/plugins/xsettings/menus-have-icons tru
 dconf write /org/cinnamon/settings-daemon/plugins/xsettings/buttons-have-icons false
 
 profile="$(dconf dump / |grep /legacy/profiles:/ |sed -r 's/^\[|\]$//g' |head -n1)"
-dconf write /$profile/use-transparent-background false
+dconf write /"$profile"/use-transparent-background false
 if fc-list | grep -i "source-code-pro"; then
-  dconf write /$profile/use-system-font false
-  dconf write /$profile/font "'Source Code Pro 11'"
+  dconf write /"$profile"/use-system-font false
+  dconf write /"$profile"/font "'Source Code Pro 11'"
 fi
-dconf write /$profile/scrollbar-policy "'never'"
-dconf write /$profile/scroll-on-output false
-dconf write /$profile/scroll-on-keystroke true
-dconf write /$profile/scrollback-unlimited true
-dconf write /$profile/scrollback-lines 10000
+dconf write /"$profile"/scrollbar-policy "'never'"
+dconf write /"$profile"/scroll-on-output false
+dconf write /"$profile"/scroll-on-keystroke true
+dconf write /"$profile"/scrollback-unlimited true
+dconf write /"$profile"/scrollback-lines 10000
 dconf write /org/gnome/terminal/legacy/default-show-menubar false
 
 # Onedark colorscheme
-dconf write /$profile/palette
-  ['rgb(30,33,39)', 'rgb(190,80,70)', 'rgb(152,195,121)', 'rgb(209,154,102)', 'rgb(97,175,239)', 'rgb(198,120,221)', 'rgb(86,182,194)', 'rgb(171,178,191)', 'rgb(92,99,112)', 'rgb(224,108,117)', 'rgb(152,195,121)', 'rgb(229,192,123)', 'rgb(97,175,239)', 'rgb(198,120,221)', 'rgb(86,182,194)', 'rgb(255,255,255)']
-dconf write /$profile/foreground-color "'rgb(92,99,112)'"
-dconf write /$profile/bold-color-same-as-fg true
+dconf write /"$profile"/palette "['rgb(40,44,52)', 'rgb(190,80,70)', 'rgb(152,195,121)', 'rgb(209,154,102)', 'rgb(97,175,239)', 'rgb(198,120,221)', 'rgb(86,182,194)', 'rgb(171,178,191)', 'rgb(92,99,112)', 'rgb(224,108,117)', 'rgb(152,195,121)', 'rgb(229,192,123)', 'rgb(97,175,239)', 'rgb(198,120,221)', 'rgb(86,182,194)', 'rgb(255,255,255)']"
+dconf write /"$profile"/foreground-color "'rgb(171,178,191)''"
+dconf write /"$profile"/bold-color-same-as-fg true
