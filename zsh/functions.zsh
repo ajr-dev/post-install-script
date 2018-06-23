@@ -130,3 +130,15 @@ function hl() {
 
     echo $src | highlight -O rtf --syntax $1 --font Inconsoloata --style $style --line-number --font-size 24 | pbcopy
 }
+
+# My custom make command
+mkv() {
+    output="${1%.c}"
+    echo "gcc -ggdb -std=c99 -Wall -Werror ${@} -o $output";
+    gcc -ggdb -std=c99 -Wall -Wextra -Werror ${@} -o $output;
+}
+mk() {
+    output="${1%.c}"
+    echo "gcc -ggdb -std=c99 -Wall ${@} -o $output";
+    gcc -ggdb -std=c99 -Wall -Wextra ${@} -o $output;
+}

@@ -1,24 +1,24 @@
 #!/bin/bash
 
-source "$HOME/.dotfiles/install/declarations"
+source "$HOME/.dotfiles/install/declarations.sh"
 
 # http://askubuntu.com/questions/814/how-to-run-scripts-on-start-up
 # http://askubuntu.com/questions/228304/how-do-i-run-a-script-at-start-up
 # http://superuser.com/questions/685471/how-can-i-run-a-command-after-boot
-if [ ! -f $HOME.config/autostart/xflux.desktop ]  &&  \
-  assertConfirmation "Execute xflux at startup?" "${autoConfirm:?}"; then
+if [ ! -f "$HOME.config/autostart/redshift.desktop" ]  &&  \
+  assertConfirmation "Execute redshift at startup?" "${autoConfirm:?}"; then
     [ -d "$HOME/.config/autostart" ]  ||  mkdir -p "$HOME/.config/autostart"
-    if [[ ! -f $HOME/.config/autostart/xflux.desktop ]]; then
-      cat << EOF > $HOME/.config/autostart/xflux.desktop
-      [Desktop Entry]
-      Name=xflux
-      Exec=$DOTFILES/bin/night
-      Type=Application
-      X-GNOME-Autostart-Delay=30
+    if [[ ! -f $HOME/.config/autostart/redshift.desktop ]]; then
+      cat << EOF > $HOME/.config/autostart/redshift.desktop
+[Desktop Entry]
+Name=redshift
+Exec=$DOTFILES/bin/night
+Type=Application
+X-GNOME-Autostart-Delay=30
 EOF
     fi
     echo "========================================================================"
-    echo "Created xflux startup application"
+    echo "Created redshift startup application"
     echo "========================================================================"
 fi
 

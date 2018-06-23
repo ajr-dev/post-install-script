@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck disable=SC2034
-declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 #sudo apt-get -y remove openjdk-8*
 packages=( build-essential gcc g++ gdb make nodejs npm git dconf-cli \

@@ -31,8 +31,7 @@ https://www.linuxmint.com/searchengines.php
 https://support.mozilla.org/en-US/kb/how-search-from-address-bar
 # http://www.wordreference.com/tools/Firefox-search-shortcut.aspx
 # youtube yt
-# wordreference es en fr esen esfr enes enfr fres fren
-# torrent kat
+# wordreference wr es en fr esen esfr enes enfr fres fren
 # amazon a
 # wikipedia wk wkes
 # facebook fb"

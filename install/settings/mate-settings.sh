@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck disable=SC2034
-declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
 dconf write /org/gnome/nm-applet/disable-connected-notifications true

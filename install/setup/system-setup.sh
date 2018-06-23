@@ -4,7 +4,7 @@
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 if sudo -v; then
-    packages=( vim-gtk curl cmake xclip keepassx zsh )
+    packages=( vim-gtk curl cmake xclip keepassx zsh dropbox )
     for app in "${packages[@]}" ; do
         if ! command_exists $app; then
             sudo apt-get -y install "$app"
@@ -13,12 +13,12 @@ if sudo -v; then
 fi
 
 if [[ ! -d ~/.config/nvim/ ]]; then
-    source "$INSTALL/link-setup.sh"
+    source "$INSTALL/setup/link-setup.sh"
 fi
 
 # TODO: fix check to only perform once
 if ! [ -f ~/.gitconfig ]  &&  assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
-    source "$INSTALL/git-setup.sh"
+    source "$INSTALL/setup/git-setup.sh"
 fi
 
 if assertConfirmation "Import local config?" "${autoConfirm:?}"
@@ -28,8 +28,13 @@ then
     [ -f ~/.dotfiles/local.tmux ]  &&  cp ~/.dotfiles/local.tmux ~/.local.tmux
 fi
 
-if ! command_exists tmux  ||  [[ "$(tmux -V)" != *"2.6"* ]]  &&  assertConfirmation "Install tmux?"; then
-    source "$DOTFILES/install/tmux-install.sh"
+# Install Linuxbrew
+if ! command_exists tmux; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+fi
+
+if ! command_exists tmux  &&  assertConfirmation "Install tmux?"; then
+    source "$INSTALL/apps/tmux-install.sh"
 fi
 
 if ! command_exists  nvim  &&  assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
@@ -42,7 +47,7 @@ then
     echo "Configuring zsh as default shell"
     chsh -s "$(which zsh)"
 
-    if ! command_exists zplug; then
+    if [ ! -d ~/.zplug ]; then
         echo "installing zplug, a plugin manager for zsh - http://zplug.sh"
         git clone https://github.com/zplug/zplug ~/.zplug
     fi
@@ -75,12 +80,11 @@ if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
     source "$INSTALL/settings/unattended-upgrades.sh"
 fi
 
-# TODO: this isn't working. Fix if already done
-if assertConfirmation "Never ask for passwords?"; then
+if [ ! -f /etc/sudoers.bak ]  &&  assertConfirmation "Never ask for passwords?"; then
     source "$INSTALL/settings/no-password-prompt.sh"
 fi
 
-# Check if all files from Dropbox have already been copied
+# TODO: Check if all files from Dropbox have already been copied
 if [ -d ~/Dropbox ]  &&  assertConfirmation "Copy dropbox files to system?"; then
     source "$INSTALL/setup/dropbox-setup.sh"
 fi

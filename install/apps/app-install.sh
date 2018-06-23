@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck disable=SC2034
-declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 sudo apt-get -y update
 
@@ -26,6 +26,12 @@ if [ "${MACHINE_TYPE}" == 64 ]  &&  assertConfirmation "Install Google Chrome?";
 fi
 
 if ! command_exists dropbox  &&  assertConfirmation "Install Dropbox?"; then
-    sudo apt-get -y install dropbox python-gpgme
-    dropbox start -i
+    sudo apt-get -y install python-gpgme
+    mkdir -p ~/tmp
+    cd ~/tmp  &&  wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+    ~/.dropbox-dist/dropboxd
+    cd  &&  rm -rf ~/tmp
+
+    sudo apt-get -y install python-gpgme dropbox
+    #dropbox start -i
 fi

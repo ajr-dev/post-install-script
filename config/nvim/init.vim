@@ -53,7 +53,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Appearance {{{
     set relativenumber " show relative line number of the current line
-    set wrap " turn on line wrapping
+    "set wrap " turn on line wrapping
     set whichwrap+=<,>,h,l,[,] " change line when moving right or left
     "set wrapmargin=8 " wrap lines when coming within n characters from side
     set linebreak " set soft wrapping
@@ -279,7 +279,7 @@ call plug#begin('~/.config/nvim/plugged')
     " NERDTree {{{
         Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
         Plug 'Xuyuanp/nerdtree-git-plugin'
-        "Plug 'ryanoasis/vim-devicons'
+        "Plug 'ryanoasis/vim-devicons' " this add weird character to status line
 
         " Toggle NERDTree
         function! ToggleNerdTree()
@@ -392,13 +392,13 @@ call plug#begin('~/.config/nvim/plugged')
     " }}}
 
     " YouCompleteMe {{{
-        let g:ycm_server_python_interpreter = '/usr/bin/python'
-        let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+        "let g:ycm_server_python_interpreter = '/usr/bin/python'
+        "let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
 
         " make YCM compatible with UltiSnips (using supertab)
-        let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-        let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-        let g:SuperTabDefaultCompletionType = '<C-n>'
+        "let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+        "let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+        "let g:SuperTabDefaultCompletionType = '<C-n>'
     " }}}
 
     " UltiSnips {{{
@@ -425,7 +425,7 @@ call plug#end()
     highlight SpecialKey ctermfg=236
     highlight NonText ctermfg=236
 
-    " make comments and HTML attributes italic
+  " make comments and HTML attributes italic
     highlight Comment cterm=italic
     highlight htmlArg cterm=italic
     highlight xmlAttrib cterm=italic

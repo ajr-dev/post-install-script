@@ -1,2 +1,2 @@
-pkill flux
-xflux -l 37 -g 5 -k 2500
+pkill redshift
+redshift -l 37:5 -t 5700:2500

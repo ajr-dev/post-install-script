@@ -61,9 +61,7 @@ fi
 [ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
 [ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
 [ -f /usr/share/junit.jar ]  &&  export CLASSPATH=/usr/share/junit.jar:.:$CLASSPATH
-[ -d /opt/android-studio/bin ]  &&  export PATH="/opt/android-studio/bin/:$PATH"
 [ -d ~/.cargo/bin ]  &&  export PATH=~/.cargo/bin:$PATH
-[ -d /opt/android-studio ]  &&  export PATH=~/opt/android-studio/bin:$PATH
 
 # GoLang
 if [ -d /usr/local/go ]; then

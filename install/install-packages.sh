@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck disable=SC2034
-declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 if assertConfirmation "Install all extra packages?"; then
     packages=( audacity kazam geany thunderbird vlc virtualbox filezilla deluge \
