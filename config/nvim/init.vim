@@ -31,6 +31,7 @@ call plug#begin('~/.config/nvim/plugged')
     nnoremap <bs> Xi
 
     set clipboard+=unnamed,unnamedplus " use system clipboard for y and p commands
+    xnoremap p pgvy
 
     if has('mouse')
         set mouse=a
