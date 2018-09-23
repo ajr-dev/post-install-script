@@ -4,8 +4,7 @@
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 if assertConfirmation "Install all extra packages?"; then
-    packages=( audacity kazam geany thunderbird vlc virtualbox filezilla deluge \
-            wine zenity redshift )
+    packages=( audacity geany vlc virtualbox deluge zenity redshift calibre libreoffice )
     if [[ "$OS" == "ArchLinux" ]]; then
         echo "Installing extra packages to Arch Linux"
         for app in "${packages[@]}" ; do
@@ -23,7 +22,7 @@ else
     printf '\n========================================================================'
     if [[ $REPLY =~ ^([Yy])$ ]]; then
         packages=( audacity evince kazam geany thunderbird vlc conky virtualbox filezilla \
-            easytag dropbox youtube-dl git-gui steam keepassx calibre gimp audacious clementine \
+            easytag youtube-dl git-gui steam calibre gimp audacious clementine \
             rhythmbox banshee libreoffice wine deluge )
         for app in "${packages[@]}" ; do
             if ! command_exists "$app"; then

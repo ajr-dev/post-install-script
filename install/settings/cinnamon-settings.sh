@@ -162,8 +162,11 @@ dconf write /org/cinnamon/desktop/sound/volume-sound-enabled false
 dconf write /org/cinnamon/settings-daemon/plugins/xsettings/menus-have-icons true
 dconf write /org/cinnamon/settings-daemon/plugins/xsettings/buttons-have-icons false
 
-profile="$(dconf dump / |grep /legacy/profiles:/ |sed -r 's/^\[|\]$//g' |head -n1)"
+echo "For this to work you have to create a new terminal theme first"
+profile="$(dconf dump / | grep /legacy/profiles:/ | sed -r 's/^\[|\]$//g' | head -n1)"
 dconf write /"$profile"/use-transparent-background false
+dconf write /"$profile"/use-theme-transparency false
+dconf write /"$profile"/use-theme-colors false
 if fc-list | grep -i "source-code-pro"; then
   dconf write /"$profile"/use-system-font false
   dconf write /"$profile"/font "'Source Code Pro 11'"
@@ -178,4 +181,5 @@ dconf write /org/gnome/terminal/legacy/default-show-menubar false
 # Onedark colorscheme
 dconf write /"$profile"/palette "['rgb(40,44,52)', 'rgb(190,80,70)', 'rgb(152,195,121)', 'rgb(209,154,102)', 'rgb(97,175,239)', 'rgb(198,120,221)', 'rgb(86,182,194)', 'rgb(171,178,191)', 'rgb(92,99,112)', 'rgb(224,108,117)', 'rgb(152,195,121)', 'rgb(229,192,123)', 'rgb(97,175,239)', 'rgb(198,120,221)', 'rgb(86,182,194)', 'rgb(255,255,255)']"
 dconf write /"$profile"/foreground-color "'rgb(171,178,191)'"
+dconf write /"$profile"/background-color "'rgb(40,44,52)'"
 dconf write /"$profile"/bold-color-same-as-fg true

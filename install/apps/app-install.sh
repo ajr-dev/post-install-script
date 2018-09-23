@@ -26,12 +26,16 @@ if [ "${MACHINE_TYPE}" == 64 ]  &&  assertConfirmation "Install Google Chrome?";
 fi
 
 if ! command_exists dropbox  &&  assertConfirmation "Install Dropbox?"; then
-    sudo apt-get -y install python-gpgme
-    mkdir -p ~/tmp
-    cd ~/tmp  &&  wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-    ~/.dropbox-dist/dropboxd
-    cd  &&  rm -rf ~/tmp
+    #mkdir -p ~/tmp
+    #cd ~/tmp  &&  wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
+    #~/.dropbox-dist/dropboxd
+    #cd  &&  rm -rf ~/tmp
 
     sudo apt-get -y install python-gpgme dropbox
-    #dropbox start -i
+
+    packages=( python-gpgme python-gpg dropbox )
+    for app in "${packages[@]}" ; do
+        ! command_exists "$app"  &&  sudo apt install -y "$app"
+    done
+    dropbox start -i&
 fi

@@ -13,27 +13,7 @@ sudo apt-get update && sudo apt-get upgrade
 # [Install Apache]
 sudo apt-get install -y apache2
 
-# [Start, Enable & Status Apache service on Systemd Systems]
-sudo systemctl start apache2
-sudo systemctl enable apache2
-sudo systemctl status apache2
-
-# [Start, Enable & Status Apache service on SysVinit Systems]
-sudo service apache2 start
-sudo chkconfig httpd on
-sudo service apache2 status
-
 sudo apt-get install -y mariadb-server mariadb-client
-
-# [Start, enable & status checking systemd System]
-sudo systemctl start mysql.service
-sudo systemctl enable mysql.service
-sudo systemctl status mysql.service
-
-# [Start, enable & status checking Sysvinit System]
-sudo service mysqld start
-sudo service mysqld status
-sudo chkconfig mysqld on
 
 #sudo mysql_secure_installation
 
@@ -50,21 +30,23 @@ mysql -e "DROP DATABASE test"
 mysql -e "FLUSH PRIVILEGES"
 # Any subsequent tries to run queries this way will get access denied because lack of usr/pwd param
 
-sudo apt-get install -y php libapache2-mod-php php-mcrypt php-mysql php-common php-gd php-mbstring php-gettext php-curl php-cli
+# Ubuntu 16 / Linux Mint 18
+# sudo apt-get install -y php libapache2-mod-php php-mcrypt php-mysql php-common php-gd php-mbstring php-gettext php-curl php-cli
+
+# Ubuntu 18 / Linux Mint 19
+sudo apt install -y php7.2 libapache2-mod-php7.2 php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
+
+# [Creating php info file]
+sudo tee -a /var/www/html/info.php << EOF
+<?php phpinfo(); ?>
+EOF
 
 # Install composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php -r "if (hash_file('SHA384', 'composer-setup.php') === '544e09ee996cdf60ece3804abc52599c22b1f40f4323403c44d44fdfdd586475ca9813a858088ffbc1f233e9b180f061') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
-
-# [Restart apache service]
-sudo systemctl restart apache2
-
-# [Creating php info file]
-sudo tee -a /var/www/html/info.php << EOF
-<?php phpinfo(); ?>
-EOF
+sudo mv composer.phar /usr/local/bin/composer
 
 sudo apt-get install -y phpmyadmin
 sudo ln -s /usr/share/phpmyadmin/ /var/www/phpmyadmin
