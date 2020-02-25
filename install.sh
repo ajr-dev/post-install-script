@@ -11,6 +11,8 @@ if  ! (( ${quick:?} ));  then
     fi
     source "$INSTALL/setup/startup-scripts.sh"
     if  assertConfirmation "Final updates?";  then
+        sudo apt-get autoclean
+        sudo apt-get clean
         sudo apt-get -y --force-yes autoremove
         sudo apt-get -y --force-yes update
         sudo apt-get -y --force-yes upgrade

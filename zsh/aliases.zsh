@@ -1,6 +1,9 @@
 # Recargar la configuración de zsh
 alias reload!='RELOAD=1 source ~/.zshrc'
 
+alias autoremove='sudo apt autoremove -y'
+alias untar='tar -zxvf'
+
 # tmux aliases
 alias ta='tmux attach'
 alias tls='tmux ls'

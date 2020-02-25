@@ -32,7 +32,7 @@ EOF
     sudo ufw enable # enable firewall
 
     # Install Microsoft fonts
-    sudo apt-get install -y ttf-mscorefonts-installer
+    sudo apt-get instal -y ttf-mscorefonts-installer
 
     # Disable hibernation
     [ ! -f /etc/polkit-1/localauthority/50-local.d/com.ubuntu.enable-hibernate.pkl.bak ] \

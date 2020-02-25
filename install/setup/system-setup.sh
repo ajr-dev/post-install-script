@@ -4,7 +4,7 @@
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 if sudo -v; then
-    packages=( vim-gtk curl cmake xclip keepassx zsh dropbox )
+    packages=( vim-gtk curl cmake xclip keepassx redshift zsh dropbox )
     for app in "${packages[@]}" ; do
         if ! command_exists $app; then
             sudo apt-get -y install "$app"
@@ -28,9 +28,17 @@ then
     [ -f ~/.dotfiles/local.tmux ]  &&  cp ~/.dotfiles/local.tmux ~/.local.tmux
 fi
 
-# Install Linuxbrew
-if ! command_exists tmux; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+# Install Nix Package Manager
+if ! command_exists nix-env; then
+    sh -c "$(curl https://nixos.org/releases/nix/nix-2.2.1/install)"
+    . ~/.nix-profile/etc/profile.d/nix.sh
+fi
+
+# Install Snappy Package Manager
+if ! command_exists snap; then
+    sudo apt-get install python-tk python-setuptools ipython
+    sudo python -m easy_install -U snappy
+    python -m snappy.app
 fi
 
 if ! command_exists tmux  &&  assertConfirmation "Install tmux?"; then

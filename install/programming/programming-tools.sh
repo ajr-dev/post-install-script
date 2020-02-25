@@ -6,16 +6,41 @@ declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/de
 #sudo apt-get -y remove openjdk-8*
 packages=( build-essential gcc g++ gdb make nodejs npm git dconf-cli \
     unattended-upgrades unzip shellcheck xdotool ruby python3 hddtemp \
-    lm-sensors curl ubuntu-restricted-extras lftp zsh \
-    whois net-tools openjdk-8-jdk openjdk-8-jre fpc-3.0.2 \
-    python python-setuptools python-pip python-dev python-mysqldb )
+    lm-sensors curl ubuntu-restricted-extras lftp zsh whois net-tools \
+    openjdk-8-jdk openjdk-8-jre fpc-3.0.2 python python-setuptools \
+    python-pip python3-pip python-dev python-mysqldb )
 for app in "${packages[@]}" ; do
     if ! command_exists "$app"  &&  \
         assertConfirmation "Install $app?"
     then
-    sudo apt-get install -y "$app"
+        sudo apt-get install -y "$app"
     fi
 done
+sudo pip install selenium
+pip3 install --upgrade setuptools 
+
+install_git () {
+    # sudo apt-get install -y libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev
+    add-apt-repository ppa:git-core/ppa
+}
+
+install_snappy () {
+    sudo snap install pycharm-community --classic
+    python3 -m pip install --upgrade pip setuptools
+    python3 -m pip install --upgrade --upgrade-strategy only-if-needed snappy
+    python3 -m snappy.app
+}
+
+install_tuxcut () {
+    sudo apt-get install wondershaper python-qt4 arp-scan dsniff arptables
+    wget https://github.com/a-atalla/tuxcut/releases/download/6.1/tuxcut_6.1_amd64.deb
+    sudo dpkg -i tuxcut_6.1_amd64.deb
+    rm tuxcut_6.1_amd64.deb
+}
+
+install_snappy
+install_tuxcut
+
 echo "========================================================================"
 
 if ! command_exists pfc  &&  [ -d ~/Dropbox/install/pasfc ]; then

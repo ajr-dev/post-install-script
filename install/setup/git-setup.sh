@@ -19,6 +19,7 @@ if [ "$(uname)" == "Darwin" ]; then
     git config --global credential.helper 'osxkeychain'
 else
     read -n 1 -p "Save user and password to an unencrypted file to avoid writing? (yes/No) "
+    printf '\n' # Output a newline, because none was appended to the user's keypress.
     if [[ $REPLY =~ ^([Yy])$ ]]; then
         git config --global credential.helper 'store'
     else

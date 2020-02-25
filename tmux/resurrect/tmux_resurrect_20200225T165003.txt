@@ -1,0 +1,39 @@
+pane	0	1	:zsh	1	:*	1	:/home/arturo	1	zsh	:
+pane	1	1	:zsh	0	:-	1	:/home/arturo	1	zsh	:
+pane	1	1	:zsh	0	:-	2	:/home/arturo	0	zsh	:
+pane	1	2	:zsh	1	:*	1	:/home/arturo	1	zsh	:
+pane	powa	1	:Vision	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	1	:Vision	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	2	:PL	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	2	:PL	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	3	:TC	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	3	:TC	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	4	:SO	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	4	:SO	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	5	:practice	0	:-	1	:/home/arturo/code/flask/flasky	1	zsh	:
+pane	powa	5	:practice	0	:-	2	:/home/arturo/code/flask/flasky	0	zsh	:
+pane	powa	6	:config	1	:*	1	:/home/arturo/code/dotfiles/nicknisi	1	nvim	:/nix/store/x4dsrbwdp9q8605cni5j77acr9d4byk2-neovim-unwrapped-0.3.5/bin/nvim --cmd let g:loaded_node_provider=1 --cmd let g:python_host_prog='/nix/store/lj9x4jnj44g1axigcgw9zasmssgfcb3j-neovim-0.3.5/bin/nvim-python' --cmd let g:python3_host_prog='/nix/store/lj9x4jnj44g1axigcgw9zasmssgfcb3j-neovim-0.3.5/bin/nvim-python3' --cmd let g:ruby_host_prog='/nix/store/lj9x4jnj44g1axigcgw9zasmssgfcb3j-neovim-0.3.5/bin/nvim-ruby' gitconfig
+pane	powa	6	:config	1	:*	2	:/home/arturo/code/dotfiles/nicknisi	0	zsh	:
+pane	powa	7	:hck	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	7	:hck	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	7	:hck	0	:	3	:/home/arturo	0	zsh	:
+pane	powa	8	:pswd	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	8	:pswd	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	8	:pswd	0	:	3	:/home/arturo	0	zsh	:
+pane	powa	9	:wifi	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	10	:fullscreen	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	10	:fullscreen	0	:	2	:/home/arturo	0	zsh	:
+window	0	1	1	:*	ccfe,124x29,0,0,1
+window	1	1	0	:-	1439,124x29,0,0[124x16,0,0,2,124x12,0,17,3]
+window	1	2	1	:*	cd01,124x29,0,0,4
+window	powa	1	0	:	b8f0,124x29,0,0[124x22,0,0,5,124x6,0,23,6]
+window	powa	2	0	:	45fa,124x29,0,0[124x25,0,0,7,124x3,0,26,8]
+window	powa	3	0	:	9cc5,124x29,0,0[124x22,0,0,9,124x6,0,23,10]
+window	powa	4	0	:	4f70,124x29,0,0[124x22,0,0,11,124x6,0,23,12]
+window	powa	5	0	:-	4f75,124x29,0,0[124x22,0,0,13,124x6,0,23,14]
+window	powa	6	1	:*	a88b,174x42,0,0[174x31,0,0,15,174x10,0,32,16]
+window	powa	7	0	:	4672,124x29,0,0{62x29,0,0,17,61x29,63,0[61x13,63,0,18,61x15,63,14,19]}
+window	powa	8	0	:	0f7b,124x29,0,0{62x29,0,0[62x14,0,0,20,62x14,0,15,21],61x29,63,0,22}
+window	powa	9	0	:	e6b2,124x29,0,0,23
+window	powa	10	0	:	22f9,124x29,0,0[124x23,0,0,24,124x5,0,24,25]
+state	powa	1
