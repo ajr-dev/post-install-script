@@ -36,9 +36,11 @@ compinit
 
 for config ($ZSH/**/*completion.sh) source $config
 
-if command_exists nvim; then
+if  command_exists nvim;  then
   export EDITOR='nvim'
   export GIT_EDITOR='nvim'
+elif  command_exists vim;  then
+    export EDITOR='vim'
 fi
 
 # Install rbenv

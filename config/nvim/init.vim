@@ -1,36 +1,26 @@
 " .vimrc / init.vim
 " The following configuration works for both Vim and NeoVim
 
-" ensure vim-plug is installed and then load it
+" Ensure vim-plug is installed and then load it
 call functions#PlugLoad()
 call plug#begin('~/.config/nvim/plugged')
 
 " General {{{
-    " Abbreviations
-    abbr funciton function
-    abbr teh the
-    abbr tempalte template
-    abbr fitler filter
-    abbr cosnt const
-    abbr attribtue attribute
-    abbr attribuet attribute
-
-    set autoread " detect when a file is changed
-    set history=1000 " change history to 1000
-    set secure " disable insecure commands in .vimrc files
-    set nobackup nowritebackup noswapfile " don't make security copies of files
+    set autoread " Detect when a file is changed
+    set history=1000 " Change history to 1000
+    set secure " Disable insecure commands in .vimrc files
+    set nobackup nowritebackup noswapfile " Don't make security copies of files
 
     if (has('nvim'))
-        " show results of substition as they're happening
-        " but don't open a split
+        " Show results of substition as they're happening, but don't open a split
         set inccommand=nosplit
     endif
 
-    set backspace=indent,eol,start " make backspace behave as usual
-    " make backspace work in normal mode as in insert mode
+    set backspace=indent,eol,start " Make backspace behave as usual
+    " Make backspace work in normal mode as in insert mode
     nnoremap <bs> Xi
 
-    set clipboard+=unnamed,unnamedplus " use system clipboard for y and p commands
+    set clipboard+=unnamed,unnamedplus " Use system clipboard for y and p commands
     xnoremap p pgvy
 
     if has('mouse')
@@ -38,14 +28,14 @@ call plug#begin('~/.config/nvim/plugged')
     endif
 
     " Searching
-    set ignorecase " case insensitive searching
-    set smartcase " case-sensitive if expresson contains a capital letter
-    set hlsearch " highlight search results
-    set incsearch " search as characters are introduced
-    set nolazyredraw " don't redraw while executing macros
-    set magic " set magic on, for regex
+    set ignorecase " Case insensitive searching
+    set smartcase " Case-sensitive if expresson contains a capital letter
+    set hlsearch " Highlight search results
+    set incsearch " Search as characters are introduced
+    set nolazyredraw " Don't redraw while executing macros
+    set magic " Set magic on, for regex
 
-    " error bells
+    " Error bells
     set noerrorbells
     set visualbell
     set t_vb=
@@ -53,76 +43,72 @@ call plug#begin('~/.config/nvim/plugged')
 " }}}
 
 " Appearance {{{
-    set relativenumber " show relative line number of the current line
-    "set wrap " turn on line wrapping
-    set whichwrap+=<,>,h,l,[,] " change line when moving right or left
-    "set wrapmargin=8 " wrap lines when coming within n characters from side
-    set linebreak " set soft wrapping
-    set autoindent " automatically set indent of new line
-    set ttyfast " faster redrawing
+    set relativenumber " Show relative line number of the current line
+    set whichwrap+=<,>,h,l,[,] " Change line when moving right or left
+    set linebreak " Set soft wrapping
+    set autoindent " Automatically set indent of new line
+    set ttyfast " Faster redrawing
     set diffopt+=vertical
-    set laststatus=2 " show the satus line all the time
-    set so=7 " set 7 lines to the cursors - when moving vertical
-    set wildmenu " enhanced command line completion
-    set wildignorecase " complete filename ignoring case
-    set hidden " current buffer can be put into background
-    set showcmd " show incomplete commands
-    set noshowmode " don't show which mode disabled for PowerLine
-    set wildmode=list:longest " complete files like a shell
-    set scrolloff=3 " lines of text around cursor
+    set laststatus=2 " Show the satus line all the time
+    set so=7 " Set 7 lines to the cursors - when moving vertical
+    set wildmenu " Enhanced command line completion
+    set wildignorecase " Complete filename ignoring case
+    set hidden " Current buffer can be put into background
+    set showcmd " Show incomplete commands
+    set noshowmode " Don't show which mode disabled for PowerLine
+    set wildmode=list:longest " Complete files like a shell
+    set scrolloff=3 " Lines of text around cursor
     set shell=$SHELL
-    set cmdheight=1 " command bar height
-    set title " set terminal title
-    set showmatch " show matching braces
-    set mat=2 " how many tenths of a second to blink
-    set ffs=unix,dos,mac " use unix as standard filetype
-    set encoding=utf8 " select utf8 as standard encoding
+    set cmdheight=1 " Command bar height
+    set title " Set terminal title
+    set showmatch " Show matching braces
+    set mat=2 " How many tenths of a second to blink
+    set ffs=unix,dos,mac " Use unix as standard filetype
+    set encoding=utf8 " Select utf8 as standard encoding
     set completeopt+=longest
 
     " Tab control
-    set expandtab " insert spaces rather than tabs
-    set smarttab " tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
-    set tabstop=4 " the visible width of tabs
-    set softtabstop=4 " edit as if the tabs are 4 characters wide
-    set shiftwidth=4 " number of spaces to use for indent and unindent
-    set shiftround " round indent to a multiple of 'shiftwidth'
+    set expandtab " Insert spaces rather than tabs
+    set smarttab " Tab respects 'tabstop', 'shiftwidth', and 'softtabstop'
+    set tabstop=4 " The visible width of tabs
+    set softtabstop=4 " Edit as if the tabs are 4 characters wide
+    set shiftwidth=4 " Number of spaces to use for indent and unindent
+    set shiftround " Round indent to a multiple of 'shiftwidth'
 
     " Code folding settings
-    set foldmethod=syntax " fold based on indent
-    set foldlevelstart=99
-    set foldnestmax=10 " deepest fold is 10 levels
-    set nofoldenable " don't fold by default
+    set foldmethod=syntax " Fold based on indent
+    set foldlevelstart=99 " Don't fold by default
+    set foldnestmax=10 " Deepest fold is 10 levels
+    set nofoldenable " Don't fold by default
     set foldlevel=1
-    set modeline " allow file specific folding configuration
+    set modeline " Allow file specific folding configuration
 
     " Toggle invisible characters
     set list
     set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-    set showbreak=↪ " show ellipsis at line break
+    set showbreak=↪ " Show ellipsis at line break
 
     set t_Co=256 " Explicitly tell vim that the terminal supports 256 colors
-    " switch cursor to line when in insert mode, and block when not
+
+    " Switch cursor to line when in insert mode, and block when not
     set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
     \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
     \,sm:block-blinkwait175-blinkoff150-blinkon175
 
     if &term =~ '256color'
-        " disable background color erase
-        set t_ut=
+        set t_ut= " Disable background color erase
     endif
 
+    " Enable true color in tmux 2.6 or higher
     if has("termguicolors")
         set termguicolors
     endif
 
-    " highlight conflicts
-    match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
-    Plug 'joshdick/onedark.vim' " load colorschemes
+    Plug 'joshdick/onedark.vim' " Load colorschemes
 
     " Airline {{{
-        Plug 'vim-airline/vim-airline' " fancy statusline
-        Plug 'vim-airline/vim-airline-themes' " themes for vim-airline
+        Plug 'vim-airline/vim-airline' " Fancy statusline
+        Plug 'vim-airline/vim-airline-themes' " Themes for vim-airline
         let g:airline_powerline_fonts=1
         let g:airline_theme='onedark'
         let g:airline#extensions#tabline#enabled = 1              " Habilitar la pestaña de Airline
@@ -133,39 +119,38 @@ call plug#begin('~/.config/nvim/plugged')
 " }}}
 
 " General Mappings {{{
-    " set a map leader for more key combos
+    " Set a map leader for more key combos
     let mapleader = ","
 
-    " remap esc
+    " Remap esc
     inoremap jk <esc>
 
-    " exchange 0 y ^
+    " Exchange 0 y ^
     noremap 0 ^
     noremap ^ 0
 
-    " don't do anything when pressing Q
+    " Disable ex mode
     :map Q <Nop>
 
-    " assign search to <Space> and backward search to Ctrl-<Space>
+    " Assign search to <Space> and backward search to Ctrl-<Space>
     map <space> /
     map <c-space> ?
 
-    " clear highlighted search
-    noremap <leader><cr> :set hlsearch! hlsearch?<cr>
+    " Clear highlighted search
+    noremap <leader>, :set hlsearch! hlsearch?<cr>
 
     " Search the word under the cursor
     nnoremap <leader><space> "fyiw :/<c-r>f<cr>
 
     " Shortcut to save
-    nmap <leader>, :w<cr>
+    nmap <leader>w :w<cr>
 
     " Automatically save after editing
     inoremap <Esc> <Esc>:w<CR>
 
-    " Allow saving of files as sudo when I forgot to start vim using sudo.
-    command! W w !sudo tee % > /dev/null<cr>
-    cmap w!! w !sudo tee > /dev/null %
-    "nmap <leader>, :w !sudo tee % > /dev/null<cr>
+    " Allow saving files that need sudo privileges
+    nmap <leader>W :w !sudo tee % > /dev/null<cr>
+    cmap w! w !sudo tee % > /dev/null<cr>
 
     " Ctrl-S for saving file
     noremap <silent> <C-S>          :update<CR>
@@ -178,24 +163,24 @@ call plug#begin('~/.config/nvim/plugged')
     vmap <C-v> c<ESC>"+p
     imap <C-v> <ESC>"+pa
 
-    " toggle between indenting pasted text or not
+    " Toggle between indenting pasted text or not
     set pastetoggle=<leader>v
 
-    " fast edit of config files
+    " Fast edit of config files
     map <leader>ev :e! $MYVIMRC<cr>
     map <leader>eg :e! ~/.gitconfig<cr>
 
-    " activate spell-checking alternatives
+    " Activate spell-checking alternatives
     nmap ;s :set invspell spelllang=en<cr>
 
-    " markdown to html
+    " Markdown to html
     nmap <leader>md :%!markdown --html4tags <cr>
 
-    " remove extra whitespace
+    " Remove extra whitespace
     nmap <leader>tr :%s/\s\+$<cr>
     nmap <leader><space><space> :%s/\n\{2,}/\r\r/g<cr>
 
-    " helpers for dealing with other people's code
+    " Helpers for dealing with other people's code
     nmap \t :set ts=4 sts=4 sw=4 noet \| retab<cr>
     nmap \s :set ts=4 sts=4 sw=4 et \| retab<cr>
 
@@ -208,10 +193,10 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <leader>[ <<
     nmap <leader>] >>
 
-    " switch between current and last buffer
+    " Switch between current and last buffer
     nmap <leader>. <c-^>
 
-    " enable . command in visual mode
+    " Enable . command in visual mode
     vnoremap . :normal .<cr>
 
     " Move quickly between buffers
@@ -236,10 +221,10 @@ call plug#begin('~/.config/nvim/plugged')
     vnoremap <A-j> :m '>+1<CR>gv=gv
     vnoremap <A-k> :m '<-2<CR>gv=g
 
-    " toggle cursor line
+    " Toggle cursor line
     nnoremap <leader>i :set cursorline!<cr>
 
-    " scroll the viewport faster
+    " Scroll the viewport faster
     nnoremap <C-e> 3<C-e>
     nnoremap <C-y> 3<C-y>
 
@@ -250,23 +235,20 @@ call plug#begin('~/.config/nvim/plugged')
     nnoremap <silent> $ g$
 " }}}
 
-" AutoGroups {{{
-    " file type specific settings
-    augroup configgroup
-        autocmd!
+" File type specific settings {{{
+    autocmd!
 
-        autocmd Filetype xhtml,php,html,javascript setlocal autoindent smartindent expandtab shiftwidth=2 tabstop=2 softtabstop=2
-        autocmd FileType make setlocal noexpandtab
+    autocmd Filetype xhtml,php,html,javascript setlocal autoindent smartindent expandtab shiftwidth=2 tabstop=2 softtabstop=2
+    autocmd FileType make setlocal noexpandtab
 
-        " automatically resize panes on resize
-        autocmd VimResized * exe 'normal! \<c-w>='
-        " Automatically reload configuration
-        autocmd BufWritePost .vimrc,.vimrc.local,init.vim source %
-        autocmd BufWritePost .vimrc.local .local.vim source %
+    " Automatically resize panes on resize
+    autocmd VimResized * exe 'normal! \<c-w>='
+    " Automatically reload configuration
+    autocmd BufWritePost .vimrc,.vimrc.local,init.vim source %
+    autocmd BufWritePost .vimrc.local .local.vim source %
 
-        " save all files on focus lost, ignoring warnings about untitled buffers
-        autocmd FocusLost * silent! wa
-    augroup END
+    " Save all files on focus lost, ignoring warnings about untitled buffers
+    autocmd FocusLost * silent! wa
 " }}}
 
 " General Functionality {{{
@@ -274,7 +256,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
     Plug 'tpope/vim-surround' " mappings to easily delete, change and add such surroundings in pairs, such as quotes, parens, etc.
 
-    " add end, endif, etc. automatically
+    " Add end, endif, etc. automatically
     Plug 'tpope/vim-endwise', { 'for': [ 'ruby', 'bash', 'zsh', 'sh', 'vim' ]}
 
     " NERDTree {{{
@@ -290,9 +272,9 @@ call plug#begin('~/.config/nvim/plugged')
                 :NERDTreeToggle
             endif
         endfunction
-        " toggle nerd tree
+        " Toggle nerd tree
         nmap <silent> <leader>k :call ToggleNerdTree()<cr>
-        " find the current file in nerdtree without needing to reload the drawer
+        " Find the current file in nerdtree without needing to reload the drawer
         nmap <silent> <leader>y :NERDTreeFind<cr>
 
         let NERDTreeShowHidden=1
@@ -422,22 +404,25 @@ call plug#end()
     colorscheme onedark
     syntax on
     filetype plugin indent on
-    " make the highlighting of tabs and other non-text less annoying
+    " Make the highlighting of tabs and other non-text less annoying
     highlight SpecialKey ctermfg=236
     highlight NonText ctermfg=236
 
-  " make comments and HTML attributes italic
+    " Make comments and HTML attributes italic
     highlight Comment cterm=italic
     highlight htmlArg cterm=italic
     highlight xmlAttrib cterm=italic
     highlight Type cterm=italic
     highlight Normal ctermbg=none
 
-    highlight ColorColumn ctermbg=240 guibg=#2c2d27
-    let &colorcolumn="81,".join(range(121,999),",")
+    " Show a different background color as 'warning' and 'danger' markers
+    if v:version > 703
+        highlight ColorColumn ctermbg=240 guibg=#2c2d27
+        let &colorcolumn="81,".join(range(121,999),",")
+    endif
 " }}}
 
-" use local configuration file if available
+" Use local configuration file if available
 if !empty(glob("~/.vim.local"))
     source ~/.vim.local
 endif

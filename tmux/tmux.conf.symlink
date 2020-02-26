@@ -1,8 +1,5 @@
- # Tmux display things in 256 colors
-set -g default-terminal "xterm-256color-italic"
-
-# Enable terminal compability
-set-option -ga terminal-overrides ",xterm-256color-italic:Tc"
+# A Guide to Customizing your tmux.conf:  https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
+# Another tmux conf explained:  https://yesmeck.github.io/tmuxrc/
 
 set -g history-limit 20000
 
@@ -12,21 +9,22 @@ set -g renumber-windows on
 # Unbind default prefix and set it to Ctrl+a
 unbind C-b
 set -g prefix C-a
+# Ensure that we can send Ctrl-a to other apps
 bind C-a send-prefix
 
 # For nested tmux sessions
 bind-key a send-prefix
 
 # Activity Monitoring
-setw -g monitor-activity off
+set-window-option -g monitor-activity off
 set -g visual-activity off
 
 # Rather than constraining window size to the maximum size of any client
 # connected to the *session*, constrain window size to the maximum size of any
 # client connected to *that window*. Much more reasonable.
-setw -g aggressive-resize on
+set-window-option -g aggressive-resize on
 
-# Make delay shorter
+# Make delay shorter. Fixes: ViM ignores Escape keys on tmux if I'm too fast
 set -sg escape-time 0
 
 # Lile all windows
@@ -40,7 +38,7 @@ bind ^A select-pane -t:.+
 
 # Make window/pane index start with 1
 set -g base-index 1
-setw -g pane-base-index 1
+set-window-option -g pane-base-index 1
 
 set-option -g set-titles on
 set-option -g set-titles-string "#T - #W"
@@ -57,50 +55,64 @@ bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
 # Quickly open a new window
 bind N new-window
 
-# Split window and fix path for tmux 1.9
+# Split panes using | and -. Fix path for tmux 1.9
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 
 # Synchronize all panes in a window
 bind y set-window-option synchronize-panes
 
-# Pane movement shortcuts
+# Moving between panes
 bind h select-pane -L
-bind j select-pane -D\; resize-pane -Z
-bind k select-pane -U\; resize-pane -Z
+bind j select-pane -D#\; resize-pane -Z
+bind k select-pane -U#\; resize-pane -Z
 bind l select-pane -R
 
+# Move through the windows
 bind -r C-h select-window -t :-
 bind -r C-l select-window -t :+
 
 # Resize pane shortcuts
-bind -r H resize-pane -L 10
-bind -r J resize-pane -D 10
-bind -r K resize-pane -U 10
-bind -r L resize-pane -R 10
+bind -r H resize-pane -L 5
+bind -r J resize-pane -D 5
+bind -r K resize-pane -U 5
+bind -r L resize-pane -R 5
 
 # Enable mouse support for switching panes/windows
-setw -g mouse off
+if-shell -b '[ "$(echo "$TMUX_VERSION < 2.1" | bc)" = 1 ]' " \
+    set -g mouse-select-pane on; set -g mode-mouse on; \
+    set -g mouse-resize-pane on; set -g mouse-select-window on"
+# In version 2.1 "mouse" replaced the previous 4 mouse options
+if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.1" | bc)" = 1 ]' " \
+    set -g mouse on; \
+    set-window-option -g mouse on"
 
-# maximizing and restoring windows
-unbind Up
-bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-window -t fullscreen
-unbind Down
-bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
+ # Tmux display things in 256 colors
+set -g default-terminal "xterm-256color-italic"
 
-# More settings to make copy-mode more vim-like
+# Enable terminal compability
+set-option -ga terminal-overrides ",xterm-256color-italic:Tc"
+
+# Settings to make copy-mode more vim-like
 unbind [
 bind Escape copy-mode
-unbind p
-unbind v
-
-# Set vi mode for copy mode
 set-window-option -g mode-keys vi
 
-bind-key -T copy-mode-vi 'v' send -X begin-selection; \
-bind-key -T copy-mode-vi 'V' send -X select-line; \
-bind-key -T copy-mode-vi 'r' send -X rectangle-toggle; \
-bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+# Select text with 'v' and copy selected text with 'y' in copy-mode.
+unbind v
+if-shell -b '[ "$(echo "$TMUX_VERSION < 2.4" | bc)" = 1 ]' " \
+    bind-key -t vi-copy 'v' begin-selection; \
+    bind-key -t vi-copy 'y' copy-selection; \
+    bind-key -t vi-copy 'r' rectangle-toggle"
+if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.4" | bc)" = 1 ]' " \
+    bind-key -T copy-mode-vi 'v' send -X begin-selection; \
+    bind-key -T copy-mode-vi 'V' send -X select-line; \
+    bind-key -T copy-mode-vi 'r' send -X rectangle-toggle; \
+    bind-key -T copy-mode-vi 'y' send -X copy-pipe-and-cancel 'xclip -in -selection clipboard'"
+
+# To paste use <Prefix>P
+unbind P
+bind P paste-buffer
 
 ##############################
 ### Color & Style Settings ###
