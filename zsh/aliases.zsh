@@ -4,13 +4,7 @@ alias reload!='RELOAD=1 source ~/.zshrc'
 alias autoremove='sudo apt autoremove -y'
 alias untar='tar -zxvf'
 
-# tmux aliases
-alias ta='tmux attach'
-alias tls='tmux ls'
-alias tat='tmux attach -t'
-alias tns='tmux new-session -s'
-alias tk='tmux kill-session'
-#alias tkl='tmux ls | grep : | cut -d. -f1 | awk '\"{print substr($1, 0, length($1)-1)}'\" | xargs kill'
+alias hc="hashcat"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -19,15 +13,6 @@ else # OS X `ls`
     colorflag="-G"
 fi
 
-alias vim="nvim"
-alias hc="hashcat"
-
-# Alias del sistema de archivo
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-
 alias ls="ls ${colorflag}"
 alias l="ls -lah ${colorflag}"
 alias la="ls -AF ${colorflag}"
@@ -35,10 +20,10 @@ alias ll="ls -lFh ${colorflag}"
 alias lld="ls -l | grep ^d"
 alias rmf="rm -rf"
 
-# Funciones de ayuda
+# Helpers
 alias grep='grep --color=auto'
-alias df='df -h' # disco libre en Gigabytes, no en bytes
-alias du='du -h -c' # calcular el uso del disco de una cartpeta
+alias df='df -h' # disk free, in Gigabytes, not bytes
+alias du='du -h -c' # calculate disk usage for a folder
 
 # Direcciones IP
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"

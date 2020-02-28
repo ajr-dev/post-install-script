@@ -1,34 +1,53 @@
+# Simple guide to get started with git: https://rogerdudler.github.io/git-guide/
 # Make .gitconfig Work for You: http://michaelwales.com/articles/make-gitconfig-work-for-you/
+# List of git aliases: https://gist.github.com/zposten/4960a81addfbcdc48abfe855fae0af43
+
 [alias]
-    # List aliases
-    la = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ \t => \\2/' | sort
+
+    #  === Common Commands ===
+    a        = add #<files>           # Add the changed <files> to the index
+    b        = branch                 # Create a new branch based on your current HEAD
+    ca       = commit -a              # automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected
+    d        = difftool               # Show changes using common diff tools
+    m        = mergetool              # Run merge conflict resolution tools to resolve merge conflicts
+    f        = fetch --all --prune    # Download changes from <remote>, but don't integrate into HEAD
+    po       = push origin            # Publish local changes on a remote. In this case origin
+    pu       = push upstream          # Publish local changes on upstream
+    ch       = checkout #<branch>     # Switch HEAD branch
+    cp       = cherry-pick            #
+    cpcont   = cherry-pick --continue #
+    rh       = reset --hard           # Discard all local changes in your working directory
+    r        = rebase #<branch>       # Rebase your current HEAD onto <branch>
+    rc       = rebase --continue      # Continue a rebase after resolving conflicts
+    ra       = rebase --abort         # Abort a rebase
+    rem      = remote
+    pr       = remote prune
+    s        = status                 # Show changed files in your working directory
+    ss       = status --short
+    la       = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\ \t => \\2/' | sort # List aliases
+    alias    = "!grep -E '(  =)' ~/.gitconfig | less"  # List formatted aliases and descriptions
     # Add all. Remove from git deleted files  AND  stages the modified (-m) and other (-o) files
-    aa = !git ls-files -d | xargs -r git rm  &&  git ls-files -m -o --exclude-standard | xargs -r git add
-    ci = commit -a  # automatically stage files that have been modified and deleted, but new files you have not told Git about are not affected
-    co = checkout   # switch HEAD branch
-    ss  = status    # show changed files in your working directory
-    s = status --short
-    br = branch     # create a new branch based on your current HEAD
-    # log shows all commits. This shows a pretty log graph
-    lg = log --graph --pretty=oneline --abbrev-commit --decorate
-    # Show files that have changed between two branches (git dbr master..branch)
-    dbr = diff --name-status
+    aa       = !git ls-files -d | xargs -r git rm  &&  git ls-files -m -o --exclude-standard | xargs -r git add 
+    co       = checkout   # switch HEAD branch
+    lg       = log --graph --pretty=oneline --abbrev-commit --decorate # log shows all commits. This shows a pretty log graph
+    dbr      = diff --name-status # Show files that have changed between two branches (git dbr master..branch)
 
     # Stash the changes in a dirty working directory on a stack of unfinished changes to continue later
-    sw = stash save
-    sp = stash pop
-    sl = stash list
+    sw       = stash save
+    sp       = stash pop
+    sl       = stash list
+    sh       = show --pretty="format:" --name-only # Show the list of changed files in this commit
 
     # grep commands
 
     # 'diff grep'
-    dg = "!sh -c 'git ls-files -m | grep $1 | xargs git diff' -"
+    dg       = "!sh -c 'git ls-files -m | grep $1 | xargs git diff' -"
     # 'checkout grep'
-    cg = "!sh -c 'git ls-files -m | grep $1 | xargs git checkout ' -"
+    cg       = "!sh -c 'git ls-files -m | grep $1 | xargs git checkout ' -"
     # add grep
-    ag = "!sh -c 'git ls-files -m -o --exclude-standard | grep $1 | xargs git add' -"
+    ag       = "!sh -c 'git ls-files -m -o --exclude-standard | grep $1 | xargs git add' -"
     # remove grep - Remove found files that are NOT under version control
-    rg = "!sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm -i' -"
+    rg       = "!sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm -i' -"
 
 [branch]
     # set up 'git pull' to rebase instead of merge
@@ -61,7 +80,7 @@
     branch = yellow
 
 [core]
-    excludesfile = /Users/pollen/.gitignore_global
+    excludesfile = ~/.gitignore_global
 
 [diff]
     renames = copies
@@ -70,9 +89,6 @@
 [push]
     # push will only do the current branch, not all branches
     default = current
-
-[github]
-    user = arturojosejr
 
 [url "https://bitbucket.org/"]
     insteadOf = bb:

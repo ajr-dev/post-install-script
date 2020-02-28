@@ -1,5 +1,5 @@
 " .vimrc / init.vim
-" The following configuration works for both Vim and NeoVim
+" The following configuration should work for both Vim and NeoVim
 
 " Ensure vim-plug is installed and then load it
 call functions#PlugLoad()
@@ -125,10 +125,6 @@ call plug#begin('~/.config/nvim/plugged')
     " Remap esc
     inoremap jk <esc>
 
-    " Exchange 0 y ^
-    noremap 0 ^
-    noremap ^ 0
-
     " Disable ex mode
     :map Q <Nop>
 
@@ -158,8 +154,8 @@ call plug#begin('~/.config/nvim/plugged')
     inoremap <silent> <C-S>         <C-O>:update<CR>
 
     " Make Ctrl x, Ctrl c and  Ctrl v cut, copy and paste
-    vmap <C-c> "+y
     vmap <C-x> "+c
+    vmap <C-c> "+y
     vmap <C-v> c<ESC>"+p
     imap <C-v> <ESC>"+pa
 
@@ -181,11 +177,8 @@ call plug#begin('~/.config/nvim/plugged')
     nmap <leader><space><space> :%s/\n\{2,}/\r\r/g<cr>
 
     " Helpers for dealing with other people's code
-    nmap \t :set ts=4 sts=4 sw=4 noet \| retab<cr>
-    nmap \s :set ts=4 sts=4 sw=4 et \| retab<cr>
-
-    " Filetype specific spaces not working properly sometimes
-    nmap <leader>ss :set sw=2 \| set ts=2 \| set sts=2
+    nmap <leader>ss :set ts=4 sts=4 sw=4 et \| retab<cr>
+    nmap <leader>st :set ts=4 sts=4 sw=4 noet \| retab<cr>
 
     " Textmate style indentation
     vmap <leader>[ <gv
@@ -228,10 +221,14 @@ call plug#begin('~/.config/nvim/plugged')
     nnoremap <C-e> 3<C-e>
     nnoremap <C-y> 3<C-y>
 
+    " Exchange 0 and ^
+    noremap 0 ^
+    noremap ^ 0 
+
     " Treat long lines as if they were split. It's useful to move around easily
     nnoremap <silent> j gj
     nnoremap <silent> k gk
-    nnoremap <silent> ^ g^
+    nnoremap <silent> ^ g0
     nnoremap <silent> $ g$
 " }}}
 

@@ -125,18 +125,17 @@ When tmux starts up, [login-shell](bin/login-shell) will be run and if it determ
 ```bash
 tmux                            # Start new session
 tmux new -s myname              # Start new session with name
-tns                             # Same as tmux new -s (custom command)
-tmux a                          # Attach to a session. You can also write tmux at or tmux attach
-ta                              # Same as tmux a (custom command)
+tmux a                          # Or 'tmux attach'. Attach to the first session listed
 tmux a -t myname                # Attach to named session
-tat                             # Same as tmus a -t (custom command)
 tmux kill-session -t myname     # Kill session
-tk                              # Kill next session (custom command)
-tls                             # List tmux sessions
+tkl                             # Kill all tmux sessions
 tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs kill
-tkl                             # Same as above, kill all tmux sessions
 ```
-For the next commands you have to press the <prefix> first. The prefix is `ctrl+a`. The default prefix is `ctrl+b` but it's disabled in my configuration.
+
+There are some tmux shortcuts found in [zsh/tmux.zsh](zsh/tmux.zsh).
+You can list the custom tmux liases configured in that file with `tla`.
+
+For the next commands you have to press the prefix first. The prefix is `ctrl+a`. The default prefix is `ctrl+b` but it's disabled in my configuration.
 
 ### Sessions
 
@@ -145,6 +144,7 @@ For the next commands you have to press the <prefix> first. The prefix is `ctrl+
 s                               # List sessions
 $                               # Name current session
 ```
+
 ### Various
 ```bash
 d                               # Disconnect from current session
@@ -152,6 +152,7 @@ d                               # Disconnect from current session
 t                               # Shows a big clock
 :                               # Let's you enter tmux commands
 ```
+
 ### Windows (tabs)
 
 ```bash

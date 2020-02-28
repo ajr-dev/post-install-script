@@ -64,8 +64,8 @@ bind y set-window-option synchronize-panes
 
 # Moving between panes
 bind h select-pane -L
-bind j select-pane -D#\; resize-pane -Z
-bind k select-pane -U#\; resize-pane -Z
+bind j select-pane -D#\; resize-pane -Z # for fullscreen
+bind k select-pane -U#\; resize-pane -Z # for fullscreen
 bind l select-pane -R
 
 # Move through the windows

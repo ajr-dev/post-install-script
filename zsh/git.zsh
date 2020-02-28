@@ -1,11 +1,13 @@
 # git aliases
+# TODO: check if completion rules still work
+alias g='git'
 alias ga='git add'
 alias gb='git branch'
 alias gl='git pull'
 alias gp='git push'
 alias gd='git diff'
 alias gdc='git diff --cached'
-alias gs='git s'
+alias gs='git status'
 alias gss='git stash save'
 alias gsp='git stash pop'
 alias gmv='git mv'
