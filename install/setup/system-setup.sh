@@ -3,11 +3,14 @@
 # shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
+[ -f /etc/apt/apt.conf.d/00recommends ]  &&  sudo mv /etc/apt/apt.conf.d/00recommends /etc/apt/apt.conf.d/00recommends.disabled
+[ -f /etc/apt/apt.conf.d/99synaptic ]  &&  sudo mv /etc/apt/apt.conf.d/99synaptic /etc/apt/apt.conf.d/99synaptic.disabled
+
 if sudo -v; then
-    packages=( vim-gtk curl cmake xclip keepassx redshift zsh dropbox )
+    packages=( git vim-gtk curl cmake xclip keepassx redshift zsh dropbox ppa-purge )
     for app in "${packages[@]}" ; do
         if ! command_exists $app; then
-            sudo apt-get -y install "$app"
+            sudo apt-get -y install --install-recommends "$app"
         fi
     done
 fi
@@ -30,7 +33,7 @@ fi
 
 # Install Nix Package Manager
 if ! command_exists nix-env; then
-    sh -c "$(curl https://nixos.org/releases/nix/nix-2.2.1/install)"
+    curl https://nixos.org/nix/install | sh
     . ~/.nix-profile/etc/profile.d/nix.sh
 fi
 

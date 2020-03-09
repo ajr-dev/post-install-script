@@ -5,29 +5,36 @@ declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/de
 
 # Ubuntu install
 # Required packages
-sudo apt-get install -y build-essential cmake
+packages=( build-essential cmake ppa-purge software-properties-common python-software-properties )
+for app in "${packages[@]}" ; do
+    if ! command_exists $app; then
+        sudo apt-get -y install --install-recommends "$app"
+    fi
+done
 
-# You may need to install software-properties-common
-sudo apt install -y software-properties-common
-
-# If you're using an older version Ubuntu you must use:
-sudo apt-get install -y python-software-properties
-
+# Install from repository
 sudo add-apt-repository ppa:neovim-ppa/stable
 sudo apt-get update -y
 sudo apt-get install -y neovim
+sudo ppa-purge ppa:neovim-ppa/stable
+
+# Install from latest release
+# TODO: fix this
+#version="$(curl https://github.com/neovim/neovim/releases/latest -s | grep '"tag_name":' | cut -d'v' -f2 | cut -d'"' -f1)"
+version=v0.4.3
+wget "https://github.com/neovim/neovim/releases/download/$version/nvim-linux64.tar.gz"
 
 # Make sure you have Python headers installed
-sudo apt-get install -y python-dev python-pip x-env -iA nixpkgs.neovimpython3-dev x-env -iA nixpkgs.neovimpython3-pip
+#sudo apt-get install -y python-dev python-pip x-env -iA nixpkgs.neovimpython3-dev x-env -iA nixpkgs.neovimpython3-pip
 
 # If you're using an older version Ubuntu you must use:
-sudo apt-get install -y python-dev python-pip x-env -iA nixpkgs.neovimpython3-dev
-sudo apt-get install python3-setuptools
-sudo easy_install3 pip
+#sudo apt-get install -y python-dev python-pip x-env -iA nixpkgs.neovimpython3-dev
+#sudo apt-get install python3-setuptools
+#sudo easy_install3 pip
 
 # Upgrade
-sudo -H pip install --upgrade pip
-sudo -H pip3 install --upgrade neovim
+#sudo -H pip install --upgrade pip
+#sudo -H pip3 install --upgrade neovim
 
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
 sudo update-alternatives --config vi
