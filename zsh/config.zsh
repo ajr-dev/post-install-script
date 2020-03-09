@@ -1,32 +1,26 @@
-setopt NO_BG_NICE
-setopt NO_HUP
-setopt NO_LIST_BEEP
-setopt LOCAL_OPTIONS
-setopt LOCAL_TRAPS
-#setopt IGNORE_EOF
-setopt PROMPT_SUBST
+setopt NO_BG_NICE           # don't run background jobs at lower priority
+setopt NO_HUP               # don't kill background jobs when the shell exits
+setopt NO_BEEP              # stop the annoying beep
+setopt LOCAL_OPTIONS        # remember options when returning from a shell function
+setopt LOCAL_TRAPS          # when a signal trap is set inside a function the previous status of
+                            # the trap for that signal will be restored when the function exits
+setopt PROMPT_SUBST         # parameter expansion, command substitution and arithmetic expansion are performed in prompts
 
-# history
-HISTFILE=~/.zsh_history     # where to save history to disk
-HISTSIZE=10000              # how many lines of history to keep in memory
-SAVEHIST=10000              # number of history entries to save to disk
-setopt APPEND_HISTORY       # append history to the history file (no overwriting)
-setopt SHARE_HISTORY        # share history across terminals
-setopt INC_APPEND_HISTORY   # immediately append to the history file, not just when a term is killed
-setopt HIST_VERIFY
-setopt EXTENDED_HISTORY
-setopt HIST_REDUCE_BLANKS
-setopt HIST_IGNORE_ALL_DUPS
+# History file configuration. Already set in OMZ
+#[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"     # where to save history to disk
+#HISTSIZE=10000              # how many lines of history to keep in memory
+#SAVEHIST=10000              # number of history entries to save to disk
 
-setopt COMPLETE_ALIASES
+# History command configuration
+#setopt APPEND_HISTORY       # append history to the history file (no overwriting)
+#setopt SHARE_HISTORY        # share history across terminals
+#setopt INC_APPEND_HISTORY   # add commands to HISTFILE immediately, not just when a term is killed
+#setopt HIST_VERIFY          # show command with history expansion to user before running it
+#setopt EXTENDED_HISTORY     # record timestamp of command in HISTFILE
+#setopt HIST_REDUCE_BLANKS   # remove any excess blanks from the lines in the history
+#setopt HIST_IGNORE_ALL_DUPS # remove duplicated commands from history list
 
-# make terminal command navigation sane again
-bindkey '^[^[[D' backward-word
-bindkey '^[^[[C' forward-word
-bindkey '^[[5D' beginning-of-line
-bindkey '^[[5C' end-of-line
-bindkey '^[[3~' delete-char
-bindkey '^?' backward-delete-char
+#setopt COMPLETE_ALIASES      # don't expand aliases before performing completion. http://bit.ly/2VyqwFk
 
-fpath=($ZSH/functions $fpath)
-autoload -U $ZSH/functions/*(:t)
+fpath=($MY_ZSH/functions $fpath)
+autoload -U $MY_ZSH/functions/*(:t)

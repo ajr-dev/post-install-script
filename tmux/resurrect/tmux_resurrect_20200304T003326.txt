@@ -1,0 +1,33 @@
+pane	0	1	:zsh	1	:*	1	:/home/arturo	1	zsh	:
+pane	powa	1	:ABD	1	:*	1	:/home/arturo/code/test	0	nvim	:/nix/store/x4dsrbwdp9q8605cni5j77acr9d4byk2-neovim-unwrapped-0.3.5/bin/nvim --cmd let g:loaded_node_provider=1 --cmd let g:python_host_prog='/nix/store/lj9x4jnj44g1axigcgw9zasmssgfcb3j-neovim-0.3.5/bin/nvim-python' --cmd let g:python3_host_prog='/nix/store/lj9x4jnj44g1axigcgw9zasmssgfcb3j-neovim-0.3.5/bin/nvim-python3' --cmd let g:ruby_host_prog='/nix/store/lj9x4jnj44g1axigcgw9zasmssgfcb3j-neovim-0.3.5/bin/nvim-ruby' test.rs
+pane	powa	1	:ABD	1	:*	2	:/home/arturo/code/test	1	zsh	:
+pane	powa	2	:SII	0	:-	1	:/home/arturo	1	zsh	:
+pane	powa	2	:SII	0	:-	2	:/home/arturo	0	zsh	:
+pane	powa	3	:ALCOM	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	3	:ALCOM	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	4	:SI2	0	:Z	1	:/home/arturo	1	zsh	:
+pane	powa	4	:SI2	0	:Z	2	:/home/arturo	0	zsh	:
+pane	powa	5	:config	0	:	1	:/home/arturo/.dotfiles	1	zsh	:
+pane	powa	6	:website	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	6	:website	0	:	2	:/home/arturo/code/flask/flasky	0	zsh	:
+pane	powa	7	:practice	0	:	1	:/home/arturo/code/flask/flasky	0	zsh	:
+pane	powa	7	:practice	0	:	2	:/home/arturo/code/flask/flasky	1	zsh	:
+pane	powa	8	:hck	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	8	:hck	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	8	:hck	0	:	3	:/home/arturo	0	zsh	:
+pane	powa	9	:pswd	0	:	1	:/home/arturo	1	zsh	:
+pane	powa	9	:pswd	0	:	2	:/home/arturo	0	zsh	:
+pane	powa	9	:pswd	0	:	3	:/home/arturo	0	zsh	:
+pane	powa	10	:wifi	0	:	1	:/home/arturo	1	zsh	:
+window	0	1	1	:*	b63e,174x42,0,0,1
+window	powa	1	1	:*	38e3,124x29,0,0[124x22,0,0,2,124x6,0,23,3]
+window	powa	2	0	:-	c507,174x42,0,0[174x31,0,0,4,174x10,0,32,5]
+window	powa	3	0	:	c30c,174x42,0,0[174x29,0,0,6,174x12,0,30,7]
+window	powa	4	0	:Z	9e11,174x42,0,0[174x30,0,0,8,174x11,0,31,9]
+window	powa	5	0	:	5b4f,174x42,0,0,10
+window	powa	6	0	:	9885,174x42,0,0[174x29,0,0,11,174x12,0,30,12]
+window	powa	7	0	:	fc08,174x42,0,0[174x26,0,0,13,174x15,0,27,14]
+window	powa	8	0	:	ebf2,174x42,0,0{87x42,0,0,15,86x42,88,0[86x22,88,0,16,86x19,88,23,17]}
+window	powa	9	0	:	c15c,174x42,0,0{87x42,0,0[87x21,0,0,18,87x20,0,22,19],86x42,88,0,20}
+window	powa	10	0	:	db50,174x42,0,0,21
+state	powa	0

@@ -14,11 +14,6 @@ function colours() {
     done
 }
 
-# Create a new directory and enter it
-function md() {
-    mkdir -p "$@" && cd "$@"
-}
-
 function hist() {
     history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
 }

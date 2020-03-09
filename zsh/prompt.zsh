@@ -1,7 +1,7 @@
-# heavily inspired by the wonderful pure theme
+# Heavily inspired by the wonderful pure theme
 # https://github.com/sindresorhus/pure
 
-# needed to get things like current git branch
+# Needed to get things like current git branch
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git # You can add hg too if needed: `git hg`
 zstyle ':vcs_info:git*' use-simple true
@@ -12,10 +12,10 @@ zstyle ':vcs_info:git*' actionformats ' %b|%a' 'x%R'
 autoload colors && colors
 
 git_dirty() {
-    # check if we're in a git repo
+    # Check if we're in a git repo
     command git rev-parse --is-inside-work-tree &>/dev/null || return
 
-    # check if it's dirty
+    # Check if it's dirty
     command git diff --quiet --ignore-submodules HEAD &>/dev/null;
     if [[ $? -eq 1 ]]; then
         echo "%F{red}✗%f"
@@ -24,7 +24,7 @@ git_dirty() {
     fi
 }
 
-# get the status of the current branch and it's remote
+# Get the status of the current branch and it's remote
 # If there are changes upstream, display a ⇣
 # If there are changes that have been committed but not yet pushed, display a ⇡
 git_arrows() {
@@ -49,7 +49,6 @@ git_arrows() {
 }
 
 
-# indicate a job (for example, vim) has been backgrounded
 # If there is a job in the background, display a ✱
 suspended_jobs() {
     local sj

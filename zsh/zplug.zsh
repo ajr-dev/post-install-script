@@ -7,12 +7,14 @@ if [ -z ${RELOAD} ]; then
     fi
 
     zplug 'zplug/zplug', hook-build:'zplug --self-manage'
-    zplug 'zsh-users/zsh-syntax-highlighting', defer:2
     zplug 'zsh-users/zsh-autosuggestions'
     zplug 'akoenig/npm-run.plugin.zsh'
 
     export NVM_LAZY_LOAD=true
     zplug "lukechilds/zsh-nvm"
+
+    # Syntax highlighting for commands, load last
+    zplug 'zsh-users/zsh-syntax-highlighting', defer:2
 
     # Install plugins if there are plugins that have not been installed
     if ! zplug check; then
