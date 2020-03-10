@@ -1,6 +1,7 @@
 #!/bin/bash
 
-source "$HOME/.dotfiles/install/declarations.sh"
+DOTFILES=$HOME/.dotfiles
+INSTALL=$DOTFILES/install
 
 if [ ! -d $DOTFILES ]; then
     if ! command_exists git; then
@@ -8,6 +9,7 @@ if [ ! -d $DOTFILES ]; then
     fi
     git clone https://github.com/ajr-dev/post-install-script $DOTFILES
 fi
+source "$INSTALL/declarations.sh"
 
 source "$INSTALL/setup/system-setup.sh"
 if  ! (( ${quick:?} ));  then
