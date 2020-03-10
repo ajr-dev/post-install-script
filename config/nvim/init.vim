@@ -186,6 +186,7 @@ nmap <leader>tr :%s/\s\+$<cr>
 nmap <leader><space><space> :%s/\n\{2,}/\r\r/g<cr>
 
 " Helpers for dealing with other people's code
+nmap <leader>s2 :set ts=2 sts=2 sw=2 et \| retab<cr>
 nmap <leader>ss :set ts=4 sts=4 sw=4 et \| retab<cr>
 nmap <leader>st :set ts=4 sts=4 sw=4 noet \| retab<cr>
 
@@ -250,8 +251,7 @@ if has("autocmd")
     " Resize splits when the window is resized
     autocmd VimResized * exe "normal! \<c-w>="
 
-    autocmd Filetype vim,lua,nginx,xhtml,php,html,javascript,ruby,
-      \.vimrc,.vimrc.local,init.vim setlocal ts=2 sts=2 sw=2
+    autocmd Filetype vim,lua,nginx,xhtml,php,.vimrc,.vimrc.local,init.vim setlocal ts=2 sts=2 sw=2
     autocmd FileType make setlocal noexpandtab ts=8 sts=8 sw=8
 
     " Folding: Filetype Settings
