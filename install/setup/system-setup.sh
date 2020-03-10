@@ -7,7 +7,7 @@ declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/de
 [ -f /etc/apt/apt.conf.d/99synaptic ]  &&  sudo mv /etc/apt/apt.conf.d/99synaptic /etc/apt/apt.conf.d/99synaptic.disabled
 
 if sudo -v; then
-    packages=( git vim-gtk curl cmake xclip keepassx redshift zsh dropbox ppa-purge )
+    packages=( vim-gtk curl cmake xclip keepassx redshift zsh dropbox ppa-purge )
     for app in "${packages[@]}" ; do
         if ! command_exists $app; then
             sudo apt-get -y install --install-recommends "$app"
@@ -15,9 +15,7 @@ if sudo -v; then
     done
 fi
 
-if [[ ! -d ~/.config/nvim/ ]]; then
-    source "$INSTALL/setup/link-setup.sh"
-fi
+[ ! -d ~/.config/nvim/ ]  &&  source "$INSTALL/setup/link-setup.sh"
 
 # TODO: fix check to only perform once
 if ! [ -f ~/.gitconfig ]  &&  assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
