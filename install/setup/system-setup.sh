@@ -7,7 +7,7 @@ declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/de
 [ -f /etc/apt/apt.conf.d/99synaptic ]  &&  sudo mv /etc/apt/apt.conf.d/99synaptic /etc/apt/apt.conf.d/99synaptic.disabled
 
 if sudo -v; then
-    packages=( vim-gtk curl cmake xclip keepassx redshift zsh dropbox ppa-purge )
+    packages=( vim-gtk curl cmake xclip keepassx redshift zsh dropbox ppa-purge neovim )
     for app in "${packages[@]}" ; do
         if ! command_exists $app; then
             sudo apt-get -y install --install-recommends "$app"
@@ -30,13 +30,13 @@ then
 fi
 
 # Install Nix Package Manager
-if ! command_exists nix-env; then
+if ! command_exists nix-env  &&  assertConfirmation "¿Install Nix Package Manager?" "${autoConfirm:?}"; then
     curl https://nixos.org/nix/install | sh
     . ~/.nix-profile/etc/profile.d/nix.sh
 fi
 
 # Install Snappy Package Manager
-if ! command_exists snap; then
+if ! command_exists snap  &&  assertConfirmation "¿Install snap Package Manager?" "${autoConfirm:?}"; then
     sudo apt-get install python-tk python-setuptools ipython
     sudo python -m easy_install -U snappy
     python -m snappy.app

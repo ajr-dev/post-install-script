@@ -8,7 +8,9 @@ TMUX_FILE=tmux-$TMUX_VERSION.tar.gz
 # shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
-#brew install tmux
+if ! command_exists tmux; then
+    sudo apt-get -y install --install-recommends tmux
+fi
 
 if ! command_exists tmux; then
     packages=( automake build-essential pkg-config libevent-dev libncurses5-dev )
