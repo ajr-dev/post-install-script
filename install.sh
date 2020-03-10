@@ -3,6 +3,10 @@
 DOTFILES=$HOME/.dotfiles
 INSTALL=$DOTFILES/install
 
+command_exists() {
+    command -v "$1" > /dev/null 2>&1
+}
+
 if [ ! -d $DOTFILES ]; then
     if ! command_exists git; then
         sudo apt-get -y install --install-recommends git
