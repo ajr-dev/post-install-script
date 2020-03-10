@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck disable=SC2034
-declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
+declare -f assertConfirmation &>/dev/null ||  . "$HOME/.dotfiles/install/declarations.sh"
 
 [ -f /etc/apt/apt.conf.d/00recommends ]  &&  sudo mv /etc/apt/apt.conf.d/00recommends /etc/apt/apt.conf.d/00recommends.disabled
 [ -f /etc/apt/apt.conf.d/99synaptic ]  &&  sudo mv /etc/apt/apt.conf.d/99synaptic /etc/apt/apt.conf.d/99synaptic.disabled
@@ -15,11 +15,11 @@ if sudo -v; then
     done
 fi
 
-[ ! -d ~/.config/nvim/ ]  &&  source "$INSTALL/setup/link-setup.sh"
+[ ! -d ~/.config/nvim/ ]  &&  . "$INSTALL/setup/link-setup.sh"
 
 # TODO: fix check to only perform once
 if ! [ -f ~/.gitconfig ]  &&  assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
-    source "$INSTALL/setup/git-setup.sh"
+    . "$INSTALL/setup/git-setup.sh"
 fi
 
 if assertConfirmation "Import local config?" "${autoConfirm:?}"
@@ -43,11 +43,11 @@ if ! command_exists snap  &&  assertConfirmation "¿Install snap Package Manager
 fi
 
 if ! command_exists tmux  &&  assertConfirmation "Install tmux?"; then
-    source "$INSTALL/apps/tmux-install.sh"
+    . "$INSTALL/apps/tmux-install.sh"
 fi
 
 if ! command_exists  nvim  &&  assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
-    source "$INSTALL/apps/neovim-install.sh"
+    . "$INSTALL/apps/neovim-install.sh"
 fi
 
 if command_exists zsh  &&  ! [[ $SHELL =~ .*zsh.* ]]  && \
@@ -64,7 +64,7 @@ fi
 
 # https://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
 if ! font_installed SourceCodePro; then
-    source "$INSTALL/settings/source-code-pro-font-install.sh"
+    . "$INSTALL/settings/source-code-pro-font-install.sh"
 fi
 
 if [[ $DESKTOP == "gnome" ]]  ||  [[ $DESKTOP == "xubuntu" ]]  || \
@@ -72,28 +72,28 @@ if [[ $DESKTOP == "gnome" ]]  ||  [[ $DESKTOP == "xubuntu" ]]  || \
    [[ $DESKTOP == "kali" ]]  &&  assertConfirmation "Change system settings?" "${autoConfirm:?}"
 then
     if [[ $DESKTOP == "gnome" ]]; then
-        source "$INSTALL/settings/gnome-settings.sh"
+        . "$INSTALL/settings/gnome-settings.sh"
     elif [[ $DESKTOP == "xubuntu" ]]; then
-        source "$INSTALL/settings/xubuntu-settings.sh"
+        . "$INSTALL/settings/xubuntu-settings.sh"
     elif [[ $DESKTOP == "cinnamon" ]]; then
-        source "$INSTALL/settings/cinnamon-settings.sh"
+        . "$INSTALL/settings/cinnamon-settings.sh"
     elif [[ $DESKTOP == "mate" ]]; then
-        source "$INSTALL/settings/mate-settings.sh"
+        . "$INSTALL/settings/mate-settings.sh"
     elif [[ $DESKTOP == "kali" ]]; then
-        source "$INSTALL/settings/kali-settings.sh"
+        . "$INSTALL/settings/kali-settings.sh"
     fi
 fi
 
 # TODO: check if already done
 if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
-    source "$INSTALL/settings/unattended-upgrades.sh"
+    . "$INSTALL/settings/unattended-upgrades.sh"
 fi
 
 if [ ! -f /etc/sudoers.bak ]  &&  assertConfirmation "Never ask for passwords?"; then
-    source "$INSTALL/settings/no-password-prompt.sh"
+    . "$INSTALL/settings/no-password-prompt.sh"
 fi
 
 # TODO: Check if all files from Dropbox have already been copied
 if [ -d ~/Dropbox ]  &&  assertConfirmation "Copy dropbox files to system?"; then
-    source "$INSTALL/setup/dropbox-setup.sh"
+    . "$INSTALL/setup/dropbox-setup.sh"
 fi
