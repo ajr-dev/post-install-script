@@ -3,19 +3,21 @@
 DOTFILES=$HOME/.dotfiles
 INSTALL=$DOTFILES/install
 
+mkdir -p "$HOME/tmp"  &&  cd "$HOME/tmp"
+
 command_exists() {
     command -v "$1" > /dev/null 2>&1
 }
 
-if [ ! -d $DOTFILES ]; then
+if [ ! -d "$DOTFILES" ]; then
     if ! command_exists git; then
-        sudo apt-get -y install --install-recommends git
+        sudo apt-get -y install --install-recomends git
     fi
-    git clone https://github.com/ajr-dev/post-install-script $DOTFILES
+    git clone https://github.com/ajr-dev/post-install-script "$DOTFILES"
 fi
 . "$INSTALL/declarations.sh"
 
-. "$INSTALL/setup/system-setup.sh"
+. "$INSTALL/system-setup.sh"
 if  ! (( ${quick:?} ));  then
     . "$INSTALL/essential.sh"
     . "$INSTALL/apps/app-install.sh"
@@ -31,6 +33,8 @@ if  ! (( ${quick:?} ));  then
         sudo apt-get -y --force-yes upgrade
     fi
 fi
+
+rm -rf "$HOME/tmp"
 
 clear
 if  assertConfirmation "Reboot?";  then

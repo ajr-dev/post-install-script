@@ -3,8 +3,6 @@
 # shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  . "$HOME/.dotfiles/install/declarations.sh"
 
-[ ! -d ~/bin ]  &&  mkdir -p ~/bin
-
 if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "Essential actions for Linux Mint?"; then
     # Consider recommended packages as dependencies to install them automatically as Ubuntu does
     [ ! -f /etc/apt/apt.conf.d/00recommends.bak ]  &&  sudo mv /etc/apt/apt.conf.d/00recommends /etc/apt/apt.conf.d/00recommends.bak

@@ -36,7 +36,7 @@ If you only want to do a quick configuration of the dotfiles without installing 
 To install things by default give it the parameter `y`. It won't ask for confirmation.
 
 ```bash
-git clone https://github.com/nicknisi/dotfiles.git ~/.dotfiles
+git clone https://github.com/ajr-dev/post-install-script.git ~/.dotfiles
 cd ~/.dotfiles
 ./install.sh -qy
 ```
