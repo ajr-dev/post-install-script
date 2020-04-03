@@ -163,6 +163,7 @@ vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
 
 " Make Ctrl x, Ctrl c and  Ctrl v cut, copy and paste
+set paste
 vmap <C-x> "+c
 vmap <C-c> "+y
 vmap <C-v> c<ESC>"+p
@@ -325,7 +326,7 @@ let g:NERDTreeIndicatorMapCustom = {
 " FZF {{{
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-let g:fzf_layout = { 'down': '~25%' }
+"let g:fzf_layout = { 'down': '~25%' }
 
 if isdirectory(".git")
   " if in a git project, use :GFiles
@@ -425,12 +426,24 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " }}}
 
 " Colorscheme and final setup {{{
-" Enable true color in tmux 2.6 or higher
-if has("termguicolors")
-  set termguicolors
+"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
+"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
+if (empty($TMUX))
+  if (has("nvim"))
+    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
+  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
+  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
+  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if (has("termguicolors"))
+    set termguicolors
+  endif
 endif
 
 Plug 'joshdick/onedark.vim' " Load colorscheme
+Plug 'sheerun/vim-polyglot' " improved syntax highlighting for various languages
 call plug#end()
 
 " This call must happen after the plug#end() call to ensure
@@ -438,7 +451,7 @@ call plug#end()
 let g:onedark_termcolors=16
 let g:onedark_terminal_italics=1
 syntax on
-colorscheme onedark
+colorscheme onedark " all options for the colorscheme should be set before this line
 filetype plugin indent on
 " Make the highlighting of tabs and other non-text less annoying
 highlight SpecialKey ctermfg=236
