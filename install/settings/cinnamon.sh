@@ -49,9 +49,10 @@ dconf write /com/linuxmint/updates/dist-upgrade true
 dconf write /org/nemo/icon-view/default-zoom-level "'large'"
 dconf write /org/nemo/list-view/default-visible-columns "['name', 'size', 'type', 'date_modified', 'owner', 'permissions']"
 dconf write /org/nemo/preferences/click-policy "'single'"
-dconf write /org/nemo/preferences/executable-text-activation "'display'"
+dconf write /org/nemo/preferences/executable-text-activation "'launch'"
 dconf write /org/nemo/preferences/enable-delete true
 dconf write /org/nemo/preferences/swap-trash-delete true
+dconf write /org/nemo/preferences/confirm-trash false
 dconf write /org/nemo/preferences/close-device-view-on-device-eject true
 dconf write /org/nemo/preferences/show-full-path-titles true
 dconf write /org/nemo/preferences/show-advanced-permissions true
@@ -111,6 +112,10 @@ dconf write /org/cinnamon/desktop/wm/preferences/auto-raise true
 dconf write /org/cinnamon/bring-windows-to-current-workspace false
 dconf write /org/cinnamon/prevent-focus-stealing false
 dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat true
+# Don't show bluetooth icom
+dconf write /org/blueberry/obex-enabled false
+dconf write /org/blueberry/tray-enabled false
+
 dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/delay "uint32 200"
 dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat-interval "uint32 20"
 dconf write /org/cinnamon/desktop/keybindings/custom-list "['custom0', 'custom1', 'custom2']"

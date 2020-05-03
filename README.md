@@ -213,17 +213,4 @@ If you need to see the vim commands I recommend you print a cheatsheet like
 ![this one](http://www.viemu.com/vi-vim-dvorak-cheat-sheet.gif)
 
 ## Todo List
-* Port the installation to distros that aren't based on debian.
-* Install first the essential things to begin programming and leave interactive installs for last.
-* Add the posibility for another cloud storage service.
-* Fix [jDownloader install](jdownloader-install).
-* Fix [go install](install/go-install).
-* Fix [not asking for passwords](no-password-prompt).
-* Fix installation in [Virtual Machine](virtual-machine).
-* youcompleteme install should depend on the packages found in the system.
-* Also to have a quicker setup it should install the basic and come to it later to make a more complete installation.
-* Add [unattended-upgrades](install/unattended-upgrades) in Linux Mint.
-* Fix some errors:
-Error detected while processing function UltiSnips#TrackChange[1]..provider#python3#Call:
-line 18:
-Invalid channel "2"
+https://github.com/nicknisi/dotfiles/commits/master?after=b56df6a22982836a56b9a30e77c84912866ce892+944

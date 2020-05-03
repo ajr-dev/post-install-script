@@ -17,13 +17,14 @@ alias ls="ls ${colorflag}"
 alias l="ls -lah ${colorflag}"
 alias la="ls -AF ${colorflag}"
 alias ll="ls -lFh ${colorflag}"
+alias lsh="ls -lsh"                 # list files sorted by size
 alias lld="ls -l | grep ^d"
 alias rmf="rm -rf"
 
 # Helpers
 alias grep='grep --color=auto'
-alias df='df -h' # disk free, in Gigabytes, not bytes
-alias du='du -h -c' # calculate disk usage for a folder
+alias df='df -h'                    # disk free, in Gigabytes, not bytes
+alias du='du -h -c'                 # calculate disk usage for a folder
 
 # Direcciones IP
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"

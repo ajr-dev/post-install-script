@@ -14,8 +14,6 @@ export REPORTTIME=10
 
 [[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
 
-export JAVA_HOME="/usr/bin/java"
-
 # Define the code directory
 # This is where my code exists and where I want the `c` autocomplete to work from exclusively
 if [[ -d ~/code ]]; then
@@ -35,6 +33,9 @@ elif  command_exists vim;  then
     export EDITOR='vim'
 fi
 
+export JAVA_HOME="/usr/bin/java" # Use this to specify the location of Java JDK on your system
+export JRE_HOME="/usr/lib/jvm/java-11-openjdk-amd64" # Use this environment variable to specify the location of the Java JRE on your system
+
 # Linuxbrew
 export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
@@ -46,6 +47,7 @@ export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
 [ -d ~/bin ]            &&  export PATH=~/bin:$PATH
 [ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
 [ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
+[ -d /snap/bin ]  &&  export PATH=/snap/bin:$PATH
 [ -d /usr/share/swift/usr/bin ]  &&  export PATH=/usr/share/swift/usr/bin:$PATH
 [ -f /usr/share/junit.jar ]  &&  export CLASSPATH=/usr/share/junit.jar:.:$CLASSPATH
 
