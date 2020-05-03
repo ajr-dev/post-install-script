@@ -13,6 +13,8 @@ else # OS X `ls`
     colorflag="-G"
 fi
 
+# set colors for LS_COLORS in Windows Linux Subsystem
+test -r ~/.dircolors  &&  eval "$(dircolors -b ~/.dircolors)"  ||  eval "$(dircolors -b)"
 alias ls="ls ${colorflag}"
 alias l="ls -lah ${colorflag}"
 alias la="ls -AF ${colorflag}"

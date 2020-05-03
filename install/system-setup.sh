@@ -50,6 +50,9 @@ if ! [ -f ~/.gitconfig ]  &&  assertConfirmation "¿Configure git?" "${autoConfi
     . "$INSTALL/setup/git.sh"
 fi
 
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"  &&  rm "$HOME/.zshrc"  &&  \
+	mv "$HOME/.zshrc.pre-oh-my-zsh" "$HOME/.zshrc"
+
 if assertConfirmation "Import local config?" "${autoConfirm:?}"
 then
     [ -f ~/.dotfiles/local.vim ]  &&  cp ~/.dotfiles/local.vim ~/.local.vim
