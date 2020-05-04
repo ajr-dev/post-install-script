@@ -178,6 +178,7 @@ dconf write /"$profile"/use-theme-colors false
 if fc-list | grep -i "source-code-pro"; then
   dconf write /"$profile"/use-system-font false
   dconf write /"$profile"/font "'Source Code Pro 11'"
+  dconf write /"$profile"/font "'SauceCodePro Nerd Font 11'"
 fi
 dconf write /"$profile"/scrollbar-policy "'never'"
 dconf write /"$profile"/scroll-on-output false

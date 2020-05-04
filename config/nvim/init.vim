@@ -45,6 +45,7 @@ call plug#begin('~/.config/nvim/plugged')
   set number              " except the current line
   set whichwrap+=<,>,h,l,[,] " change line when moving right or left
   set linebreak           " set soft wrapping
+  set showbreak=↪         " show ellipsis at line break
   set autoindent          " automatically set indent of new line
   set smartindent         " indent new lines based on rules
   set ttyfast             " faster redrawing
@@ -107,7 +108,6 @@ call plug#begin('~/.config/nvim/plugged')
   " Toggle invisible characters
   set list
   set listchars=tab:▸\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
-  set showbreak=↪         " show ellipsis at line break
 
   set t_Co=256            " explicitly tell vim that the terminal supports 256 colors
 
@@ -399,7 +399,7 @@ call plug#begin('~/.config/nvim/plugged')
   " NERDTree {{{
     Plug 'scrooloose/nerdtree', { 'on': ['NERDTreeToggle', 'NERDTreeFind'] }
     Plug 'Xuyuanp/nerdtree-git-plugin'
-    Plug 'ryanoasis/vim-devicons' " TODO: fix this add weird character to status line
+    Plug 'ryanoasis/vim-devicons'
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     augroup nerdtree
       autocmd!
@@ -486,15 +486,6 @@ call plug#begin('~/.config/nvim/plugged')
         \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:50%', '?'), <bang>0)
     command! -bang -nargs=? -complete=dir GFiles
         \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview('right:50%', '?'), <bang>0)
-  " }}}
-
-  " signify {{{
-    "Plug 'mhinz/vim-signify' " show differences in a version controlled file
-    "let g:signify_vcs_list = [ 'git' ]
-    "let g:signify_sign_add               = '+'
-    "let g:signify_sign_delete            = '_'
-    "let g:signify_sign_delete_first_line = '‾'
-    "let g:signify_sign_change = '!'
   " }}}
 
   " vim-fugitive {{{
@@ -715,7 +706,7 @@ call plug#end()
     let &colorcolumn="81,".join(range(121,999),",")
   endif
 " Colorscheme and final setup {{{
-Plug 'joshdick/onedark.vim' " Load colorscheme
+Plug 'joshdick/onedark.vim' " load colorscheme
 Plug 'sheerun/vim-polyglot' " improved syntax highlighting for various languages
 call plug#end()
 

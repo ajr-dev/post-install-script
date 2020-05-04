@@ -112,7 +112,7 @@ assertConfirmation () {
         read  -n 1 -p "$promptMsg (yes/No) "
         printf '\n' # Output a newline, because none was appended to the user's keypress.
         echo "========================================================================"
-        if [[ $REPLY =~ ^([Yy])$ ]]; then
+        if [[ $REPLY =~ ^([Yy])$ ]]; then # TODO: accept yes besides Y and y
             return
         fi
     fi
