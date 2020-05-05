@@ -1,17 +1,19 @@
 #!/bin/bash
 
-TMUX_VERSION=2.9
-LIBEVENT=2.1.8
-NCURSES=6.1
-TMUX_FILE=tmux-$TMUX_VERSION.tar.gz
+VERSION=3.1b
+LIBEVENT=2.1.11
+NCURSES_VERSION=6.2
+TMUX_FILE=tmux-$VERSION.tar.gz
 
 declare -f assertConfirmation &>/dev/null ||  . "$HOME/.dotfiles/install/declarations.sh"
 
 # Try package manager first
-sudo apt-get -y install --install-recommends tmux
+# sudo apt-get -y install --install-recommends tmux
+CURRENT=$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9])?).*/\1/p")
 
-if ! command_exists tmux; then
-    packages=( automake build-essential pkg-config libevent-dev libncurses5-dev )
+if [ ! command_exists tmux] || (( CURRENT_VERSION < VERSION )); then
+    sudo apt-get remove -y tmux
+    packages=( wget tar automake build-essential bison pkg-config libevent-dev libncurses5-dev )
     for app in "${packages[@]}" ; do
         ! command_exists "$app"  &&  sudo apt install -y "$app"
     done
@@ -32,29 +34,34 @@ if ! command_exists tmux; then
     make
     sudo make install
     cd ..
+    sudo mv $FILE /usr/local/src
 
     ############
     # ncurses  #
     ############
-    wget http://ftp.gnu.org/gnu/ncurses/ncurses-$NCURSES.tar.gz
-    tar xvzf ncurses-$NCURSES.tar.gz
-    cd ncurses-$NCURSES
+    FILE=ncurses-$NCURSES_VERSION
+    wget http://ftp.gnu.org/gnu/ncurses/$FILE.tar.gz
+    tar xvzf $FILE.tar.gz
+    cd $FILE
     ./configure --prefix=/usr/local
     make
     sudo make install
     cd ..
+    sudo mv $FILE /usr/local/src
 
     ############
     # tmux     #
     ############
-    wget https://github.com/tmux/tmux/releases/download/$TMUX_VERSION/$TMUX_FILE
-    tar xvzf tmux-${TMUX_VERSION}.tar.gz
-    cd tmux-${TMUX_VERSION}
-    sh autogen.sh
+    wget https://github.com/tmux/tmux/releases/download/$VERSION/$TMUX_FILE
+    tar xvzf tmux-${VERSION}.tar.gz
+    cd tmux-${VERSION}
     ./configure && make
     sudo make install
-    cd ~
+    cd ..
+    sudo rm -rf /usr/local/src/tmux-*
+    sudo mv tmux-${VERSION} /usr/local/src
 
+    sudo apt-get autoremove -y
     rm -rf $HOME/tmp
 fi
 

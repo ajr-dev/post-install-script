@@ -9,6 +9,7 @@ Obviously this setup work for me, a JavaScript developer on macOS, but this part
 * [Initial Setup and Installation](#initial-setup-and-installation)
 * [ZSH Setup](#zsh-setup)
 * [Vim and Neovim Setup](#vim-and-neovim-setup)
+* [WSL](#wsl)
 * [Fonts](#fonts)
 * [Tmux](#tmux-configuration)
   * [Tmux Cheatsheet](#tmux-cheatsheet)
@@ -107,6 +108,10 @@ vim and neovim should just work once the correct plugins are installed. To insta
 ```bash
 nvim +PlugInstall
 ```
+
+## WSL
+
+TODO: [disable automatic updates](https://www.windowscentral.com/how-stop-updates-installing-automatically-windows-10#disable_automatic_windows_update_gpedit), [open files/folders with single click](https://www.makeuseof.com/tag/open-files-folders-one-click-windows/), [change key repeat registry](https://superuser.com/a/509811), [swap escape and caps lock](https://oktomus.com/posts/2018/swap-escape-caps-lock-windows/), [install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [install WSLtty](https://github.com/mintty/wsltty), install [nerd fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts), install [color](https://github.com/retorillo/mintty-onedark/blob/master/.minttyrc) in C:Users\UserName\AppData\Roaming\wsitty\themes, [install neovim](install/apps/neovim.sh), [install tmux](https://linoxide.com/how-tos/install-tmux-manage-multiple-linux-terminals)
 
 ## Fonts
 

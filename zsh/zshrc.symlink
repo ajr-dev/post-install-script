@@ -43,10 +43,10 @@ export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
 
 # Adding path directory for custom scripts
 [ -d $DOTFILES/bin ]    &&  export PATH=$DOTFILES/bin:$PATH
+[ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
 [ -d /usr/local/sbin ]  &&  export PATH=/usr/local/sbin:$PATH
 [ -d ~/bin ]            &&  export PATH=~/bin:$PATH
 [ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
-[ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
 [ -d /snap/bin ]  &&  export PATH=/snap/bin:$PATH
 [ -d /usr/share/swift/usr/bin ]  &&  export PATH=/usr/share/swift/usr/bin:$PATH
 [ -f /usr/share/junit.jar ]  &&  export CLASSPATH=/usr/share/junit.jar:.:$CLASSPATH
