@@ -1,9 +1,3 @@
-# Dotfiles
-
-Welcome to my world. This is a collection of vim, tmux, and zsh configurations. Interested in a video walkthrough of the dotfiles? Check out my talk, [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ).
-
-Obviously this setup work for me, a JavaScript developer on macOS, but this particular setup may not work for you. If this particular setup doesn't work for you, please steal ideas from this and if you like, contribute back tips, tricks, PRs, and other tidbits if you like!
-
 ## Contents
 
 * [Initial Setup and Installation](#initial-setup-and-installation)
@@ -18,10 +12,24 @@ Obviously this setup work for me, a JavaScript developer on macOS, but this part
     * [Windows (tabs)](#windows-tabs)
     * [Panes (splits)](#panes-splits)
   * [Custom Tmux Keybindings](#custom-tmux-keybindings)
-* [Vim](#vim)
+* [Vim Configuration](#vim)
   * [Vim Cheatsheet](#vim-cheatsheet)
   * [Custom Vim Keybindings](#custom-vim-keybindings)
 * [Todo list](#todo-list)
+
+# Dotfiles
+
+This is a collection of vim, tmux, and zsh configurations. Interested in a video walkthrough of the dotfiles? Check out [vim + tmux](https://www.youtube.com/watch?v=5r6yzFEXajQ).
+
+Obviously this setup works for me, a JavaScript developer on macOS, but this particular setup may not work for you. If this particular setup doesn't work for you, please steal ideas from this and contribute back tips, tricks, PRs, and other tidbits if you want!
+
+To install only the dotfiles do:
+
+```bash
+git clone https://github.com/ajr-dev/post-install-script.git ~/.dotfiles
+~/.dotfiles/install/dotfiles.sh
+```
+
 
 ## Initial Setup and Installation
 
@@ -111,13 +119,11 @@ nvim +PlugInstall
 
 ## WSL
 
-TODO: [disable automatic updates](https://www.windowscentral.com/how-stop-updates-installing-automatically-windows-10#disable_automatic_windows_update_gpedit), [open files/folders with single click](https://www.makeuseof.com/tag/open-files-folders-one-click-windows/), [change key repeat registry](https://superuser.com/a/509811), [swap escape and caps lock](https://oktomus.com/posts/2018/swap-escape-caps-lock-windows/), [install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [install WSLtty](https://github.com/mintty/wsltty), install [nerd fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts), install [color](https://github.com/retorillo/mintty-onedark/blob/master/.minttyrc) in C:Users\UserName\AppData\Roaming\wsitty\themes, [install neovim](install/apps/neovim.sh), [install tmux](https://linoxide.com/how-tos/install-tmux-manage-multiple-linux-terminals)
+TODO: [disable automatic updates](https://www.windowscentral.com/how-stop-updates-installing-automatically-windows-10#disable_automatic_windows_update_gpedit), [open files/folders with single click](https://www.makeuseof.com/tag/open-files-folders-one-click-windows/), [change key repeat registry](https://superuser.com/a/509811), [swap escape and caps lock](https://oktomus.com/posts/2018/swap-escape-caps-lock-windows/), [skip login window](https://www.cnet.com/how-to/automatically-log-in-to-your-windows-10-pc/), [install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [install WSLtty](https://github.com/mintty/wsltty), install [nerd fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts), install [color](https://github.com/retorillo/mintty-onedark/blob/master/.minttyrc) in C:Users\UserName\AppData\Roaming\wsitty\themes, [install neovim](install/apps/neovim.sh), [install tmux](install/apps/tmux.sh), [install dotfiles](install/dotfiles.sh), [install XServer](https://github.com/Microsoft/WSL/issues/892#issuecomment-275873108), [add copy to system clipboard in nvim](https://lloydrochester.com/post/vim/wsl-neovim-copy-paste/)
 
 ## Fonts
 
-I am currently using [Operator Mono](http://www.typography.com/fonts/operator/styles/operatormonoscreensmart) as my default font which is a paid font ($199 US) and does not include Powerline support. In addition to this, I do have [nerd-fonts](https://github.com/ryanoasis/nerd-fonts) installed and configured to be used for non-ascii characters. If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim. Then, I configure the fonts in this way in iTerm2:
-
-![](http://nicknisi.com/share/iterm-fonts-config.png)
+I'm using Source Code Pro patched with symbols from [nerd-fonts](https://github.com/ryanoasis/nerd-fonts). Install it with [this script](install/settings/source-code-pro.sh). If you would prefer not to do this, then simply remove the `Plug 'ryanoasis/vim-devicons'` plugin from vim/nvim.
 
 ## Tmux Configuration
 

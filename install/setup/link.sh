@@ -2,24 +2,26 @@
 
 DOTFILES=$HOME/.dotfiles
 
-clear
-echo -e "\nCreating symlinks"
+echo -e "\\nCreating symlinks"
+echo "=============================="
 linkables=$( find -H "$DOTFILES" -maxdepth 3 -name '*.symlink' )
 for file in $linkables ; do
     target=$HOME/.$( basename "$file" '.symlink' )
-    [ -f "$target" ]  &&  echo "Removing $target"  &&  rm -f "$target"
+    [ -f "$target" ]  &&  echo "Moving $target to $target.bck"  &&  mv "$target" "$target.bck"
     echo "Creating symlink for $file in $target"
     ln -s "$file" "$target"
 done
 
-echo -e "\n\ninstalling to ~/.config"
+echo -e "\\n\\ninstalling to ~/.config"
+echo "=============================="
 if [ ! -d "$HOME/.config" ]; then
     echo "Creating ~/.config"
     mkdir -p "$HOME/.config"
 fi
 
-for config in $DOTFILES/config/*; do
-    target=$HOME/.config/$( basename "$config" )
+config_files=$( find "$DOTFILES/config" -maxdepth 1 2>/dev/null )
+for config in $config_files; do
+    target="$HOME/.config/$( basename "$config" )"
     if [ -f "$target" ]; then
         rm -f "$target"
     elif [ -d "$target" ]; then
@@ -29,9 +31,18 @@ for config in $DOTFILES/config/*; do
     ln -s "$config" "$target"
 done
 
-echo -e "\n\nCreating vim symlinks"
+echo -e "\\n\\nCreating vim symlinks"
 echo "=============================="
-mkdir -p ~/.vim  ||  echo "El directorio ya existe"
-[ -f ~/.vim/vimrc ]  &&  rm -f ~/.vim/vimrc
-[ -f ~/.vimrc ]      &&  rm -f ~/.vimrc
-ln -s ~/.dotfiles/config/nvim/init.vim ~/.vim/vimrc  ||  echo "Error al crear enlace simbólico para vim"
+VIMFILES=( "$HOME/.vim:$DOTFILES/config/nvim"
+        "$HOME/.vimrc:$DOTFILES/config/nvim/init.vim" )
+
+for file in "${VIMFILES[@]}"; do
+    KEY=${file%%:*}
+    VALUE=${file#*:}
+    if [ -e "${KEY}" ]; then
+        echo "${KEY} already exists... skipping."
+    else
+        echo "Creating symlink for $KEY"
+        ln -s "${VALUE}" "${KEY}"
+    fi
+done

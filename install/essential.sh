@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  . "$HOME/.dotfiles/install/declarations.sh"
 
 if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "Essential actions for Linux Mint?"; then

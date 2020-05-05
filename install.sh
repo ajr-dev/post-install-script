@@ -15,16 +15,16 @@ if [ ! -d "$DOTFILES" ]; then
     fi
     git clone https://github.com/ajr-dev/post-install-script "$DOTFILES"
 fi
-. "$INSTALL/declarations.sh"
+source "$INSTALL/declarations.sh"
 
-. "$INSTALL/system-setup.sh"
+source "$INSTALL/system-setup.sh"
 if  ! (( ${quick:?} ));  then
-    . "$INSTALL/essential.sh"
-    . "$INSTALL/apps/app-install.sh"
+    source "$INSTALL/essential.sh"
+    source "$INSTALL/apps/app-install.sh"
     if  assertConfirmation "Install programming tools?"; then
-        . "$INSTALL/programming/programming-tools.sh"
+        source "$INSTALL/programming/programming-tools.sh"
     fi
-    . "$INSTALL/setup/startup-scripts.sh"
+    source "$INSTALL/setup/startup-scripts.sh"
     if  assertConfirmation "Final updates?";  then
         sudo apt-get autoclean
         sudo apt-get clean

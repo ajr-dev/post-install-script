@@ -12,6 +12,12 @@ command_exists() {
 # Display how long all tasks over 10 seconds take
 export REPORTTIME=10
 
+# WSL
+if grep -q Microsoft /proc/version; then
+  #export DISPLAY=localhost:0.0
+  export DISPLAY=:0
+fi
+
 [[ -e ~/.terminfo ]] && export TERMINFO_DIRS=~/.terminfo:/usr/share/terminfo
 
 # Define the code directory
@@ -36,10 +42,12 @@ fi
 export JAVA_HOME="/usr/bin/java" # Use this to specify the location of Java JDK on your system
 export JRE_HOME="/usr/lib/jvm/java-11-openjdk-amd64" # Use this environment variable to specify the location of the Java JRE on your system
 
-# Linuxbrew
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+# Homebrew
+if [ -d /home/linuxbrew ]; then
+  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+  export MANPATH="/home/linuxbrew/.linuxbrew/share/man:$MANPATH"
+  export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
+fi
 
 # Adding path directory for custom scripts
 [ -d $DOTFILES/bin ]    &&  export PATH=$DOTFILES/bin:$PATH

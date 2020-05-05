@@ -101,5 +101,9 @@
     insteadOf = gist:
 
 [user]
-    name = Arturo
-    email = arturojosejr@gmail.com
+	name = Arturo
+	email = arturojosejr@gmail.com
+[github]
+	user = ajr-dev
+[credential]
+	helper = store

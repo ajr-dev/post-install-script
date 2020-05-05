@@ -2,8 +2,11 @@
 # Another tmux conf explained:  https://yesmeck.github.io/tmuxrc/
 
 # Get tmux version
-run-shell 'tmux setenv -g TMUX_VERSION $(tmux -V | \
-                            sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+run-shell 'tmux setenv -g TMUX_VERSION $(tmux -V|sed "s/[^0-9.]*//g")'
+
+# Tmux display things in 256 colors
+set -g default-terminal "tmux-256color"
+set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 
 set -g history-limit 20000
 
@@ -35,18 +38,12 @@ set -sg escape-time 0
 unbind =
 bind = select-layout tiled
 
-# Cycle through panes
-unbind C-a
-unbind o # this is the default key for cycling panes
-bind ^A select-pane -t:.+
-
 # Make window/pane index start with 1
 set -g base-index 1
 set-window-option -g pane-base-index 1
 
 set-option -g set-titles on
 set-option -g set-titles-string "#T - #W"
-# set-window-option -g automatic-rename on
 
 ######################
 #### Key Bindings ####
@@ -59,6 +56,11 @@ bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
 # Quickly open a new window
 bind N new-window
 
+# Delete window and pane without confirmation
+bind-key & kill-window
+bind-key q kill-window
+bind-key x kill-pane
+
 # Split panes using | and -. Fix path for tmux 1.9
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
@@ -68,8 +70,8 @@ bind y set-window-option synchronize-panes
 
 # Moving between panes
 bind h select-pane -L
-bind j select-pane -D#\; resize-pane -Z # for fullscreen
-bind k select-pane -U#\; resize-pane -Z # for fullscreen
+bind j select-pane -D
+bind k select-pane -U
 bind l select-pane -R
 
 # Move through the windows
@@ -108,19 +110,19 @@ if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.1" | bc)" = 1 ]' " \
 if-shell -b '[ "$(echo "$TMUX_VERSION < 2.2" | bc)" = 1 ]' \
   "set -g utf8 on; set -g status-utf8 on; set -g mouse-utf8 on"
 
- # Tmux display things in 256 colors
-set -g default-terminal "xterm-256color-italic"
-
-# Enable terminal compability
-set-option -ga terminal-overrides ",xterm-256color-italic:Tc"
-
 # Settings to make copy-mode more vim-like
 unbind [
 bind Escape copy-mode
 set-window-option -g mode-keys vi
-set -g status-keys vi
-bind-key -t vi-edit Up   history-up
-bind-key -t vi-edit Down history-down
+
+# <Prefix>P for paste instead of previous window
+unbind p
+bind p paste-buffer
+
+# Scroll through tmux commands
+#set -g status-keys vi
+#bind-key -t vi-edit Up   history-up; \
+#bind-key -t vi-edit Down history-down; \
 
 # bind-key syntax changed in 2.4 -- selection / copy / paste
 if-shell -b '[ "$(echo "$TMUX_VERSION < 2.4" | bc)" = 1 ]' " \
@@ -143,9 +145,10 @@ if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.9" | bc)" = 1 ]' \
     set -g window-status-bell-style     fg=red,bg=black; \
     set -g window-status-activity-style fg=white,bg=black"
 
-# To paste use <Prefix>P
-unbind P
-bind P paste-buffer
+if-shell 'uname | grep -q Darwin' \
+    'source-file ~/.dotfiles/tmux/tmux-osx.conf'
+    #'if-shell "uname | grep -q CYGWIN" "source-file ~/.tmux.conf.cygwin" "source-file ~/.tmux.conf.linux"'
+
 
 ##############################
 ### Color & Style Settings ###
@@ -162,5 +165,5 @@ set -g @continuum-restore 'on' # Last saved environment is automatically restore
 #set -g @continuum-save-interval '0' # Stop automatic saving
 set -g @resurrect-dir '~/Dropbox/.tmux-resurrect/'
 
-# Initialize Tmux plugin manager. Press <Prefix>I to load plugins
+# Initialize TPM (Tmux Plugin Manager). Press <Prefix>I to load plugins
 run '~/.tmux/plugins/tpm/tpm'

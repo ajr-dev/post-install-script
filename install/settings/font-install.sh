@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# shellcheck disable=SC2034
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
+# TODO: check if already installed
 mkdir -p ~/tmp  &&  cd ~/tmp
 git clone https://github.com/powerline/fonts
 cd fonts || { echo "Fonts directory doesn't exist" ; exit ; }

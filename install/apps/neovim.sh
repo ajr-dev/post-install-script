@@ -17,14 +17,14 @@ if ! command_exists nvim; then
   sudo apt install -y neovim
   sudo apt install -y python-dev python-pip python3-dev python3-pip
   sudo apt autoremove -y
-  sudo add-apt-repository --remove ppa:neovim-ppa/stable
+  #sudo add-apt-repository --remove ppa:neovim-ppa/stable
 fi
 
 # Set neovim as the default editor
+sudo update-alternatives --install /usr/bin/vim vim /usr/bin/vi 60
 sudo update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
-#sudo update-alternatives --config vi
 sudo update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
-#sudo update-alternatives --config editor
+# sudo update-alternatives --config vim
 
 # Install Vim-Plug
 curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \

@@ -13,55 +13,25 @@ CURRENT=$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9])?).*/\1/p")
 
 if [ ! command_exists tmux] || (( CURRENT_VERSION < VERSION )); then
     sudo apt-get remove -y tmux
+
     packages=( wget tar automake build-essential bison pkg-config libevent-dev libncurses5-dev )
     for app in "${packages[@]}" ; do
         ! command_exists "$app"  &&  sudo apt install -y "$app"
     done
 
-    # create our directories
     mkdir -p $HOME/tmp
     cd $HOME/tmp
 
-    ############
-    # libevent #
-    ############
-
-    FILE=libevent-$LIBEVENT-stable
-    wget https://github.com/libevent/libevent/releases/download/release-$LIBEVENT-stable/$FILE.tar.gz
-    tar xvzf $FILE.tar.gz
-    cd $FILE
-    ./configure --prefix=/usr/local
-    make
-    sudo make install
-    cd ..
-    sudo mv $FILE /usr/local/src
-
-    ############
-    # ncurses  #
-    ############
-    FILE=ncurses-$NCURSES_VERSION
-    wget http://ftp.gnu.org/gnu/ncurses/$FILE.tar.gz
-    tar xvzf $FILE.tar.gz
-    cd $FILE
-    ./configure --prefix=/usr/local
-    make
-    sudo make install
-    cd ..
-    sudo mv $FILE /usr/local/src
-
-    ############
-    # tmux     #
-    ############
     wget https://github.com/tmux/tmux/releases/download/$VERSION/$TMUX_FILE
     tar xvzf tmux-${VERSION}.tar.gz
-    cd tmux-${VERSION}
-    ./configure && make
-    sudo make install
-    cd ..
     sudo rm -rf /usr/local/src/tmux-*
     sudo mv tmux-${VERSION} /usr/local/src
-
+    cd /usr/local/src/tmux-${VERSION}
+    ./configure && make
+    sudo make install
     sudo apt-get autoremove -y
+
+    cd $HOME
     rm -rf $HOME/tmp
 fi
 

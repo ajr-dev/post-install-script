@@ -7,15 +7,15 @@ if [[ $DESKTOP == "gnome" ]]  ||  [[ $DESKTOP == "xubuntu" ]]  || \
    [[ $DESKTOP == "kali" ]]  &&  assertConfirmation "Change system settings?" "${autoConfirm:?}"
 then
     if [[ $DESKTOP == "gnome" ]]; then
-        . "$INSTALL/settings/gnome.sh"
+        source "$INSTALL/settings/gnome.sh"
     elif [[ $DESKTOP == "xubuntu" ]]; then
-        . "$INSTALL/settings/xubuntu.sh"
+        source "$INSTALL/settings/xubuntu.sh"
     elif [[ $DESKTOP == "cinnamon" ]]; then
-        . "$INSTALL/settings/cinnamon.sh"
+        source "$INSTALL/settings/cinnamon.sh"
     elif [[ $DESKTOP == "mate" ]]; then
-        . "$INSTALL/settings/mate.sh"
+        source "$INSTALL/settings/mate.sh"
     elif [[ $DESKTOP == "kali" ]]; then
-        . "$INSTALL/settings/kali.sh"
+        source "$INSTALL/settings/kali.sh"
     fi
 fi
 
@@ -28,9 +28,8 @@ if sudo -v; then
     done
 fi
 
-# https://askubuntu.com/questions/283908/how-can-i-install-and-use-powerline-plugin
-if ! font_installed SourceCodePro; then
-    . "$INSTALL/settings/source-code-pro-font-install.sh"
+if ! font_installed SourceCodePro  &&  assertConfirmation "Install SourceCodePro?" "${autoConfirm:?}"; then
+    source "$INSTALL/settings/source-code-pro.sh"
 fi
 
 # Enable install recommends by default
@@ -43,15 +42,15 @@ sudo apt-get install -y python3-gpg
 dropbox start -i # Auto install dropbox
 
 # Link the configuration files
-[ ! -d ~/.config/nvim/ ]  &&  . "$INSTALL/setup/link.sh"
+[ ! -d ~/.config/nvim/ ]  &&  source "$INSTALL/setup/link.sh"
 
-# TODO: only ask the first time perform once
-if ! [ -f ~/.gitconfig ]  &&  assertConfirmation "¿Configure git?" "${autoConfirm:?}"; then
-    . "$INSTALL/setup/git.sh"
+# TODO: check if already done
+if ! [ -f ~/.gitconfig ]  &&  assertConfirmation "Configure git?" "${autoConfirm:?}"; then
+    source "$INSTALL/setup/git.sh"
 fi
 
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"  &&  rm "$HOME/.zshrc"  &&  \
-	mv "$HOME/.zshrc.pre-oh-my-zsh" "$HOME/.zshrc"
+# Setup ZSH
+source "$INSTALL/setup/zsh.sh"
 
 if assertConfirmation "Import local config?" "${autoConfirm:?}"
 then
@@ -61,41 +60,36 @@ then
 fi
 
 if ! command_exists tmux  &&  assertConfirmation "Install tmux?"; then
-    . "$INSTALL/setup/tmux.sh"
+    source "$INSTALL/setup/tmux.sh"
 fi
 
 if ! command_exists  nvim  &&  assertConfirmation "Install neovim?" "${autoConfirm:?}"; then
-    . "$INSTALL/apps/neovim.sh"
-fi
-
-# Setup ZSH
-if ! [[ $SHELL =~ .*zsh.* ]]  &&  assertConfirmation "Change default shell to zsh?" "${autoConfirm:?}"
-then
-    wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-    sh install --keep-zshrc
-    if ! command_exists zplug; then
-        echo "installing zplug, a plugin manager for zsh - http://zplug.sh"
-        [ ! -d ~/.zplug ]  &&  git clone https://github.com/zplug/zplug ~/.zplug
-    fi
+    source "$INSTALL/apps/neovim.sh"
 fi
 
 if [ ! -f /etc/sudoers.bak ]  &&  assertConfirmation "Never ask for passwords?"; then
-    . "$INSTALL/settings/no-password-prompt.sh"
+    source "$INSTALL/settings/no-password-prompt.sh"
 fi
 
 # TODO: check if already done
 if assertConfirmation "Unattended upgrades?" "${autoConfirm:?}"; then
-    . "$INSTALL/settings/unattended-upgrades.sh"
+    source "$INSTALL/settings/unattended-upgrades.sh"
+fi
+
+# Install Homebrew
+if ! command_exists brew  &&  assertConfirmation "Install Homebrew?" "${autoConfirm:?}"; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/user/.zprofile
 fi
 
 # Install Nix Package Manager
-if ! command_exists nix-env  &&  assertConfirmation "¿Install Nix Package Manager?" "${autoConfirm:?}"; then
+if ! command_exists nix-env  &&  assertConfirmation "Install Nix Package Manager?" "${autoConfirm:?}"; then
     curl https://nixos.org/nix/install | sh
-    . ~/.nix-profile/etc/profile.d/nix.sh
+    source ~/.nix-profile/etc/profile.d/nix.sh
 fi
 
 # Install Snappy Package Manager
-if ! command_exists snap  &&  assertConfirmation "¿Install snap Package Manager?" "${autoConfirm:?}"; then
+if ! command_exists snap  &&  assertConfirmation "Install snap Package Manager?" "${autoConfirm:?}"; then
     sudo apt-get install python-tk python-setuptools ipython
     sudo python -m easy_install -U snappy
     python -m snappy.app

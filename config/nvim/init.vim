@@ -702,7 +702,7 @@ call plug#end()
 
   " Show a different background color as 'warning' and 'danger' markers
   if v:version > 703
-    highlight ColorColumn ctermbg=240 guibg=#2c2d27
+    highlight ColorColumn ctermbg=240 guibg=#1f2126
     let &colorcolumn="81,".join(range(121,999),",")
   endif
 " Colorscheme and final setup {{{
