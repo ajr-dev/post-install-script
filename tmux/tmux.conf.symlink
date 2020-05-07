@@ -1,26 +1,20 @@
 # A Guide to Customizing your tmux.conf:  https://www.hamvocke.com/blog/a-guide-to-customizing-your-tmux-conf/
 # Another tmux conf explained:  https://yesmeck.github.io/tmuxrc/
 
-# Get tmux version
-run-shell 'tmux setenv -g TMUX_VERSION $(tmux -V|sed "s/[^0-9.]*//g")'
+run-shell 'tmux setenv -g TMUX_VERSION $(tmux -V|sed "s/[^0-9.]*//g")'  # Get tmux version
 
 # Tmux display things in 256 colors
 set -g default-terminal "tmux-256color"
 set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 
 set -g history-limit 20000
+set -g renumber-windows on      # Automatically renumber tmux windows
 
-# Automatically renumber tmux windows
-set -g renumber-windows on
+unbind C-b                      # Unbind default prefix
+set -g prefix C-a               # Set prefix to Ctrl+a
+bind C-a send-prefix            # Ensure that we can send Ctrl-a to other apps
 
-# Unbind default prefix and set it to Ctrl+a
-unbind C-b
-set -g prefix C-a
-# Ensure that we can send Ctrl-a to other apps
-bind C-a send-prefix
-
-# For nested tmux sessions
-bind-key a send-prefix
+bind-key a send-prefix          # For nested tmux sessions
 
 # Activity Monitoring
 set-window-option -g monitor-activity off
@@ -49,12 +43,10 @@ set-option -g set-titles-string "#T - #W"
 #### Key Bindings ####
 ######################
 
-# Open and reload config file
-bind-key e split-window -h vim ~/.tmux.conf
-bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
+bind-key e split-window -h vim ~/.tmux.conf   # Edit configuration file
+bind r source-file ~/.tmux.conf \; display "Config Reloaded!"  # Reload configuration file
 
-# Quickly open a new window
-bind N new-window
+bind N new-window               # quickly open a new window
 
 # Delete window and pane without confirmation
 bind-key & kill-window
@@ -62,27 +54,26 @@ bind-key q kill-window
 bind-key x kill-pane
 
 # Split panes using | and -. Fix path for tmux 1.9
-bind | split-window -h -c "#{pane_current_path}"
-bind - split-window -v -c "#{pane_current_path}"
+bind | split-window -h -c "#{pane_current_path}"  # vertical split
+bind - split-window -v -c "#{pane_current_path}"  # horizontal split
 
-# Synchronize all panes in a window
-bind y set-window-option synchronize-panes
+bind y set-window-option synchronize-panes  # synchronize all panes in a window
 
 # Moving between panes
-bind h select-pane -L
-bind j select-pane -D
-bind k select-pane -U
-bind l select-pane -R
+bind h select-pane -L                       # move to left pane
+bind j select-pane -D                       # move to bottom pane
+bind k select-pane -U                       # move to top pane
+bind l select-pane -R                       # move to right pane
 
 # Move through the windows
-bind -r C-h select-window -t :-
-bind -r C-l select-window -t :+
+bind -r C-h select-window -t :-             # to left window
+bind -r C-l select-window -t :+             # to right window
 
 # Resize pane shortcuts
-bind -r H resize-pane -L 5
-bind -r J resize-pane -D 5
-bind -r K resize-pane -U 5
-bind -r L resize-pane -R 5
+bind -r H resize-pane -L 5                  # resize left
+bind -r J resize-pane -D 5                  # resize down
+bind -r K resize-pane -U 5                  # resize up
+bind -r L resize-pane -R 5                  # resize right
 
 # Enable mouse support for switching panes/windows
 if-shell -b '[ "$(echo "$TMUX_VERSION < 2.1" | bc)" = 1 ]' " \
@@ -112,19 +103,14 @@ if-shell -b '[ "$(echo "$TMUX_VERSION < 2.2" | bc)" = 1 ]' \
 
 # Settings to make copy-mode more vim-like
 unbind [
-bind Escape copy-mode
+bind Escape copy-mode           # Vi mode, enables movement like in vi
 set-window-option -g mode-keys vi
 
 # <Prefix>P for paste instead of previous window
 unbind p
 bind p paste-buffer
 
-# Scroll through tmux commands
-#set -g status-keys vi
-#bind-key -t vi-edit Up   history-up; \
-#bind-key -t vi-edit Down history-down; \
-
-# bind-key syntax changed in 2.4 -- selection / copy / paste
+# bind-key syntax changed in 2.4 -- v, y, p selection / copy / paste
 if-shell -b '[ "$(echo "$TMUX_VERSION < 2.4" | bc)" = 1 ]' " \
    bind-key -t vi-copy v   begin-selection; \
    bind-key -t vi-copy V   send -X select-line; \
@@ -147,8 +133,6 @@ if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.9" | bc)" = 1 ]' \
 
 if-shell 'uname | grep -q Darwin' \
     'source-file ~/.dotfiles/tmux/tmux-osx.conf'
-    #'if-shell "uname | grep -q CYGWIN" "source-file ~/.tmux.conf.cygwin" "source-file ~/.tmux.conf.linux"'
-
 
 ##############################
 ### Color & Style Settings ###

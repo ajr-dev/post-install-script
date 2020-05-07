@@ -1,10 +1,10 @@
+alias lza="grep -E '(=)' $MY_ZSH/aliases.zsh | less"  # List ZSH aliases and descriptions
+
 # Recargar la configuración de zsh
 alias reload!='RELOAD=1 source ~/.zshrc'
 
 alias autoremove='sudo apt autoremove -y'
 alias untar='tar -zxvf'
-
-alias hc="hashcat"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -13,19 +13,13 @@ else # OS X `ls`
     colorflag="-G"
 fi
 
-# set colors for LS_COLORS in Windows Linux Subsystem
+# Set colors for LS_COLORS in Windows Linux Subsystem
 test -r ~/.dircolors  &&  eval "$(dircolors -b ~/.dircolors)"  ||  eval "$(dircolors -b)"
-alias ls="ls ${colorflag}"
-alias l="ls -lah ${colorflag}"
-alias la="ls -AF ${colorflag}"
-alias ll="ls -lFh ${colorflag}"
-alias lsh="ls -lsh"                 # list files sorted by size
-alias lld="ls -l | grep ^d"
-alias rmf="rm -rf"
 
-# Helpers
-alias grep='grep --color=auto'
-alias df='df -h'                    # disk free, in Gigabytes, not bytes
+alias lsh="ls -lsh"                 # list files sorted by size
+alias ld="ls -l ${colorflag} | grep ^d"  # list directories
+alias rmf="rm -rf"
+alias df='df -h'                    # show disk free space in gigabytes
 alias du='du -h -c'                 # calculate disk usage for a folder
 
 # Direcciones IP

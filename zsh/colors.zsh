@@ -4,6 +4,7 @@
 # ESC ] Operating System Command
 # 0 Change Icon Name and Window Title to Pt.
 
+# Onedark
 COLOR_BLACK="\e[0;40;44;52m"
 COLOR_BLUE="\e[0;97;175;239m"
 COLOR_GREEN="\e[0;152;195;121m"

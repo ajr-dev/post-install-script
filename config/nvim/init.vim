@@ -73,7 +73,7 @@ call plug#begin('~/.config/nvim/plugged')
   set ffs=unix,dos,mac    " use unix as standard filetype
   set encoding=utf8       " Select utf8 as standard encoding
   set completeopt+=longest
-  set updatetime=750      " write swap file to disc in nothing happens in this miliseconds
+  set updatetime=300      " write swap file to disc in nothing happens in this miliseconds
   set signcolumn=yes      " always show signcolumns
   set shortmess+=c        " don't give |ins-completion-menu| messages.
 
@@ -92,7 +92,7 @@ call plug#begin('~/.config/nvim/plugged')
   set foldnestmax=10      " deepest fold is 10 levels
   "set nofoldenable        " don't fold by default
   set foldlevel=1         " where to start folding
-  set modeline            " allow file specific folding configuration
+  set modeline            " allow file specific configuration
 
   " Switch between syntax and marker as foldmethod
   nmap <Leader>ff :call <SID>ToggleFold()<CR>
@@ -133,7 +133,10 @@ call plug#begin('~/.config/nvim/plugged')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   endif
 
-  match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'  " highlight conflicts
+  Plug 'rhysd/conflict-marker.vim'  " mappings to highlight, jump and resolve merge conflicts
+  " Jump to next/previous merge conflict marker
+  nmap <buffer><leader>nc <Plug>(conflict-marker-next-hunk)
+  nmap <buffer><leader>pc <Plug>(conflict-marker-prev-hunk)
 
   Plug 'joshdick/onedark.vim' " load colorscheme
   Plug 'vim-airline/vim-airline' " Fancy statusline
@@ -178,59 +181,11 @@ call plug#begin('~/.config/nvim/plugged')
   " Make Ctrl x, Ctrl c and  Ctrl v cut, copy and paste
   vmap <C-x> "+c
   vmap <C-c> "+y
-  vmap <C-v> c<ESC>"+p
-  imap <C-v> <ESC>"+pa
+  "vmap <C-v> c<ESC>"+p
+  "imap <C-v> <ESC>"+pa
 
   " Toggle between indenting pasted text or not
   set pastetoggle=<leader>v
-  " FZF {{{
-    Plug '/usr/local/opt/fzf'
-    Plug 'junegunn/fzf.vim'
-    "let g:fzf_layout = { 'down': '~25%' }
-
-    if isdirectory(".git")
-    " if in a git project, use :GFiles
-    nmap <silent> <leader>t :GFiles --cached --others --exclude-standard<cr>
-    else
-    " otherwise, use :FZF
-    nmap <silent> <leader>t :FZF<cr>
-    endif
-
-    nmap <silent> <leader>r :Buffers<cr>
-    nmap <silent> <leader>e :FZF<cr>
-    nmap <leader><tab> <plug>(fzf-maps-n)
-    xmap <leader><tab> <plug>(fzf-maps-x)
-    omap <leader><tab> <plug>(fzf-maps-o)
-
-    " Insert mode completion
-    imap <c-x><c-k> <plug>(fzf-complete-word)
-    imap <c-x><c-f> <plug>(fzf-complete-path)
-    imap <c-x><c-j> <plug>(fzf-complete-file-ag)
-    imap <c-x><c-l> <plug>(fzf-complete-line)
-
-    nnoremap <silent> <Leader>C :call fzf#run({
-    \   'source':
-    \     map(split(globpath(&rtp, "colors/*.vim"), "\n"),
-    \         "substitute(fnamemodify(v:val, ':t'), '\\..\\{-}$', '', '')"),
-    \   'sink':    'colo',
-    \   'options': '+m',
-    \   'left':    30
-    \ })<CR>
-
-    command! FZFMru call fzf#run({
-    \  'source':  v:oldfiles,
-    \  'sink':    'e',
-    \  'options': '-m -x +s',
-    \  'down':    '40%'})
-
-    command! -bang -nargs=* Find call fzf#vim#grep(
-      \ 'rg --column --line-number --no-heading --follow --color=always '.<q-args>, 1,
-      \ <bang>0 ? fzf#vim#with_preview('up:60%') : fzf#vim#with_preview('right:50%:hidden', '?'), <bang>0)
-    command! -bang -nargs=? -complete=dir Files
-      \ call fzf#vim#files(<q-args>, fzf#vim#with_preview('right:50%', '?'), <bang>0)
-    command! -bang -nargs=? -complete=dir GFiles
-      \ call fzf#vim#gitfiles(<q-args>, fzf#vim#with_preview('right:50%', '?'), <bang>0)
-  " }}}
 
   " Fast edit of config files
   map <leader>ev :e! $MYVIMRC<cr>
@@ -250,26 +205,42 @@ call plug#begin('~/.config/nvim/plugged')
   inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
   inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 
-  " toggle invisible characters. List Chars mnemonic
-  nmap <leader>lc :set list!<cr>
+  " toggle invisible characters
+  nmap <leader>ic :set list!<cr>
 
   " keep visual selection when indenting/outdenting
   vmap < <gv
   vmap > >gv
 
-  " Move quickly between buffers
-  map <leader>h :bp<cr>
-  map <leader>l :bn<cr>
-  map <leader>d :bd<cr>
+  " Mappings to access buffers (don't use "\p" because a
+  " delay before pressing "p" would accidentally paste).
+  " \bb       : list buffers
+  " \h \l \g : go back/forward/last-used
+  " \1 \2 \3 : go to buffer 1/2/3 etc
+  nmap <Leader>bb :ls<CR>
+  nmap <leader>h :bp<cr>
+  nmap <leader>l :bn<cr>
+  nmap <Leader>g :e#<CR>
+  nmap <Leader>1 :1b<CR>
+  nmap <Leader>2 :2b<CR>
+  nmap <Leader>3 :3b<CR>
+  nmap <Leader>4 :4b<CR>
+  nmap <Leader>5 :5b<CR>
+  nmap <Leader>6 :6b<CR>
+  nmap <Leader>7 :7b<CR>
+  nmap <Leader>8 :8b<CR>
+  nmap <Leader>9 :9b<CR>
+  nmap <Leader>0 :10b<CR>
+
+  " Delete buffer
+  nmap <leader>d :bd<cr>
+  nmap <silent><leader>b :bw<cr>
 
   " Switch between current and last buffer
   nmap <leader>. <c-^>
 
   " Enable . command in visual mode
   vnoremap . :normal .<cr>
-
-  " Delete buffer
-  nmap <silent> <leader>b :bw<cr>
 
   " Move around windows with Ctrl + {h, j, k, l}
   "map <silent> <C-h> :call functions#WinMove('h')<cr>
@@ -602,7 +573,7 @@ call plug#begin('~/.config/nvim/plugged')
       endif
     endfunction
 
-    "tab completion
+    " Use tab to navigate autocompletion
     inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
       \ <SID>check_back_space() ? "\<TAB>" :
@@ -614,8 +585,7 @@ call plug#begin('~/.config/nvim/plugged')
       return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
 
-    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-    " position. Coc only does snippet and additional edit on confirm.
+    " Use <cr> to confirm completion. Coc only does snippet and additional edit on confirm.
     if exists('*complete_info')
       inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
     else
