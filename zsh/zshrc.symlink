@@ -3,8 +3,10 @@ export MY_ZSH=$DOTFILES/zsh
 export ZSH=$HOME/.oh-my-zsh
 
 # OhMyZsh configuration. This should go at the top so my configuration has preference
+ENABLE_CORRECTION="true"
+export UPDATE_ZSH_DAYS=3
 ZSH_TMUX_AUTOSTART=true
-plugins=( common-aliases tmux git )
+plugins=( common-aliases git tmux vi-mode ) # TODO: check if zsh-autosuggestions is installed
 source $ZSH/oh-my-zsh.sh
 
 command_exists() {
@@ -52,11 +54,12 @@ if  [ -d /home/linuxbrew ];  then
   export INFOPATH="/home/linuxbrew/.linuxbrew/share/info:$INFOPATH"
 fi
 
-[ -d $DOTFILES/bin ]    &&  export PATH=$DOTFILES/bin:$PATH
-[ -d /usr/local/bin ]   &&  export PATH=/usr/local/bin:$PATH
-[ -d /usr/local/sbin ]  &&  export PATH=/usr/local/sbin:$PATH
-[ -d ~/bin ]            &&  export PATH=~/bin:$PATH
-[ -d ~/.bin ]           &&  export PATH=~/.bin:$PATH
+[ -d $DOTFILES/bin ]     &&  export PATH=$DOTFILES/bin:$PATH
+[ -d $HOME/Dropbox/bin ] &&  export PATH=$HOME/Dropbox/bin:$PATH
+[ -d /usr/local/bin ]    &&  export PATH=/usr/local/bin:$PATH
+[ -d /usr/local/sbin ]   &&  export PATH=/usr/local/sbin:$PATH
+[ -d ~/bin ]             &&  export PATH=~/bin:$PATH
+[ -d ~/.bin ]            &&  export PATH=~/.bin:$PATH
 [ -d /snap/bin ]  &&  export PATH=/snap/bin:$PATH
 [ -d /usr/share/swift/usr/bin ]  &&  export PATH=/usr/share/swift/usr/bin:$PATH
 [ -f /usr/share/junit.jar ]  &&  export CLASSPATH=/usr/share/junit.jar:.:$CLASSPATH
@@ -83,15 +86,6 @@ if  [[ ! -d ~/.zplug ]];  then
     echo "Installing zplug, a plugin manager for zsh"
     git clone https://github.com/zplug/zplug ~/.zplug
 fi
-
-# Start tmux automatically
-# http://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
-# if  command_exists tmux;  then
-  # This would close terminal when exiting tmux
-  # [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || exec tmux new-session && exit; }
-  # This wouldn't close terminal
-  # [[ ! $TERM =~ screen ]] && [ -z $TMUX ] && { tmux attach || tmux new-session}
-# fi
 
 # This should be at the end so that local zsh config overrides current settings
 if  [[ -a ~/.zshrc.local ]];  then

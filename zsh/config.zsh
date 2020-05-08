@@ -1,4 +1,4 @@
-# TODO: most is set in OMZ, commit to nicknisi
+# TODO: most is set in OMZ, commit to nicknisi and remove
 # Move forward/backward one word with Ctrl-left Ctrl-right
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
@@ -11,7 +11,7 @@ bindkey '^[[1;3C' end-of-line
 bindkey '^[[5D' beginning-of-line
 bindkey '^[[5C' end-of-line
 
-indkey '^?' backward-delete-char                     # [Backspace] - delete backward
+bindkey '^?' backward-delete-char                     # [Backspace] - delete backward
 if [[ "${terminfo[kdch1]}" != "" ]]; then
   bindkey "${terminfo[kdch1]}" delete-char            # [Delete] - delete forward
 else

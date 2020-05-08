@@ -5,14 +5,16 @@
 * [Prompt](#prompt)
 * [Fonts](#fonts)
 * [Mappings](#mappings)
-  * [ZSH](#zsh-aliases)
-  * [Tmux](#tmux-conf)
+  * [ZSH Mappings](#zsh-aliases)
+  * [Git Mappings](#git)
+  * [Tmux Mappings](#tmux-conf)
     * [Tmux Cheatsheet](#tmux-cheatsheet)
-      * [Sessions](#sessions)
-      * [Various](#various)
-      * [Windows (tabs)](#windows-tabs)
-      * [Panes (splits)](#panes-splits)
-  * [Vim Configuration](#vim)
+    * [Sessions](#sessions)
+    * [Various](#various)
+    * [Windows (tabs)](#windows-tabs)
+    * [Panes (splits)](#panes-splits)
+    * [Custom Tmux Keybindings](#custom-tmux-keybindings)
+  * [Vim Mappings](#vim)
     * [Vim Cheatsheet](#vim-cheatsheet)
     * [Custom Vim Keybindings](#custom-vim-keybindings)
 * [WSL](#wsl)
@@ -101,14 +103,17 @@ I'm using Source Code Pro patched with symbols from [nerd-fonts](https://github.
 
 ## Mappings
 
-Bookmark [this page](https://github.com/ajr-dev/post-install-script#mappings) as you'll have to take a look at the linked files and webs when you don't remember a mapping you want to use.
+Bookmark [this page](https://github.com/ajr-dev/post-install-script#contents) as you'll have to take a look at the mappings listed (or in the files and webs linked) here when you don't remember one you want to use.
 
-### ZSH
+### ZSH Mappings
 
-Write `alias` to get a list of all aliases declared, `alias -m "pattern"` to print aliases matching, specified pattern. You can see the ones defined by OMZ in their [Cheatsheet](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet). My aliases are in [zsh aliases](zsh/aliases.zsh). If you want some custom configuration write it in `~/.zshrc.local`
-ZSH is configured in the [zshrc.symlink](zsh/zshrc.symlink) file, which will be symlinked to the home directory.
+Write `alias` to get a list of all aliases declared, `alias -m "pattern"` to print aliases matching, specified pattern. You can see the ones defined by OMZ in their [Cheatsheet](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet). You can use `lza` to list my ZSH aliases (mnemonic) which are defined in [zsh/aliases.zsh](zsh/aliases.zsh). Take a look at how [zsh autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) work. If you want some custom configuration write it in `~/.zshrc.local`. ZSH is configured in the [zshrc.symlink](zsh/zshrc.symlink) file, which will be symlinked to the home directory. You can navigate zsh with [vi-mode commands](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode).
 
-### Tmux Configuration
+### [Git Mappings](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet#Git)
+
+My zsh aliases for git are in [zsh/git.zsh](zsh/git.zsh). You can list them with `lga` (mnemonic: list git aliases)
+
+### Tmux Mappings
 
 Tmux is a terminal multiplexor which lets you create windows and splits in the terminal that you can attach and detach from. I use it to keep multiple projects open in separate windows and to create an IDE-like environment to work in where I can have my code open in vim/neovim and a shell open to run tests/scripts. Tmux is configured in [~/.tmux.conf](tmux/tmux.conf.symlink) and in [tmux/theme.sh](tmux/theme.sh), which defines the colors used, the layout of the tmux bar, and what what will be displayed, including the time and date, open windows, tmux session name, computer name.
 
@@ -122,11 +127,89 @@ Tmux starts up automatically when opening zsh. If you don't like this behaviour 
 
 The default tmux bindings are in [tmux-cheatsheet.markdown](https://gist.github.com/MohamedAlaa/2961058). For those commands you have to press the prefix first. The prefix in my configuration is `ctrl+a`.
 
-### [Git](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet#Git)
+```bash
+tmux                            # Start new session
+tmux new -s myname              # Start new session with name
+tmux a                          # Or 'tmux attach'. Attach to the first session listed
+tmux a -t myname                # Attach to named session
+tmux kill-session -t myname     # Kill session
+tkl                             # Kill all tmux sessions
+tmux ls | grep : | cut -d. -f1 | awk '{print substr($1, 0, length($1)-1)}' | xargs kill
+```
 
-My zsh aliases for git are in [zsh/git.zsh]. You can list them with `lga` (mnemonic: list git aliases)
+There are some tmux shortcuts found in [zsh/tmux.zsh](zsh/tmux.zsh).
+You can list the custom tmux liases configured in that file with `tla`.
 
-### Vim Cheatsheet
+For the next commands you have to press the prefix first. The prefix is `ctrl+a`. The default prefix is `ctrl+b` but it's disabled in my configuration.
+
+#### Sessions
+
+```bash
+:new<CR>                        # New session
+s                               # List sessions
+$                               # Name current session
+```
+
+#### Various
+```bash
+d                               # Disconnect from current session
+?                               # List shortcuts
+t                               # Shows a big clock
+:                               # Let's you enter tmux commands
+```
+
+#### Windows (tabs)
+
+```bash
+c                               # Create window
+w                               # List windows
+n                               # Next window
+p                               # Previous window
+f                               # Find window
+,                               # Name window
+&                               # Close window
+```
+#### Panes (splits)
+
+```bash
+%                               # Vertical split
+"                               # Horizontal split
+o                               # Cycle through panes
+q                               # Show pane numbers, press the number to go to that pane
+x                               # Close pane
++                               # Break pane into window (e.g. to select text by mouse to copy)
+-                               # Restore pane from window
+⍽(space)                        # Toggle between layouts
+{                               # Move the current pane left
+}                               # Move the current pane right
+z                               # Toggle pane zoom
+```
+#### Custom Tmux Keybindings
+
+```bash
+Escape                          # Vi mode, enables movement like in vi
+v (vi mode)                     # Selects text
+y (vi mode)                     # Copy text to system clipboard
+p                               # Paste text from system clipboard
+y                               # Synchronize panes from a window
+e                               # Edit configuration file
+r                               # Reload configuration file
+N                               # Open new window
+|                               # Partir ventana verticalmente
+-                               # Partir ventana horizontalmente
+h                               # Moverse al panel izquierdo
+j                               # Moverse al panel inferior
+k                               # Moverse al panel superior
+l                               # Moverse al panel derecho
+ctrl+h                          # Go to left window
+ctrl+l                          # Go to right window
+H                               # Resize current pane left
+J                               # Resize current pane down
+K                               # Resize current pane up
+L                               # Resize current pane right
+```
+
+### Vim Mappings
 
 Take a look at my [.vimrc](config/nvim/init.vim) to see my vim aliases.
 
@@ -139,4 +222,4 @@ TODO: [disable automatic updates](https://www.windowscentral.com/how-stop-update
 ## Todo List
 
 Properly comment dotfiles
-https://github.com/nicknisi/dotfiles/commits/master?before=b56df6a22982836a56b9a30e77c84912866ce892+875
+https://github.com/nicknisi/dotfiles/commits/master?before=b56df6a22982836a56b9a30e77c84912866ce892+770

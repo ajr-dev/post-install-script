@@ -2,6 +2,7 @@
 # Another tmux conf explained:  https://yesmeck.github.io/tmuxrc/
 
 run-shell 'tmux setenv -g TMUX_VERSION $(tmux -V|sed "s/[^0-9.]*//g")'  # Get tmux version
+if-shell "uname | grep -q Darwin" "set -g default-command 'login-shell'"
 
 # Tmux display things in 256 colors
 set -g default-terminal "tmux-256color"
@@ -10,7 +11,6 @@ set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 set -g history-limit 20000
 set -g renumber-windows on      # Automatically renumber tmux windows
 
-unbind C-b                      # Unbind default prefix
 set -g prefix C-a               # Set prefix to Ctrl+a
 bind C-a send-prefix            # Ensure that we can send Ctrl-a to other apps
 
@@ -44,7 +44,7 @@ set-option -g set-titles-string "#T - #W"
 ######################
 
 bind-key e split-window -h vim ~/.tmux.conf   # Edit configuration file
-bind r source-file ~/.tmux.conf \; display "Config Reloaded!"  # Reload configuration file
+bind r source-file ~/.tmux.conf \; display "Tmux configuration reloaded"
 
 bind N new-window               # quickly open a new window
 
@@ -115,9 +115,7 @@ if-shell -b '[ "$(echo "$TMUX_VERSION < 2.4" | bc)" = 1 ]' " \
    bind-key -t vi-copy v   begin-selection; \
    bind-key -t vi-copy V   send -X select-line; \
    bind-key -t vi-copy C-v rectangle-toggle; \
-   bind-key -t vi-copy y   copy-pipe 'xclip -selection clipboard -in'"
-
-if-shell -b '[ "$(echo "$TMUX_VERSION < 2.9" | bc)" = 1 ]' " \
+   bind-key -t vi-copy y   copy-pipe 'xclip -selection clipboard -in'" " \
    bind-key -T copy-mode-vi v   send -X begin-selection; \
    bind-key -T copy-mode-vi V   send -X select-line; \
    bind-key -T copy-mode-vi C-v send -X rectangle-toggle; \
