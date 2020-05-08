@@ -5,16 +5,16 @@
 * [Prompt](#prompt)
 * [Fonts](#fonts)
 * [Mappings](#mappings)
-  * [ZSH Mappings](#zsh-aliases)
-  * [Git Mappings](#git)
-  * [Tmux Mappings](#tmux-conf)
+  * [ZSH Mappings](#zsh-mappings)
+  * [Git Mappings](#git-mappings)
+  * [Tmux Mappings](#tmux-mappings)
     * [Tmux Cheatsheet](#tmux-cheatsheet)
     * [Sessions](#sessions)
     * [Various](#various)
     * [Windows (tabs)](#windows-tabs)
     * [Panes (splits)](#panes-splits)
     * [Custom Tmux Keybindings](#custom-tmux-keybindings)
-  * [Vim Mappings](#vim)
+  * [Vim Mappings](#vim-mappings)
     * [Vim Cheatsheet](#vim-cheatsheet)
     * [Custom Vim Keybindings](#custom-vim-keybindings)
 * [WSL](#wsl)
@@ -109,9 +109,9 @@ Bookmark [this page](https://github.com/ajr-dev/post-install-script#contents) as
 
 Write `alias` to get a list of all aliases declared, `alias -m "pattern"` to print aliases matching, specified pattern. You can see the ones defined by OMZ in their [Cheatsheet](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet). You can use `lza` to list my ZSH aliases (mnemonic) which are defined in [zsh/aliases.zsh](zsh/aliases.zsh). Take a look at how [zsh autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) work. If you want some custom configuration write it in `~/.zshrc.local`. ZSH is configured in the [zshrc.symlink](zsh/zshrc.symlink) file, which will be symlinked to the home directory. You can navigate zsh with [vi-mode commands](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode).
 
-### [Git Mappings](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet#Git)
+### Git Mappings
 
-My zsh aliases for git are in [zsh/git.zsh](zsh/git.zsh). You can list them with `lga` (mnemonic: list git aliases)
+Take a look at [zsh aliases for git](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet#Git) defined by OhMyZsh here. My zsh aliases for git are in [zsh/git.zsh](zsh/git.zsh). You can list them with `lga` (mnemonic: list git aliases)
 
 ### Tmux Mappings
 
