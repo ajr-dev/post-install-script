@@ -1,4 +1,3 @@
-export DOTFILES=$HOME/.dotfiles
 export MY_ZSH=$DOTFILES/zsh
 export ZSH=$HOME/.oh-my-zsh
 
@@ -8,10 +7,6 @@ export UPDATE_ZSH_DAYS=3
 ZSH_TMUX_AUTOSTART=true
 plugins=( common-aliases git tmux vi-mode ) # TODO: check if zsh-autosuggestions is installed
 source $ZSH/oh-my-zsh.sh
-
-command_exists() {
-    command -v "$1" > /dev/null 2>&1
-}
 
 # Display how long all tasks over 10 seconds take
 export REPORTTIME=10
@@ -34,15 +29,6 @@ fi
 autoload -U compinit add-zsh-hook
 compinit
 for  config ($MY_ZSH/**/*completion.sh)  source $config
-
-if  command_exists nvim;  then
-    alias vi="nvim"
-    export EDITOR='nvim'
-    export GIT_EDITOR='nvim'
-elif  command_exists vim;  then
-    export EDITOR='vim'
-    export GIT_EDITOR='vim'
-fi
 
 export JAVA_HOME="/usr/bin/java" # Use this to specify the location of Java JDK on your system
 export JRE_HOME="/usr/lib/jvm/java-11-openjdk-amd64" # Use this environment variable to specify the location of the Java JRE on your system
@@ -74,7 +60,11 @@ fi
 
 # Enable true color and italics for neovim, tmux and terminal:
 # https://bruinsslot.jp/post/how-to-enable-true-color-for-neovim-tmux-and-gnome-terminal/
-export TERM=xterm-256color-italic
+if [ -z "$TMUX" ]; then
+  export TERM=xterm-256color-italic
+else
+  export TERM=tmux-256color
+fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_COMMAND='ag -g ""'
@@ -84,7 +74,8 @@ for  config ($MY_ZSH/**/*.zsh)  source $config
 
 if  [[ ! -d ~/.zplug ]];  then
     echo "Installing zplug, a plugin manager for zsh"
-    git clone https://github.com/zplug/zplug ~/.zplug
+    export ZPLUG_HOME="$HOME/.zplug"
+    git clone https://github.com/zplug/zplug $ZPLUG_HOME
 fi
 
 # This should be at the end so that local zsh config overrides current settings

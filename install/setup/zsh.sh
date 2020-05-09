@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -f assertConfirmation &>/dev/null ||  . "$HOME/.dotfiles/install/declarations.sh"
+declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 if ! command_exists zsh; then
   echo "zsh not found. Please install and then re-run installation scripts"
@@ -20,15 +20,10 @@ if [[ "$SHELL" != "$zsh_path" ]]; then
 fi
 
 # Install OhMyZsh
-wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
-sh install.sh --keep-zshrc
+#wget https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+#sh install.sh --keep-zshrc
 
 #sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"  &&  rm "$HOME/.zshrc"  &&  \
 #mv "$HOME/.zshrc.pre-oh-my-zsh" "$HOME/.zshrc"
-
-if ! command_exists zplug; then
-  echo "installing zplug, a plugin manager for zsh - http://zplug.sh"
-  [ ! -d ~/.zplug ]  &&  git clone https://github.com/zplug/zplug ~/.zplug
-fi
 
 echo "Done. Reload your terminal."

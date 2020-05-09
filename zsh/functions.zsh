@@ -14,6 +14,11 @@ function colours() {
     done
 }
 
+# show most used commands
+function hist() {
+    history | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head
+}
+
 # Custom make command
 mk() {
     output="${1%.c}"

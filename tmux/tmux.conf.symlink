@@ -36,9 +36,6 @@ bind = select-layout tiled
 set -g base-index 1
 set-window-option -g pane-base-index 1
 
-set-option -g set-titles on
-set-option -g set-titles-string "#T - #W"
-
 ######################
 #### Key Bindings ####
 ######################
@@ -90,10 +87,7 @@ if-shell -b '[ "$(echo "$TMUX_VERSION < 2.1" | bc)" = 1 ]' " \
     set -g window-status-bell-fg red; \
     set -g window-status-bell-bg black; \
     set -g window-status-activity-fg white; \
-    set -g window-status-activity-bg black"
-
-# In version 2.1 "mouse" replaced the previous 4 mouse options
-if-shell -b '[ "$(echo "$TMUX_VERSION >= 2.1" | bc)" = 1 ]' " \
+    set -g window-status-activity-bg black" " \
     set -g mouse on; \
     set-window-option -g mouse on"
 

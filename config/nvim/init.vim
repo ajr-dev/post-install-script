@@ -1,6 +1,20 @@
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 " Ensure vim-plug is installed and then load it
 call functions#PlugLoad()
 call plug#begin('~/.config/nvim/plugged')
+
+if !exists("g:os")
+    if has("win64") || has("win32") || has("win16")
+        let g:os = "Windows"
+    else
+        let g:os = substitute(system('uname'), '\n', '', '')
+    endif
+endif
 
 " General {{{
   set autoread            " reload file if it changes
@@ -51,8 +65,11 @@ call plug#begin('~/.config/nvim/plugged')
   set ttyfast             " faster redrawing
   " If using vimdiff
   if &diff
-    set diffopt-=internal
-    set diffopt+=vertical,iwhite,internal,algorithm:patience,hiddenoff
+    if g:os == "Darwin"
+      set diffopt+=vertical,iwhite,algorithm:patience,hiddenoff
+    elseif g:os == "Linux"
+      set diffopt=vertical
+    endif
   endif
   set laststatus=2        " show the satus line all the time
   set so=7                " set 7 lines to the cursors - when moving vertically
@@ -161,13 +178,13 @@ call plug#begin('~/.config/nvim/plugged')
   map <c-space> ?
 
   " Clear highlighted search
-  noremap <leader>, :set hlsearch! hlsearch?<cr>
+  noremap <leader><cr> :set hlsearch! hlsearch?<cr>
 
   " Search the word under the cursor
-  nnoremap <leader><space> "fyiw :/<c-r>f<cr>
+  nnoremap <leader>/ "fyiw :/<c-r>f<cr>
 
   " Shortcut to save
-  nmap <leader>w :w<cr>
+  nmap <leader>, :w<cr>
 
   " Allow saving files that need sudo privileges
   nmap <leader>W :w !sudo tee % > /dev/null<cr>
@@ -217,20 +234,20 @@ call plug#begin('~/.config/nvim/plugged')
   " \bb       : list buffers
   " \h \l \g : go back/forward/last-used
   " \1 \2 \3 : go to buffer 1/2/3 etc
-  nmap <Leader>bb :ls<CR>
+  nmap <Leader>bb :ls<cr>
   nmap <leader>h :bp<cr>
   nmap <leader>l :bn<cr>
-  nmap <Leader>g :e#<CR>
-  nmap <Leader>1 :1b<CR>
-  nmap <Leader>2 :2b<CR>
-  nmap <Leader>3 :3b<CR>
-  nmap <Leader>4 :4b<CR>
-  nmap <Leader>5 :5b<CR>
-  nmap <Leader>6 :6b<CR>
-  nmap <Leader>7 :7b<CR>
-  nmap <Leader>8 :8b<CR>
-  nmap <Leader>9 :9b<CR>
-  nmap <Leader>0 :10b<CR>
+  nmap <leader>g :e#<cr>
+  nmap <leader>1 :1b<cr>
+  nmap <leader>2 :2b<cr>
+  nmap <leader>3 :3b<cr>
+  nmap <leader>4 :4b<cr>
+  nmap <leader>5 :5b<cr>
+  nmap <leader>6 :6b<cr>
+  nmap <leader>7 :7b<cr>
+  nmap <leader>8 :8b<cr>
+  nmap <leader>9 :9b<cr>
+  nmap <leader>0 :10b<cr>
 
   " Delete buffer
   nmap <leader>d :bd<cr>
@@ -339,7 +356,6 @@ call plug#begin('~/.config/nvim/plugged')
     autocmd FileType qf wincmd J
     autocmd FileType qf nmap <buffer> q :q<cr>
   augroup END
-
   " Put these in an autocmd group, so that you can revert them with:
   " ":augroup vimStartup | au! | augroup END"
   aug vimStartup
@@ -649,9 +665,10 @@ call plug#begin('~/.config/nvim/plugged')
   Plug 'ekalinin/Dockerfile.vim'
 " }}}
 
-call plug#end()
-
 " Colorscheme and final setup {{{
+  Plug 'joshdick/onedark.vim' " load colorscheme
+  Plug 'sheerun/vim-polyglot' " improved syntax highlighting for various languages
+  call plug#end()
   " This call must happen after the plug#end() call to ensure
   " that the colorschemes have been loaded
   let g:onedark_termcolors=16
@@ -676,9 +693,6 @@ call plug#end()
     let &colorcolumn="81,".join(range(121,999),",")
   endif
 " Colorscheme and final setup {{{
-Plug 'joshdick/onedark.vim' " load colorscheme
-Plug 'sheerun/vim-polyglot' " improved syntax highlighting for various languages
-call plug#end()
 
 " This call must happen after the plug#end() call to ensure
 " that the colorschemes have been loaded

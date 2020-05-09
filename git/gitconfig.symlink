@@ -7,8 +7,6 @@
     alias    = "!grep -E '(  =)' ~/.gitconfig | less"  # List formatted aliases and descriptions
 
     #  === Common Commands ===
-    # Add all. Remove from git deleted files  AND  stages the modified (-m) and other (-o) files
-    aa       = !git ls-files -d | xargs -r git rm  &&  git ls-files -m -o --exclude-standard | xargs -r git add 
     dbr      = diff --name-status # Show files that have changed between two branches (git dbr master..branch)
 
     # Stash the changes in a dirty working directory on a stack of unfinished changes to continue later
@@ -27,6 +25,14 @@
     ag       = "!sh -c 'git ls-files -m -o --exclude-standard | grep $1 | xargs git add' -"
     # remove grep - Remove found files that are NOT under version control
     rg       = "!sh -c 'git ls-files --others --exclude-standard | grep $1 | xargs rm -i' -"
+
+    # Show churn for a time range:
+    # $ git churn --since='1 month ago'
+    churn = "!f() { git log --all -M -C --name-only --format='format:' \"$@\" | sort | grep -v '^$' | uniq -c | sort | awk 'BEGIN {print \"count\tfile\"} {print $1 \"\t\" $2}' | sort -g; }; f"
+    cleanup  = "!git remote prune origin && git gc && git clean -df && git stash clear"
+
+    # rebase the current branch with changes from upstream remote
+    update   = "!git fetch upstream && git rebase upstream/`git rev-parse --abbrev-ref HEAD`"
 
 [branch]
     # set up 'git pull' to rebase instead of merge

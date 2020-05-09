@@ -15,9 +15,6 @@
     * [Panes (splits)](#panes-splits)
     * [Custom Tmux Keybindings](#custom-tmux-keybindings)
   * [Vim Mappings](#vim-mappings)
-    * [Vim Cheatsheet](#vim-cheatsheet)
-    * [Custom Vim Keybindings](#custom-vim-keybindings)
-* [WSL](#wsl)
 * [Todo list](#todo-list)
 
 # Dotfiles
@@ -89,7 +86,7 @@ Vim is likely already installed on your system. If using a Mac, MacVim will be i
 
 [`link.sh`](install/link.sh) will symlink the XDG configuration directory into your home directory and will then create symlinks for `.vimrc` and `.vim` over to the Neovim configuration so that Vim and Neovim will both be configured in the same way from the same files. The benefit of this configuration is that you only have to maintain a single vim configuration for both, so that if Neovim (which is still alpha software) has issues, you can very seamlessly transition back to vim with no big impact to your productivity.
 
-Inside of [`.zshrc`](zsh/zshrc.symlink), the `EDITOR` shell variable is set to `vi`, which I have aliased `vi` to `nvim` in [`aliases.zsh`](zsh/aliases.zsh), defaulting to Neovim for editor tasks, such as git commit messages. To use `vim` you would write `vim` instead of `vi`.
+Inside of [`.zshrc`](zsh/zshrc.symlink), the `EDITOR` shell variable is set to `nvim`, `nvim` is aliased to `v` in [`aliases.zsh`](zsh/aliases.zsh), defaulting to Neovim for editor tasks, such as git commit messages. To use `vim` you would write `vim`.
 
 vim and neovim should just work once the correct plugins are installed. To install the plugins, you will need to open Neovim in the following way:
 
@@ -107,7 +104,7 @@ Bookmark [this page](https://github.com/ajr-dev/post-install-script#contents) as
 
 ### ZSH Mappings
 
-Write `alias` to get a list of all aliases declared, `alias -m "pattern"` to print aliases matching, specified pattern. You can see the ones defined by OMZ in their [Cheatsheet](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet). You can use `lza` to list my ZSH aliases (mnemonic) which are defined in [zsh/aliases.zsh](zsh/aliases.zsh). Take a look at how [zsh autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) work. If you want some custom configuration write it in `~/.zshrc.local`. ZSH is configured in the [zshrc.symlink](zsh/zshrc.symlink) file, which will be symlinked to the home directory. You can navigate zsh with [vi-mode commands](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode).
+Write `alias` to get a list of all aliases declared, `alias -m "pattern"` to print aliases matching, specified pattern. You can see the ones defined by OMZ in their [Cheatsheet](https://github.com/ohmyzsh/ohmyzsh/wiki/Cheatsheet) and in [common-aliases.zsh](https://github.com/ohmyzsh/ohmyzsh/blob/master/plugins/common-aliases/common-aliases.plugin.zsh). You can use `lza` to list my ZSH aliases (mnemonic) which are defined in [zsh/aliases.zsh](zsh/aliases.zsh). Take a look at how [zsh autosuggestions](https://github.com/zsh-users/zsh-autosuggestions) work. If you want some custom configuration write it in `~/.zshrc.local`. ZSH is configured in the [zshrc.symlink](zsh/zshrc.symlink) file, which will be symlinked to the home directory. You can navigate zsh with [vi-mode commands](https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode).
 
 ### Git Mappings
 
@@ -215,11 +212,12 @@ Take a look at my [.vimrc](config/nvim/init.vim) to see my vim aliases.
 
 ![Vim Cheatsheet](vim-cheatsheet.gif)
 
-## WSL
-
-TODO: [disable automatic updates](https://www.windowscentral.com/how-stop-updates-installing-automatically-windows-10#disable_automatic_windows_update_gpedit), [open files/folders with single click](https://www.makeuseof.com/tag/open-files-folders-one-click-windows/), [change key repeat registry](https://superuser.com/a/509811), [swap escape and caps lock](https://oktomus.com/posts/2018/swap-escape-caps-lock-windows/), [skip login window](https://www.cnet.com/how-to/automatically-log-in-to-your-windows-10-pc/), [install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [install WSLtty](https://github.com/mintty/wsltty), install [nerd fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts), install [color](https://github.com/retorillo/mintty-onedark/blob/master/.minttyrc) in C:Users\UserName\AppData\Roaming\wsitty\themes, [install neovim](install/apps/neovim.sh), [install tmux](install/apps/tmux.sh), [install dotfiles](install/dotfiles.sh), [install XServer](https://github.com/Microsoft/WSL/issues/892#issuecomment-275873108), [add copy to system clipboard in nvim](https://lloydrochester.com/post/vim/wsl-neovim-copy-paste/)
-
 ## Todo List
 
-Properly comment dotfiles
-https://github.com/nicknisi/dotfiles/commits/master?before=b56df6a22982836a56b9a30e77c84912866ce892+770
+* Properly comment dotfiles
+https://github.com/nicknisi/dotfiles/commits/master?before=b56df6a22982836a56b9a30e77c84912866ce892+455
+
+### WSL Installation
+
+TODO: [disable automatic updates](https://www.windowscentral.com/how-stop-updates-installing-automatically-windows-10#disable_automatic_windows_update_gpedit), [open files/folders with single click](https://www.makeuseof.com/tag/open-files-folders-one-click-windows/), [change key repeat registry](https://superuser.com/a/509811), [swap escape and caps lock](https://oktomus.com/posts/2018/swap-escape-caps-lock-windows/), [skip login window](https://www.cnet.com/how-to/automatically-log-in-to-your-windows-10-pc/), [install WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10), [install WSLtty](https://github.com/mintty/wsltty), install [nerd fonts](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts), install [color](https://github.com/retorillo/mintty-onedark/blob/master/.minttyrc) in C:Users\UserName\AppData\Roaming\wsitty\themes, [install neovim](install/apps/neovim.sh), [install tmux](install/apps/tmux.sh), [install dotfiles](install/dotfiles.sh), [install XServer](https://github.com/Microsoft/WSL/issues/892#issuecomment-275873108), [add copy to system clipboard in nvim](https://lloydrochester.com/post/vim/wsl-neovim-copy-paste/)
+* vimdiff not loading plugins. Maybe need to alias neovim to vim?
