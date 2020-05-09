@@ -215,7 +215,8 @@ Take a look at my [.vimrc](config/nvim/init.vim) to see my vim aliases.
 ## Todo List
 
 * Properly comment dotfiles
-https://github.com/nicknisi/dotfiles/commits/master?before=b56df6a22982836a56b9a30e77c84912866ce892+455
+https://github.com/nicknisi/dotfiles/commits/master?before=b56df6a22982836a56b9a30e77c84912866ce892+350
+I like https://github.com/nicknisi/dotfiles/commit/4a87507f9506d27e93d55ccca23fc368b40ee9f3
 
 ### WSL Installation
 

@@ -15,7 +15,7 @@ alias git-count='git shortlog -sn'
 alias git-undopush='git push -f origin HEAD^:master'
 alias gcpbr='git rev-parse --abbrev-ref HEAD | pbcopy'  # Get current branch name (useful for scripting)
 alias gr='[ ! -z `git rev-parse --show-cdup` ] && cd `git rev-parse --show-cdup || pwd`'
-alias sub-pull='git submodule foreach git pull origin master'  # update submodules 
+alias sub-pull='git submodule foreach git pull origin master'  # update submodules
 alias gls='git log -S '  # mnemonic: git log search. Show commits where the given string appears
 # Show commits of the day from  oldest to newest
 alias gday='git log --all --reverse --date=local --since=yesterday.midnight --oneline'
