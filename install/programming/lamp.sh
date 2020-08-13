@@ -4,18 +4,19 @@
 declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
 
 # http://www.2daygeek.com/install-lamp-stack-apache-mariadb-php-phpmyadmin-on-linuxmint/#
-# https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-16-04
+# https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-18-04
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-on-ubuntu-16-04
 echo "Installing apache2, php7, mysql-server"
 echo "========================================================================"
-sudo apt-get update && sudo apt-get upgrade
+sudo apt-get -y update && sudo apt-get -y upgrade
 
 # [Install Apache]
 sudo apt-get install -y apache2
 
 sudo apt-get install -y mariadb-server mariadb-client
 
-#sudo mysql_secure_installation
+# sudo apt install mysql-server
+# sudo mysql_secure_installation
 
 # TODO: this will fail if executed twice. Check and skip if necessary
 # Make sure that NOBODY can access the server without a password
@@ -34,7 +35,7 @@ mysql -e "FLUSH PRIVILEGES"
 # sudo apt-get install -y php libapache2-mod-php php-mcrypt php-mysql php-common php-gd php-mbstring php-gettext php-curl php-cli
 
 # Ubuntu 18 / Linux Mint 19
-sudo apt install -y php7.2 libapache2-mod-php7.2 php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl
+sudo apt install -y php7.2 libapache2-mod-php7.2 php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.2-zip php7.2-curl php-mysql
 
 # [Creating php info file]
 sudo tee -a /var/www/html/info.php << EOF

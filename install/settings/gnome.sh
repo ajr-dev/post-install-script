@@ -70,17 +70,19 @@ dconf write /org/gnome/desktop/wm/preferences/action-middle-click-titlebar "'low
 dconf write /org/gnome/desktop/wm/preferences/audible-bell false
 dconf write /org/gnome/desktop/wm/preferences/num-workspaces 8
 
+read -rp "Create a new profile for the terminal or the following commands will give errors.
+After this scripts ends you the have to select that profile as the default."
 profile="$(dconf dump / | grep /legacy/profiles:/ | sed -r 's/^\[|\]$//g' | head -n1)"
-dconf write /$profile/audible-bell false
-dconf write /$profile/scrollbar-policy "'never'"
-dconf write /$profile/scroll-on-output false
-dconf write /$profile/scroll-on-keystroke true
-dconf write /$profile/scrollback-unlimited true
-dconf write /$profile/scrollback-lines 10000
-dconf write /$profile/use-theme-colors false
-dconf write /$profile/foreground-color "'rgb(171,178,191)'"
-dconf write /$profile/background-color "'rgb(40, 44, 52)'"
-dconf write /$profile/palette "['rgb(40,44,52)', 'rgb(224,108,117)', \
+dconf write "/$profile/audible-bell" false
+dconf write "/$profile/scrollbar-policy" "'never'"
+dconf write "/$profile/scroll-on-output" false
+dconf write "/$profile/scroll-on-keystroke" true
+dconf write "/$profile/scrollback-unlimited" true
+dconf write "/$profile/scrollback-lines" 10000
+dconf write "/$profile/use-theme-colors" false
+dconf write "/$profile/foreground-color" "'rgb(171,178,191)'"
+dconf write "/$profile/background-color" "'rgb(40, 44, 52)'"
+dconf write "/$profile/palette" "['rgb(40,44,52)', 'rgb(224,108,117)', \
   'rgb(152,195,121)', 'rgb(229,192,123)', 'rgb(97,175,239)', 'rgb(198,120,221)', \
   'rgb(86,182,194)', 'rgb(75,82,99)', 'rgb(40,44,52)', 'rgb(190,80,70)', \
   'rgb(152,195,121)', 'rgb(209,154,102)', 'rgb(97,175,239)', 'rgb(198,120,221)', \
