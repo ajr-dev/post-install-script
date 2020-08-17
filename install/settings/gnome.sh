@@ -2,10 +2,10 @@
 
 dconf write /org/gnome/nm-applet/disable-disconnected-notifications true
 dconf write /org/gnome/nm-applet/disable-connected-notifications true
-#dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"
 dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:swapescape']"
 dconf write /org/gnome/desktop/notifications/show-in-lock-screen false
 dconf write /org/gnome/desktop/screensaver/ubuntu-lock-on-suspend true
+dconf write /org/gnome/desktop/screensaver/lock-enabled false
 
 ################################################################################
 #### File Manager
@@ -31,8 +31,8 @@ dconf write /org/gnome/nautilus/window-state/start-with-sidebar false
 dconf write /org/gnome/desktop/lockdown/disable-lock-screen false
 dconf write /org/gnome/desktop/lockdown/disable-user-switching true
 dconf write /org/gnome/desktop/peripherals/keyboard/repeat true
-dconf write /org/gnome/desktop/peripherals/keyboard/delay "uint32 200"
-dconf write /org/gnome/desktop/peripherals/keyboard/repeat-interval "uint32 20"
+dconf write /org/gnome/desktop/peripherals/keyboard/delay "uint32 150"
+dconf write /org/gnome/desktop/peripherals/keyboard/repeat-interval "uint32 10"
 dconf write /org/gnome/desktop/peripherals/mouse/natural-scroll false
 dconf write /org/gnome/desktop/peripherals/touchpad/tap-to-click true
 dconf write /org/gnome/desktop/peripherals/touchpad/edge-scrolling-enabled true

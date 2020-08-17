@@ -5,9 +5,9 @@ dconf write /org/gnome/nm-applet/disable-connected-notifications true
 dconf write /org/cinnamon/desktop/wm/preferences/theme 'Mint-Y-Dark'
 dconf write /org/cinnamon/desktop/interface/icon-theme 'Mint-Y-Dark'
 dconf write /org/cinnamon/desktop/interface/gtk-theme 'Mint-Y-Dark'
+dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"
 #dconf write /org/gnome/desktop/interface/document-font-name "'Noto Sans 14'"
 #dconf write /org/gnome/desktop/interface/monospace-font-name "'Monospace 14'"
-dconf write /org/gnome/libgnomekbd/keyboard/options "['caps\tcaps:swapescape']"
 #dconf write /org/nemo/desktop/font "'Ubuntu 14'"
 #dconf write /org/cinnamon/desktop/interface/font-name "'Ubuntu 14'"
 #dconf write /org/gnome/desktop/interface/document-font-name "'Ubuntu 14'"
@@ -116,8 +116,8 @@ dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat true
 dconf write /org/blueberry/obex-enabled false
 dconf write /org/blueberry/tray-enabled false
 
-dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/delay "uint32 200"
-dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat-interval "uint32 20"
+dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/delay "uint32 150"
+dconf write /org/cinnamon/settings-daemon/peripherals/keyboard/repeat-interval "uint32 10"
 dconf write /org/cinnamon/desktop/keybindings/custom-list "['custom0', 'custom1', 'custom2']"
 dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/name "'Task Manager'"
 dconf write /org/cinnamon/desktop/keybindings/custom-keybindings/custom0/command "'gnome-system-monitor'"
@@ -170,7 +170,7 @@ dconf write /org/cinnamon/desktop/sound/volume-sound-enabled false
 dconf write /org/cinnamon/settings-daemon/plugins/xsettings/menus-have-icons true
 dconf write /org/cinnamon/settings-daemon/plugins/xsettings/buttons-have-icons false
 
-read -p "For this to work you have to create a new terminal profile first"
+read -rp "For this to work you have to create a new terminal profile first"
 profile="$(dconf dump / | grep /legacy/profiles:/ | sed -r 's/^\[|\]$//g' | head -n1)"
 dconf write /"$profile"/use-transparent-background false
 dconf write /"$profile"/use-theme-transparency false
@@ -192,3 +192,19 @@ dconf write /"$profile"/palette "['rgb(40,44,52)', 'rgb(190,80,70)', 'rgb(152,19
 dconf write /"$profile"/foreground-color "'rgb(171,178,191)'"
 dconf write /"$profile"/background-color "'rgb(40,44,52)'"
 dconf write /"$profile"/bold-color-same-as-fg true
+
+################################################################################
+#### Editor
+################################################################################
+dconf write /org/x/editor/preferences/editor/use-default-font false
+dconf write /org/x/editor/preferences/editor/scheme "'solarized-dark'"
+dconf write /org/x/editor/preferences/editor/editor-font "'Monospace 12'"
+dconf write /org/x/editor/preferences/editor/editor-font "'Source Code Pro 12'"
+dconf write /org/x/editor/preferences/editor/display-line-numbers true
+dconf write /org/x/editor/preferences/editor/bracket-matching true
+dconf write /org/x/editor/preferences/editor/auto-indent true
+dconf write /org/x/editor/preferences/editor/auto-save true
+dconf write /org/x/editor/preferences/editor/auto-save true
+dconf write /org/x/editor/preferences/editor/auto-save-interval "uint32 1"
+read -rp "For this to work you have to import the theme in '$DOTFILES/config/themes/onedark.xml'"
+dconf write /org/x/editor/preferences/editor/scheme "'onedark'"

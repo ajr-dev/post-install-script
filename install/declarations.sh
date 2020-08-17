@@ -130,5 +130,20 @@ elif [ -n "`$SHELL -c 'echo $BASH_VERSION'`" ]; then
     shell_profile="bashrc" # assume Bash
 fi
 
+have_sudo_access() {
+  local -a args
+  if [[ -n "${SUDO_ASKPASS-}" ]]; then
+    args=("-A")
+  fi
+
+  if [[ -n "${args[*]-}" ]]; then
+    /usr/bin/sudo "${args[@]}" -l mkdir &>/dev/null
+  else
+    /usr/bin/sudo -l mkdir &>/dev/null
+  fi
+  HAVE_SUDO_ACCESS="$?"
+
+  return "$HAVE_SUDO_ACCESS"
+}
 
 export ARCH DOTFILES DELAY DESKTOP INSTALL DISK OS RAM VER h quick autoConfirm shell_profile
