@@ -1,9 +1,6 @@
 #!/bin/bash
 
-[ ! -d ~/tmp ]  &&  mkdir ~/tmp
-cd ~/tmp
-
-[ ! -d ~/code ]  &&  mkdir ~/code
+mkdir -p ~/tmp && cd ~/tmp
 
 command_exists() {
     command -v "$1" > /dev/null 2>&1
@@ -11,7 +8,7 @@ command_exists() {
 
 DELAY=10
 DOTFILES=$HOME/.dotfiles
-INSTALL=$DOTFILES/install
+INSTALL=$HOME/.post-install/install
 
 # Desktop environment https://unix.stackexchange.com/questions/116539/how-to-detect-the-desktop-environment-in-a-bash-script
 DESKTOP=$DESKTOP_SESSION

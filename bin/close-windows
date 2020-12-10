@@ -1,5 +1,0 @@
-#!/bin/bash
-# Cierre todas las ventanas abiertas sin cerrar el entorno de escritorio
-#How can I close all opening windows with a script?
-WIN_IDs=$(wmctrl -l | awk '$3 != "N/A" {print $1}')
-for i in $WIN_IDs; do wmctrl -ic "$i"; done

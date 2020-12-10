@@ -1,4 +1,0 @@
-pkg="$1"
-prefix=${pkg%\**}
-suffix=${pkg#*\*}
-echo "$(apt-cache search --names-only "^$prefix*" | awk '{ print $1 }' | sort | grep -P ^$prefix'(\d+\.)?(\d+\.)?(\d+|)'$suffix$)"

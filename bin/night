@@ -1,2 +1,0 @@
-pkill redshift
-redshift -l 37:5 -t 5700:2500
