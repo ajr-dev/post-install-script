@@ -32,6 +32,7 @@ fi
 
 if [ ! -d "$DOTFILES" ]; then
     git clone https://github.com/ajr-dev/dotfiles "$DOTFILES"
+    source "$DOTFILES/install.sh"
 fi
 
 if [ ! -d "$INSTALL_DIR" ]; then
