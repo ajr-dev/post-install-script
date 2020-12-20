@@ -1,10 +1,15 @@
 #!/bin/bash
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+ROOT="$DIR/.."
+source "$ROOT/install/declarations.sh"
+
 sudo apt update
 
 # Install dependencies
 packages=( git build-essential file zsh git sudo ruby curl nvim checkinstall \
-           libssl-dev npm )
+           ripgrep `# tool to recursively search current directory with 'rg <pattern>'` \
+           libssl-dev npm shellcheck )
 for app in "${packages[@]}"; do
   if ! command_exists "$app"; then
     sudo apt install -y "$app"
@@ -25,3 +30,20 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.35.1/install.sh | b
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
 
 sudo npm install -g diff-so-fancy
+
+# Install FZF
+mkdir -p ~/.fzf
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
+
+# TODO: Install nvim
+
+# TODO: Install tmux
+
+source "$ROOT/install/settings/install_nerd_font.sh"
+FONT_NAME=SourceCodePro
+VERSION=2.1.0
+install_nerd_font "$FONT_NAME" "$VERSION"
+FONT_NAME=FiraCode
+VERSION=2.1.0
+install_nerd_font "$FONT_NAME" "$VERSION"

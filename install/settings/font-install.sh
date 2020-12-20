@@ -1,6 +1,7 @@
 #!/bin/bash
 
-declare -f assertConfirmation &>/dev/null ||  source "$HOME/.dotfiles/install/declarations.sh"
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+source "$DIR/../declarations.sh"
 
 # TODO: check if already installed
 mkdir -p ~/tmp  &&  cd ~/tmp

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-declare -f assertConfirmation &>/dev/null ||  . "$HOME/.dotfiles/install/declarations.sh"
+source "$DOTFILES/install/declarations.sh"
 
 if [ "$OS" = "LinuxMint" ]  &&  assertConfirmation "Essential actions for Linux Mint?"; then
     # Consider recommended packages as dependencies to install them automatically as Ubuntu does
