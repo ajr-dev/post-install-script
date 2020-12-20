@@ -41,9 +41,13 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # TODO: Install tmux
 
 source "$ROOT/install/settings/install_nerd_font.sh"
+VERSION=2.1.0
+
 FONT_NAME=SourceCodePro
-VERSION=2.1.0
 install_nerd_font "$FONT_NAME" "$VERSION"
+
 FONT_NAME=FiraCode
-VERSION=2.1.0
+install_nerd_font "$FONT_NAME" "$VERSION"
+
+FONT_NAME=Hack
 install_nerd_font "$FONT_NAME" "$VERSION"

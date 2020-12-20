@@ -7,7 +7,7 @@ source "$ROOT/install/declarations.sh"
 install_nerd_font() {
   # require font-name and version
   if font_installed "$1"; then
-    echo "$1 font: already install"
+    echo "$1 font already install"
     return
   fi
 
@@ -27,4 +27,11 @@ install_nerd_font() {
   fi
 
   rm -rf "$tmp_dir"
+
+  fc-cache -fv "$FONTS_DIR"  # update the font cache
+  if fc-list | grep -q "$1"; then
+    success "$1 font installed successfully!"
+  else
+    error "$1 font couldn't be installed"
+  fi
 }
