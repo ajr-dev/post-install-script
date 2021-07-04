@@ -6,6 +6,18 @@ source "$ROOT/install/declarations.sh"
 
 sudo apt update
 
+
+# full-upgrade is equivalent to dist-upgrade
+sudo apt full-upgrade
+sudp apt dist-upgrade
+# NEVER run rpi-update. You don't know what you're getting with rpi-update as it
+# can give you an experimental kernel and untested bootcode.
+
+# TODO: update to latest bootloader, get function from /usr/bin/raspi-config
+
+# TODO: To make the console repeat permanent, edit /etc/kbd/config.
+# To make the GUI repeat permanent, add the 'xset r rate 150 10' command to /etc/xdg/lxsession/LXDE/autostart.
+
 # Install dependencies
 packages=( git build-essential file zsh git sudo ruby curl nvim checkinstall \
            ripgrep `# tool to recursively search current directory with 'rg <pattern>'` \
