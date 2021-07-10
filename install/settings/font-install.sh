@@ -3,8 +3,11 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source "$DIR/../declarations.sh"
 
+# Some unicode characters
+sudo apt install -y fonts-noto
+
 # TODO: check if already installed
-mkdir -p ~/tmp  &&  cd ~/tmp
+mkdir -p ~/tmp  &&  cd ~/tmp  ||  exit
 git clone https://github.com/powerline/fonts
 cd fonts || { echo "Fonts directory doesn't exist" ; exit ; }
 ./install.sh
