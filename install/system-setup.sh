@@ -79,7 +79,6 @@ fi
 # Install Homebrew
 if ! command_exists brew  &&  assertConfirmation "Install Homebrew?" "${autoConfirm:?}"; then
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-  echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >> /home/user/.zprofile
 fi
 
 # Install Nix Package Manager
