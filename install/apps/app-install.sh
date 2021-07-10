@@ -33,4 +33,8 @@ if ! command_exists dropbox  &&  assertConfirmation "Install Dropbox?"; then
         ! command_exists "$app"  &&  sudo apt install -y "$app"
     done
     dropbox start -i&
+
+    [ -d "$HOME/Dropbox" ]  && mv "$HOME/Dropbox" "$HOME/Documents/Dropbox"
+
+    read  -rn 1 -p 'You still have to make a symlink with ln -s "$HOME/Documents/Dropbox" "$HOME/cloud" and ln -s "$HOME/Documents/Dropbox/code" "$HOME/cloud"'
 fi
