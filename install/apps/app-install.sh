@@ -26,11 +26,6 @@ if [ "${MACHINE_TYPE}" == 64 ]  &&  assertConfirmation "Install Google Chrome?";
 fi
 
 if ! command_exists dropbox  &&  assertConfirmation "Install Dropbox?"; then
-    #mkdir -p ~/tmp
-    #cd ~/tmp  &&  wget -O - "https://www.dropbox.com/download?plat=lnx.x86_64" | tar xzf -
-    #~/.dropbox-dist/dropboxd
-    #cd  &&  rm -rf ~/tmp
-
     sudo apt-get -y install python-gpgme dropbox
 
     packages=( python-gpgme python-gpg dropbox )
